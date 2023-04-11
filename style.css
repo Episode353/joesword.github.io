@@ -74,8 +74,8 @@ body {
 /* CSS for the sidebar */
 .sidebar {
     float: Right;
-    width: 20%;
-    height: 100%;
+    width: 190px;
+    height: 250px;
     background-color: #f1f1f1;
     padding: 20px;
 }
