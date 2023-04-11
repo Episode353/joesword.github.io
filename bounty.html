@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Joes World</title>
+    <link rel="icon" href="media/ico/favicon.ico" type="image/x-icon" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Add any necessary stylesheets or scripts here -->
+    <link rel="stylesheet" href="../../../style.css">
+    <style>
+
+
+    </style>
+
+</head>
+<body>
+
+    <iframe src="sidebar.html" frameborder="0" id="sidebar-iframe"></iframe>
+
+    <center>
+        <div class="container">
+            <!--This is the header container-->
+            <div class="header">
+                <a href="../../index.html"><img src="../media/png/home.png" alt="Home Page"></a>
+                <h1 style="color: #0D47A1; ">
+                    Joes World Online
+                </h1>
+
+            </div>
+            <!-- beeg box of stuff that contains sort of all the bounty info stuff -->
+            <div class="content-large-fill">
+
+
+
+                <h1>Bounty System</h1>
+                <p>Some Text describing</p>
+                <p>how this whole bounty thing</p>
+                <p>works and stuff</p>
+
+                <!-- Tier One -->
+                <div>
+                    Tier <span class="word-gold">Ⅰ</span> Bounty
+                    <input type="text" id="tier_one_cost_box" name="Cost" value="???Cost???" readonly>
+                    =
+                    <select id="mySelect">
+                        <option value="tier_one_option_1">Teir 1 Reward Opt.1</option>
+                        <option value="tier_one_option_2">Teir 1 Reward Opt.2</option>
+                        <option value="tier_one_option_3">Teir 1 Reward Opt.3</option>
+                        <option value="tier_one_option_4">Teir 1 Reward Opt.4</option>
+                        <option value="tier_one_option_5">Teir 1 Reward Opt.5</option>
+                        <option value="tier_one_option_6">Teir 1 Reward Opt.6</option>
+                        <option value="tier_one_option_7">Teir 1 Reward Opt.7</option>
+                        <option value="tier_one_option_8">Teir 1 Reward Opt.8</option>
+                    </select>
+
+                    <button onclick="start_tier_one_bounty()">Start Tier One Bounty</button>
+                    Time Left: 00:00
+                </div>
+
+                <p></p>
+
+                <!-- Tier two -->
+                <div>
+                    Tier <span class="word-gold">Ⅱ</span> Bounty
+                    <input type="text" id="tier_two_cost_box" name="Cost" value="???Cost???" readonly>
+                    =
+                    <select id="mySelect">
+                        <option value="tier_two_option_1">Teir 2 Reward Opt.1</option>
+                        <option value="tier_two_option_2">Teir 2 Reward Opt.2</option>
+                        <option value="tier_two_option_3">Teir 2 Reward Opt.3</option>
+                        <option value="tier_two_option_4">Teir 2 Reward Opt.4</option>
+                        <option value="tier_two_option_5">Teir 2 Reward Opt.5</option>
+                        <option value="tier_two_option_6">Teir 2 Reward Opt.6</option>
+                        <option value="tier_two_option_7">Teir 2 Reward Opt.7</option>
+                        <option value="tier_two_option_8">Teir 2 Reward Opt.8</option>
+                    </select>
+
+                    <button onclick="start_tier_two_bounty()">Start Tier Two Bounty</button>
+                    Time Left: 00:00
+                </div>
+
+                <p></p>
+
+                <!-- Tier three -->
+                <div>
+                    Tier <span class="word-gold">Ⅲ</span> Bounty
+                    <input type="text" id="tier_three_cost_box" name="Cost" value="???Cost???" readonly>
+                    =
+                    <select id="mySelect">
+                        <option value="tier_three_option_1">Teir 3 Reward Opt.1</option>
+                        <option value="tier_three_option_2">Teir 3 Reward Opt.2</option>
+                        <option value="tier_three_option_3">Teir 3 Reward Opt.3</option>
+                        <option value="tier_three_option_4">Teir 3 Reward Opt.4</option>
+                        <option value="tier_three_option_5">Teir 3 Reward Opt.5</option>
+                        <option value="tier_three_option_6">Teir 3 Reward Opt.6</option>
+                        <option value="tier_three_option_7">Teir 3 Reward Opt.7</option>
+                        <option value="tier_three_option_8">Teir 3 Reward Opt.8</option>
+                    </select>
+
+                    <button onclick="start_tier_three_bounty()">Start Tier three Bounty</button>
+                    Time Left: 00:00
+                </div>
+
+                <p></p>
+
+                <!-- Tier four -->
+                <div>
+                    Tier <span class="word-gold">Ⅳ</span> Bounty
+                    <input type="text" id="tier_four_cost_box" name="Cost" value="???Cost???" readonly>
+                    =
+                    <select id="mySelect">
+                        <option value="tier_four_option_1">Teir 4 Reward Opt.1</option>
+                        <option value="tier_four_option_2">Teir 4 Reward Opt.2</option>
+                        <option value="tier_four_option_3">Teir 4 Reward Opt.3</option>
+                        <option value="tier_four_option_4">Teir 4 Reward Opt.4</option>
+                        <option value="tier_four_option_5">Teir 4 Reward Opt.5</option>
+                        <option value="tier_four_option_6">Teir 4 Reward Opt.6</option>
+                        <option value="tier_four_option_7">Teir 4 Reward Opt.7</option>
+                        <option value="tier_four_option_8">Teir 4 Reward Opt.8</option>
+                    </select>
+
+                    <button onclick="start_tier_four_bounty()">Start Tier Four Bounty</button>
+                    Time Left: 00:00
+                </div>
+
+                <p></p>
+
+                <!-- Tier five -->
+                <div>
+                    Tier <span class="word-gold">Ⅴ</span> Bounty
+                    <input type="text" id="tier_five_cost_box" name="Cost" value="???Cost???" readonly>
+                    =
+                    <select id="mySelect">
+                        <option value="tier_five_option_1">Teir 5 Reward Opt.1</option>
+                        <option value="tier_five_option_2">Teir 5 Reward Opt.2</option>
+                        <option value="tier_five_option_3">Teir 5 Reward Opt.3</option>
+                        <option value="tier_five_option_4">Teir 5 Reward Opt.4</option>
+                        <option value="tier_five_option_5">Teir 5 Reward Opt.5</option>
+                        <option value="tier_five_option_6">Teir 5 Reward Opt.6</option>
+                        <option value="tier_five_option_7">Teir 5 Reward Opt.7</option>
+                        <option value="tier_five_option_8">Teir 5 Reward Opt.8</option>
+                    </select>
+
+                    <button onclick="start_tier_five_bounty()">Start Tier Five Bounty</button>
+                    Time Left: 00:00
+                </div>
+
+
+
+
+
+                <p>----------------------</p>
+                <p>-------------------</p>
+                <p>----------------</p>
+                <p>-------------</p>
+                <p>----------</p>
+                <p>-------</p>
+                <p>----</p>
+                <p>---</p>
+                <p>-</p>
+                <p>To Submit action, please enter login and click <span class="word-red">Submit</span> </p>
+
+                <center>
+                    <div style="background-color: lightsteelblue; background: snow; font-size: 20px; padding: 10px; border: 3px solid lightsteelblue; margin: 10px; ">
+                        <form>
+
+                            <label for="username">Username:</label>
+                            <input type="text" id="username" name="username">
+
+                            <label for="password">Password:</label>
+                            <input type="password" id="password" name="password">
+
+                            <input type="submit" value="Submit" style="background-color: #CD5C5C; color: #ffffff; padding: 10px 20px; font-size: 16px;">
+
+
+                        </form>
+                    </div>
+                </center>
+            </div>
+
+
+
+
+            <div class="footer">
+                <iframe src="footer.html" width="100%" class="footer-iframe">
+                </iframe>
+
+                <script type="text/javascript" language="javascript">
+                    $('.myIframe').css('height', $(window).height() + 'px');
+                </script>
+
+            </div>
+
+
+
+        </div>
+    </center>
+</body>
+</html>

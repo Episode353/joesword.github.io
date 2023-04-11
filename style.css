@@ -1,0 +1,118 @@
+﻿@font-face {
+    src: url(../media/fonts/Daydream.ttf);
+    font-family: daydream;
+}
+
+
+body {
+    margin: 0;
+    background-image: url("../media/jpg/IMG_4307.JPG");
+    background-position: center; /* center the image */
+}
+
+.container {
+    width: 50vw;
+    height: 200vh;
+    font-family: 'quicksand', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 0.2fr 1fr 1fr 0.5fr;
+    gap: 50px;
+    padding: 50px;
+    box-sizing: border-box;
+}
+
+
+    .container div {
+        background: snow;
+        padding: 10px;
+        border: 3px solid lightsteelblue;
+    }
+
+.header {
+    grid-column-start: 1;
+    grid-column-end: 4;
+    font-family: daydream;
+    font-weight: bold;
+    font-size: 30px;
+    text-shadow: 10px 10px 0px #FFCCFF;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+.content-large {
+    grid-row-start: 2;
+    grid-row-end: span 2;
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+.footer {
+    grid-column: 1 / span 3;
+    height: 17vh;
+}
+
+.content-large-fill {
+    grid-row-start: 2;
+    grid-row-end: 3;
+    grid-column-start: 1;
+    grid-column-end: 4;
+}
+
+#sidebar-iframe {
+    width: 200px;
+    height: 200px;
+    background: snow;
+    padding: 10px;
+    border: 3px solid lightsteelblue;
+}
+
+
+
+/* CSS for the sidebar */
+.sidebar {
+    float: Right;
+    width: 20%;
+    height: 100%;
+    background-color: #f1f1f1;
+    padding: 20px;
+}
+    /* CSS for the links in the sidebar */
+    .sidebar a {
+        display: block;
+        margin-bottom: 10px;
+        color: #000;
+        text-decoration: none;
+    }
+
+        .sidebar a:hover {
+            color: #fff;
+            background-color: #000;
+        }
+/* CSS to clear the float */
+.clearfix:after {
+    content: "";
+    display: table;
+    clear;
+}
+
+#footer-iframe {
+    grid-column: 1 / span 3;
+    height: 10vh;
+    background: snow;
+    padding: 10px;
+    border: 3px solid lightsteelblue;
+}
+
+.word-red {
+    color: red; /* Specify the color you want */
+}
+
+
+
+.word-gold {
+    color: #F1C40F; /* Specify the color you want */
+}
+
