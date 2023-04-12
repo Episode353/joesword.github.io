@@ -51,7 +51,7 @@ body {
 
 .footer {
     grid-column: 1 / span 3;
-    height: 17vh;
+    height: 100%;
 }
 
 .content-large-fill {
