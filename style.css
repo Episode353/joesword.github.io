@@ -51,7 +51,7 @@ body {
 
 .footer {
     grid-column: 1 / span 3;
-    height: 17vh;
+    height: 100%;
 }
 
 .content-large-fill {
@@ -106,9 +106,6 @@ body {
     border: 3px solid lightsteelblue;
 }
 
-#htmlshufflebox{
-
-}
 
 .word-red {
     color: red; /* makes the text red*/
