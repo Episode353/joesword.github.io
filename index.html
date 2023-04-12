@@ -42,19 +42,53 @@
             </div>
 
 
+            <div>
 
-            <div class="content-small">
-                <p>Content #2</p>
-                <p>Go to</p>
-                <a href="map.html">Site Map</a>
-                <img src="media/gifs/beegfishstrobe.gif" alt="Beeg Fish Strobing">
+                <p>You may ask yourself</p>
+                <span class="word-very-light-blue"><em>Where is that sweater that i lent to seppe 4 years ago</em></span>
+                <p>And you may also ask youself</p>
+                <span class="word-very-light-blue"><em>Where is that small automobile smelling like takis</em></span>
+                <p>But what you should <em>really</em> be asking yourself....</p>
+                <P>When <em>Is</em> Joes Basement Season 7???</P>
+                <div class="content-small" id="countdown">
+                    <script>
+                        // Set the target date for the countdown
+                        const targetDate = new Date("2023-07-15T00:00:00Z").getTime();
 
-            </div>
+                        // Update the countdown every second
+                        const countdown = setInterval(function () {
+                            // Get the current date and time
+                            const now = new Date().getTime();
 
+                            // Calculate the time remaining until the target date
+                            const timeRemaining = targetDate - now;
+
+                            // Calculate days, hours, minutes, and seconds
+                            const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+                            const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                            const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+                            const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+                            // Update the countdown element with the calculated time
+                            document.getElementById("countdown").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+                            // Stop the countdown when time is up
+                            if (timeRemaining <= 0) {
+                                clearInterval(countdown);
+                                document.getElementById("countdown").innerHTML = "Countdown Over!";
+                            }
+                        }, 1000); // Update every second (1000ms)
+                    </script>
+                </div>
+                <p>What is your opinion Beeg Fish?</p>
+                <a href="beeg_fish/index.html"><img src="media/gif/beegfishstrobe.gif" alt="Beeg Fish Strobing"></a>
+</div>
 
             
             <div class="content-small">
-                <p>Wanna see something <em>Cool?</em> Wanna see something <em>Dangerous?</em></p>
+                <p>Wanna see something <span class="word-red"<em>Cool?</em></span>
+                <p></p>
+                <p>Wanna see something <span class="word-red"<em>Dangerous?</em></span></p>
                 <p>Click on the <span class="word-gold"><em>Fish</em></span> to go to Beeg Fish's House</p>
                 <a href="beeg_fish/index.html"><img src="media/png/beegfishicon.png" alt="Beeg Fish"></a>
                 <pre>
