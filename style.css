@@ -121,3 +121,9 @@ body {
     color: #A9CCE3; /* makes the text a very light shade of blue */
 }
 
+
+#htmlshufflebox{
+    padding:0;
+    margin: 0;
+    overflow:hidden;
+}
