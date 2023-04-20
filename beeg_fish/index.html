@@ -73,26 +73,37 @@
 </head>
 
 <body>
+	<div>HELLO HELLOHELLO</div>
+	<div>HELLO HELLOHELLO</div>
+	<div>HELLO HELLOHELLO</div>
+	<div>HELLO HELLOHELLO</div>
+	<div>HELLO HELLOHELLO</div>
+	<div>HELLO HELLOHELLO</div>
+	<div>HELLO HELLOHELLO</div>
+	<div>HELLO HELLOHELLO</div>
+	<div>HELLO HELLOHELLO</div>
 
-		<div style="display: inline-block; -webkit-user-select: none; text-align: left;">
-			<canvas id="MMFCanvas" width="1920" height="1080">
-				Your browser does not support Canvas.
-			</canvas>
-		</div>
+	<div>HELLO HELLOHELLO</div>
+	<div>HELLO HELLOHELLO</div>
+	<div>HELLO HELLOHELLO</div>
+	<div style="display: inline-block; -webkit-user-select: none; text-align: left;">
+		<canvas id="MMFCanvas" width="1920" height="1080">
+			Your browser does not support Canvas.
+		</canvas>
+	</div>
 
-<script>
-    // RUNTIMESTART
-    // This is where the HTML5 runtime is actually started
-    window.addEventListener("load", windowLoaded, false);
-    function windowLoaded()
-    {
-        // Calls the runtime
-        // First parameter : name of the canvas element
-        // Second parameter : path to the cch file. Images and sounds must lay beside this file
-        new Runtime("MMFCanvas", "resources/beegfish.cch");
-    }
-    // RUNTIMESTARTEND
-</script>
+	<script>
+		// RUNTIMESTART
+		// This is where the HTML5 runtime is actually started
+		window.addEventListener("load", windowLoaded, false);
+		function windowLoaded() {
+			// Calls the runtime
+			// First parameter : name of the canvas element
+			// Second parameter : path to the cch file. Images and sounds must lay beside this file
+			new Runtime("MMFCanvas", "resources/beegfish.cch");
+		}
+												// RUNTIMESTARTEND
+	</script>
 
 </body>
 </html>
