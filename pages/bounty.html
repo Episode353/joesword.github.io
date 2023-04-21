@@ -13,18 +13,33 @@
     </style>
 
 </head>
+<!--Bthe backround block/color is controlled here-->
 <body style="background-image: url('../media/mc/block/blackstone.png')";>
 
     <iframe src="sidebar.html" frameborder="0" class="sidebar-iframe"></iframe>
 
     <center>
+        <!--the main page block/color is controlled here-->
         <div class="container" style="background-image: url('../media/mc/block/basalt_side.png'); text-shadow: 2px 2px 0px #949494; ">
+
+
             <!--This is the header container-->
-            <div class="header">
+            <div class="header" style="background-image: url('../media/mc/block/bone_block_side.png'); text-shadow: 0px 0px 0px snow; ">
                 <a href="../../index.html"><img src="../media/png/home.png" alt="Home Page"></a>
-                <h1 style="color: #0D47A1; ">
-                    Joes World Online
-                </h1>
+
+                <!--The page title text-->
+                <p style="font-family: minecraft; font-size: 84px;" ">Joes World Online</p>
+
+                <!--The spash screen text-->
+                <p class="mineceaft-motd-animation"
+                style="
+                position: absolute;
+                font-family: minecraft;
+                display: inline-block;
+                 ">
+
+                <span class="minecraft-motd-text">Its even funnier the 7th time!!!</span></p>
+
 
             </div>
             <!-- beeg box of stuff that contains sort of all the bounty info stuff -->
@@ -32,9 +47,9 @@
 
 
 
-                <p style="font-family: minecraft; font-size: 64px;"">Bounty System</p>  
+                <p style="font-family: minecraft; font-size: 32px;">Bounty System</p>
 
- <!-- Tier One -->
+                <!-- Tier One -->
                 <div style="background-image: url('../media/mc/block/copper_block.png'); ">
 
                     <!--roating image hugs left of screen-->
@@ -64,38 +79,38 @@
 
                 <p></p>
 
- <!-- Tier two -->
+                <!-- Tier two -->
                 <div style="background-image: url('../media/mc/block/iron_block.png'); ">
-                   
-                        <!--roating image hugs left of screen-->
-                        <img src="../media/mc/item/iron_ingot.png"
-                             height="25px"
-                             width="25px"
-                             style="
+
+                    <!--roating image hugs left of screen-->
+                    <img src="../media/mc/item/iron_ingot.png"
+                         height="25px"
+                         width="25px"
+                         style="
                          float: left;" />
 
-                        Tier <span class="word-gold">Ⅱ</span> Bounty
-                        <input type="text" id="tier_two_cost_box" name="Cost" value="???Cost???" readonly>
-                        =
-                        <select id="mySelect">
-                            <option value="tier_two_option_1">Teir 2 Reward Opt.1</option>
-                            <option value="tier_two_option_2">Teir 2 Reward Opt.2</option>
-                            <option value="tier_two_option_3">Teir 2 Reward Opt.3</option>
-                            <option value="tier_two_option_4">Teir 2 Reward Opt.4</option>
-                            <option value="tier_two_option_5">Teir 2 Reward Opt.5</option>
-                            <option value="tier_two_option_6">Teir 2 Reward Opt.6</option>
-                            <option value="tier_two_option_7">Teir 2 Reward Opt.7</option>
-                            <option value="tier_two_option_8">Teir 2 Reward Opt.8</option>
-                        </select>
+                    Tier <span class="word-gold">Ⅱ</span> Bounty
+                    <input type="text" id="tier_two_cost_box" name="Cost" value="???Cost???" readonly>
+                    =
+                    <select id="mySelect">
+                        <option value="tier_two_option_1">Teir 2 Reward Opt.1</option>
+                        <option value="tier_two_option_2">Teir 2 Reward Opt.2</option>
+                        <option value="tier_two_option_3">Teir 2 Reward Opt.3</option>
+                        <option value="tier_two_option_4">Teir 2 Reward Opt.4</option>
+                        <option value="tier_two_option_5">Teir 2 Reward Opt.5</option>
+                        <option value="tier_two_option_6">Teir 2 Reward Opt.6</option>
+                        <option value="tier_two_option_7">Teir 2 Reward Opt.7</option>
+                        <option value="tier_two_option_8">Teir 2 Reward Opt.8</option>
+                    </select>
 
-                        <button onclick="start_tier_two_bounty()">Start Tier Two Bounty</button>
-                        Time Left: 00:00
-               
+                    <button onclick="start_tier_two_bounty()">Start Tier Two Bounty</button>
+                    Time Left: 00:00
+
                 </div>
 
                 <p></p>
 
- <!-- Tier three -->
+                <!-- Tier three -->
                 <div style="background-image: url('../media/mc/block/gold_block.png'); ">
 
                     <!--roating image hugs left of screen-->
@@ -125,7 +140,7 @@
 
                 <p></p>
 
- <!-- Tier four -->
+                <!-- Tier four -->
                 <div style="background-image: url('../media/mc/block/diamond_block.png'); ">
 
                     <!--roating image hugs left of screen-->
@@ -155,7 +170,7 @@
 
                 <p></p>
 
- <!-- Tier five -->
+                <!-- Tier five -->
                 <div style="background-image: url('../media/mc/block/bedrock.png'); ">
 
                     <!--roating image hugs left of screen-->
@@ -199,7 +214,7 @@
                 <p>To Submit action, please enter login and click <span class="word-red">Submit</span> </p>
 
                 <center>
-                    <div style="background-color: lightsteelblue; background: snow; font-size: 20px; padding: 10px; border: 3px solid lightsteelblue; margin: 10px; ">
+                    <div style="background-image: url('../media/mc/block/bone_block_side.png');; font-size: 20px; padding: 10px; border: 3px solid lightsteelblue; margin: 10px; ">
                         <form>
 
                             <label for="username">Username:</label>
@@ -219,8 +234,8 @@
 
 
 
-            <div class="footer">
-                <iframe src="footer.html" width="100%" class="footer-iframe">
+            <div class="footer" style="background-image: url('../media/mc/block/bone_block_side.png');">
+                <iframe src="footer.html" width="100%" class="footer-iframe" >
                 </iframe>
 
                 <script type="text/javascript" language="javascript">
