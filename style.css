@@ -3,6 +3,11 @@
     font-family: daydream;
 }
 
+@font-face {
+    font-family: minecraft;
+    src: url(../media/fonts/minecraft.ttf) format('truetype');
+}
+
 
 body {
     margin: 0;
