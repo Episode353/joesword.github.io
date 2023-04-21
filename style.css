@@ -11,7 +11,7 @@
 
 body {
     margin: 0;
-    background-image: url("../media/jpg/IMG_4307.JPG");
+    background-image: url('../media/mc/block/mushroom_stem.png');
     background-position: center; /* center the image */
 }
 
@@ -31,7 +31,7 @@ body {
 
 
     .container div {
-        background: snow;
+        background: #fbefcc;
         padding: 10px;
         border: 3px solid lightsteelblue;
     }
@@ -42,9 +42,10 @@ body {
     font-family: daydream;
     font-weight: bold;
     font-size: 30px;
-    text-shadow: 10px 10px 0px #FFCCFF;
+    text-shadow: 10px 10px 0px #fec652;
     grid-row-start: 1;
     grid-row-end: 2;
+    color: #0D47A1;
 }
 
 .content-large {
@@ -86,7 +87,7 @@ body {
 /* CSS for the sidebar */
 .sidebar {
     float: Right;
-    background-color: #f1f1f1;
+    background-image: url('../media/mc/block/quartz_block_bottom.png');
 }
     /* CSS for the links in the sidebar */
     .sidebar a {
