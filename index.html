@@ -8,9 +8,28 @@
     <!-- Add any necessary stylesheets or scripts here -->
     <link rel="stylesheet" href="style.css">
     <style>
-
-
     </style>
+
+    <!----CODE FOR THE SHUFFLE BOXL-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function () {
+            var folderPath = 'pages/html-shuffle'; // Path to the folder containing HTML files
+            var htmlFiles = []; // Array to store the names of HTML files in the folder
+            $.ajax({
+                url: folderPath,
+                success: function (data) {
+                    $(data).find("a:contains('.html')").each(function () {
+                        var filename = this.href.replace(window.location.host, "").replace("http://", "");
+                        htmlFiles.push(filename); // Add the HTML file name to the array
+                    });
+                    var randomFile = htmlFiles[Math.floor(Math.random() * htmlFiles.length)]; // Pick a random file
+                    $("#includedContent").load(randomFile); // Load the random file into the div
+                }
+            });
+        });
+    </script>
+
 
 </head>
 <body>
@@ -37,36 +56,10 @@
             </div>
 
             <!--HTML Shuffle, it loads a differnet page on every time you load-->
+
             
-                <div id="htmlshufflebox">
 
-                <script>
-                    // Define an array of iframe sources
-                    const iframeSources = [
-                    "pages/html-shuffle/joes-basement-countdown.html",
-                     "pages/html-shuffle/rat-night.html",
-                     "pages/html-shuffle/gunt-fish.html",
-                     "pages/html-shuffle/html-shuffle-template.html",
-                     "pages/html-shuffle/blender-fish.html",
-                     "pages/html-shuffle/builder-dog.html",
-
-                    ];
-
-                    // Get a random index into the array
-                    const randomIndex = Math.floor(Math.random() * iframeSources.length);
-
-                    // Create an iframe element and set its src attribute
-                    const iframe = document.createElement("iframe");
-                    iframe.src = iframeSources[randomIndex];
-                    iframe.width = "100%";
-                    iframe.height = "100%";
-                        
-                    // Add the iframe to the iframe box
-                    const iframeBox = document.getElementById("htmlshufflebox");
-                    iframeBox.appendChild(iframe);
-                </script>
-
-            </div>
+            <div id="includedContent"></div>
 
 
             <div class="content-small">
@@ -100,7 +93,6 @@
 
             <div class="footer">
                 <iframe src="pages/footer.html" width="100%" class="footer-iframe">
-
                 </iframe>
 
 
