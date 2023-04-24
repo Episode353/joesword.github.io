@@ -14,22 +14,18 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(function () {
-            var folderPath = 'pages/html-shuffle'; // Path to the folder containing HTML files
-            var htmlFiles = []; // Array to store the names of HTML files in the folder
-            $.ajax({
-                url: folderPath,
-                success: function (data) {
-                    $(data).find("a:contains('.html')").each(function () {
-                        var filename = this.href.replace(window.location.host, "").replace("http://", "");
-                        htmlFiles.push(filename); // Add the HTML file name to the array
-                    });
-                    var randomFile = htmlFiles[Math.floor(Math.random() * htmlFiles.length)]; // Pick a random file
-                    $("#includedContent").load(randomFile); // Load the random file into the div
-                }
-            });
+            var files = [
+                'pages/html-shuffle/gunt-fish.html',
+                'pages/html-shuffle/builder-dog.html',
+                'pages/html-shuffle/blender-fish.html',
+                'pages/html-shuffle/rat-night.html',
+                'pages/html-shuffle/joes-basement-countdown.html'
+            ];
+
+            var randomFile = files[Math.floor(Math.random() * files.length)]; // Pick a random file
+            $("#htmlshufflebox").load(randomFile); // Load the random file into the div
         });
     </script>
-
 
 </head>
 <body>
@@ -59,7 +55,7 @@
 
             
 
-            <div id="includedContent"></div>
+            <div id="htmlshufflebox"></div>
 
 
             <div class="content-small">

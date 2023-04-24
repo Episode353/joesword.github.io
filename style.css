@@ -131,9 +131,12 @@ body {
     color: #A9CCE3; /* makes the text a very light shade of blue */
 }
 
-
-#htmlshufflebox{
-    overflow:hidden;
+/*This code makes the content in the shuffle box centered vertically, remove it to disable this*/
+#htmlshufflebox {
+    /*display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;*/
 }
 
 /*Minecraft text springing*/
