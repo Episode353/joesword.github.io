@@ -1,4 +1,4 @@
-﻿@font-face {
+@font-face {
     src: url(../media/fonts/Daydream.ttf);
     font-family: daydream;
 }
@@ -69,31 +69,33 @@ body {
 
 /*Controls the height and formatting of the sidebar across all pages of the site*/
 
-.sidebar-iframe {
-    border: 3px solid lightsteelblue;
-    height: 410px;
-    width: 120px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    margin: 10px;
+.header-content-iframe {
+    height: 100%;
+    width: 100%;
+    border: 0px solid lightsteelblue;
+    overflow: hidden;
 }
 
 
 
 /* CSS for the sidebar */
-.sidebar {
+.header-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
     text-align: center;
+    height: 100%;
+    overflow: hidden;
 }
     /* CSS for the links in the sidebar */
-    .sidebar a {
+    .header-content a {
         display: block;
         margin-bottom: 10px;
         color: #000;
         text-decoration: none;
     }
 
-        .sidebar a:hover {
+        .header-content a:hover {
             color: #fff;
             background-color: #000;
         }
