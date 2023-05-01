@@ -41,7 +41,7 @@ body {
     grid-column-end: 4;
     font-family: daydream;
     font-weight: bold;
-    font-size: 30px;
+    font-size: 20px;
     text-shadow: 10px 10px 0px #fec652;
     grid-row-start: 1;
     grid-row-end: 2;
@@ -70,7 +70,6 @@ body {
 /*Controls the height and formatting of the sidebar across all pages of the site*/
 
 .sidebar-iframe {
-    background: snow;
     border: 3px solid lightsteelblue;
     height: 410px;
     width: 120px;
@@ -78,17 +77,13 @@ body {
     top: 0;
     left: 0;
     margin: 10px;
-    padding: 10px;
-    /*Sidebar color is controlled here (overridden on bounty page*/
-    background: #fbefcc;
 }
 
 
 
 /* CSS for the sidebar */
 .sidebar {
-    float: Right;
-    background-image: url('../media/mc/block/quartz_block_bottom.png');
+    text-align: center;
 }
     /* CSS for the links in the sidebar */
     .sidebar a {
