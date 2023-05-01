@@ -74,12 +74,13 @@ body {
     border: 3px solid lightsteelblue;
     height: 410px;
     width: 120px;
-
     position: fixed;
     top: 0;
     left: 0;
     margin: 10px;
     padding: 10px;
+    /*Sidebar color is controlled here (overridden on bounty page*/
+    background: #fbefcc;
 }
 
 
@@ -117,13 +118,12 @@ body {
 }
 
 .word-seppe {
-
-
     font-family: daydream;
-    font-weight: bold;
-    text-shadow: 10px 10px 0px #fec652;
-    grid-row-start: 1;
     color: #0D47A1;
+    font-size: 60%;
+    text-shadow: 5px 5px 0px #fec652;
+    vertical-align: top;
+    margin-top: 20px; /* adjust this value to control the height of the raised text */
 }
 
 

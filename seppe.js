@@ -1,57 +1,21 @@
-document.addEventListener("DOMContentLoaded", function () {
-    // Get all text nodes in the page
-    let walker = document.createTreeWalker(
-        document.body,
-        NodeFilter.SHOW_TEXT,
-        null,
-        false
-    );
+// Wait for the DOM to be ready
+document.addEventListener("DOMContentLoaded", function (event) {
+    // Find all the text nodes on the page
+    var textNodes = document.evaluate("//text()", document, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
 
-    // Loop through all text nodes
-    while (walker.nextNode()) {
-        let node = walker.currentNode;
-        let text = node.textContent;
+    // Loop through each text node
+    for (var i = 0; i < textNodes.snapshotLength; i++) {
+        var node = textNodes.snapshotItem(i);
+        var text = node.textContent;
 
-        // Find all occurrences of the word "seppe"
-        let regex = /seppe/gi;
-        let match;
-        while (match = regex.exec(text)) {
-            // Check if the matched word is inside an element with the class "word-seppe"
-            let insideWordSeppe = false;
-            let parentElement = node.parentNode;
-            while (parentElement && parentElement !== document.body) {
-                if (parentElement.classList.contains("word-seppe")) {
-                    insideWordSeppe = true;
-                    break;
-                }
-                parentElement = parentElement.parentNode;
-            }
-            if (insideWordSeppe) {
-                continue; // Skip this match if it's already inside a "word-seppe" element
-            }
+        // Replace instances of "seppe", "guiseppe", and "seep" with the formatted version
+        var newText = text.replace(/\b(seppe|guiseppe|seep)\b/gi, '<span class="word-seppe">$1</span>');
 
-            // Create a new element to wrap around the matched word
-            let span = document.createElement("span");
-            span.textContent = match[0];
-            span.classList.add("word-seppe");
-
-            // Replace the original matched word with the new wrapped element
-            let wordStart = match.index;
-            let wordEnd = match.index + match[0].length;
-            let prefix = text.slice(0, wordStart);
-            let suffix = text.slice(wordEnd);
-            if (prefix.length > 0) {
-                node.parentNode.insertBefore(document.createTextNode(prefix), node);
-            }
-            node.parentNode.insertBefore(span, node);
-            if (suffix.length > 0) {
-                node.textContent = suffix;
-            } else {
-                node.parentNode.removeChild(node);
-            }
-
-            // Update the walker to start from the end of the inserted span element
-            walker.currentNode = node.previousSibling;
+        // Update the text node if necessary
+        if (newText !== text) {
+            var newNode = document.createElement("span");
+            newNode.innerHTML = newText;
+            node.parentNode.replaceChild(newNode, node);
         }
     }
 });
