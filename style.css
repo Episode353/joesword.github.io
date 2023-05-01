@@ -116,6 +116,16 @@ body {
     border: 3px solid lightsteelblue;
 }
 
+.word-seppe {
+
+
+    font-family: daydream;
+    font-weight: bold;
+    text-shadow: 10px 10px 0px #fec652;
+    grid-row-start: 1;
+    color: #0D47A1;
+}
+
 
 .word-red {
     color: red; /* makes the text red*/
@@ -147,7 +157,7 @@ body {
     font-family: minecraft;
 }
 .mineceaft-motd-animation {
-    animation-name: grow-shrink;
+    animation-name: motd-grow-shrink;
     animation-duration: 3s;
     animation-iteration-count: infinite;
     position: absolute;
@@ -155,7 +165,7 @@ body {
     display: inline-block;
 }
 
-@keyframes grow-shrink {
+@keyframes motd-grow-shrink {
     0% {
         font-size: 30px;
         transform: translate(170px, -150px) rotate(-20deg);
@@ -171,3 +181,6 @@ body {
         transform: translate(170px, -150px) rotate(-20deg);
     }
 }
+
+
+

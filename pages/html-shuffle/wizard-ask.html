@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="../../style.css">
+    <meta charset="utf-8" />
+    <title></title>
+
+    <style>
+
+    </style>
+</head>
+<body>
+
+
+    <!--Ti make the backround be the same size as the box you must play with the padding to make it fit-->
+   
+        <CENTER>
+
+
+            <br>
+
+            <p id="musicStatus">I am the Wizard of Acidity, ask me a quesstion</p>
+            <img src="../../media/png/lemon.png" alt="Wizard" id="wizardImage">
+
+            <form>
+                <label for="musicText">Ask the Wizard:</label>
+                <input type="text" id="musicText">
+                <button type="button" id="submitButton">Submit</button>
+            </form>
+
+            <audio id="myAudio" preload="auto">
+                <source src="../../media/ogg/claw_music.ogg" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+
+            <script>
+                var text = document.getElementById('musicStatus');
+                var image = document.getElementById('wizardImage');
+                var audio = document.getElementById('myAudio');
+                var input = document.getElementById('musicText');
+                var button = document.getElementById('submitButton');
+
+                // Function to change the text to "yes" or "no" with 50% chance
+                function setMusicText() {
+                    var result = Math.random() < 0.5 ? "Hell Yea!!!" : "uhhmmm no";
+                    text.textContent = "huh?  " + input.value + "? Are you crazy? " + result;
+                    image.src = "../../media/gif/wizard-dance.gif";
+                }
+
+                button.addEventListener('click', function () {
+                    // Change the image and text
+
+                    text.textContent = "Let me Ponder...";
+
+                    // Load the audio file and play it when it's ready
+                    audio.addEventListener('canplay', function () {
+                        audio.play();
+                        setTimeout(setMusicText, 1000); // Wait for one second before changing the text
+                        setTimeout(setMusicText, 1000); // Wait for one second before changing the text
+                    });
+                    audio.load();
+                });
+            </script>
+
+
+
+        </CENTER>
+
+</body>
+</html>
