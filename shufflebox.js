@@ -7,7 +7,6 @@ $(function () {
         'pages/html-shuffle/4chan_idiot.html',
         'pages/html-shuffle/wizard-ask.html',
         'pages/html-shuffle/seep-rule.html',
-        'pages/html-shuffle/guiseppe.html',
         'pages/html-shuffle/joes-basement-countdown.html'
     ];
 
