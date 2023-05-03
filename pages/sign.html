@@ -25,7 +25,70 @@
 
 
             <div class="content-large-fill">
-e
+                <div id="whiteboard"></div>
+                <script>
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+
+                    canvas.width = 800;
+                    canvas.height = 600;
+
+                    document.getElementById('whiteboard').appendChild(canvas);
+
+                    let isDrawing = false;
+                    let lastX = 0;
+                    let lastY = 0;
+
+                    canvas.addEventListener('mousedown', e => {
+                        isDrawing = true;
+                        lastX = e.offsetX;
+                        lastY = e.offsetY;
+                    });
+
+                    canvas.addEventListener('mousemove', e => {
+                        if (!isDrawing) return;
+                        ctx.beginPath();
+                        ctx.moveTo(lastX, lastY);
+                        ctx.lineTo(e.offsetX, e.offsetY);
+                        ctx.stroke();
+                        lastX = e.offsetX;
+                        lastY = e.offsetY;
+                    });
+
+                    canvas.addEventListener('mouseup', () => {
+                        isDrawing = false;
+                    });
+
+                    const socket = new WebSocket('ws://localhost:3000');
+
+                    socket.addEventListener('open', () => {
+                        console.log('Connected to server');
+                    });
+
+                    socket.addEventListener('message', event => {
+                        const data = JSON.parse(event.data);
+                        if (data.type === 'draw') {
+                            ctx.beginPath();
+                            ctx.moveTo(data.lastX, data.lastY);
+                            ctx.lineTo(data.x, data.y);
+                            ctx.stroke();
+                        }
+                    });
+
+                    canvas.addEventListener('mousemove', e => {
+                        if (!isDrawing) return;
+                        socket.send(JSON.stringify({
+                            type: 'draw',
+                            x: e.offsetX,
+                            y: e.offsetY,
+                            lastX,
+                            lastY,
+                        }));
+                        lastX = e.offsetX;
+                        lastY = e.offsetY;
+                    });
+
+                </script>
             </div>
 
 
