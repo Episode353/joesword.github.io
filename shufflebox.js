@@ -7,10 +7,18 @@ $(function () {
         'pages/html-shuffle/4chan_idiot.html',
         'pages/html-shuffle/wizard-ask.html',
         'pages/html-shuffle/seep-rule.html',
+        'pages/html-shuffle/franken-doodle-episode.html',
         'pages/html-shuffle/guiseppe.html',
         'pages/html-shuffle/joes-basement-countdown.html'
     ];
 
-    var randomFile = files[Math.floor(Math.random() * files.length)]; // Pick a random file
+    // Use the current time in milliseconds as a seed for the random number generator
+    var seed = new Date().getTime();
+    var random = function () {
+        var x = Math.sin(seed++) * 10000;
+        return x - Math.floor(x);
+    };
+
+    var randomFile = files[Math.floor(random() * files.length)]; // Pick a random file
     $("#htmlshufflebox").load(randomFile); // Load the random file into the div
 });
