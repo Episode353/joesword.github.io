@@ -159,3 +159,95 @@ window.addEventListener('mouseup', () => {
 window.addEventListener('mouseout', () => {
     isDrawing = false;
 });
+
+// Add touch event listeners for mobile devices
+canvas.addEventListener('touchstart', (event) => {
+    isDrawing = true;
+    lastX = event.touches[0].clientX - canvas.offsetLeft;
+    lastY = event.touches[0].clientY - canvas.offsetTop;
+});
+
+canvas.addEventListener('touchmove', (event) => {
+    if (!isDrawing) return;
+    const x = event.touches[0].clientX - canvas.offsetLeft;
+    const y = event.touches[0].clientY - canvas.offsetTop;
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(x, y);
+    ctx.strokeStyle = currentTool === 'brush' ? currentColor : currentBackgroundColor;
+    ctx.lineWidth = currentBrushSize;
+    ctx.lineCap = 'round';
+    ctx.stroke();
+    lastX = x;
+    lastY = y;
+});
+
+canvas.addEventListener('touchend', () => {
+    if (isDrawing) {
+        undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+        isDrawing = false;
+    }
+});
+
+// Prevent scrolling on touch devices
+document.body.addEventListener('touchstart', (event) => {
+    if (event.target === canvas) {
+        event.preventDefault();
+    }
+}, { passive: false });
+
+document.body.addEventListener('touchend', (event) => {
+    if (event.target === canvas) {
+        event.preventDefault();
+    }
+}, { passive: false });
+
+document.body.addEventListener('touchmove', (event) => {
+    if (event.target === canvas) {
+        event.preventDefault();
+    }
+}, { passive: false });
+
+function saveImage() {
+    const canvas = document.getElementById("board");
+    const imageData = canvas.toDataURL("image/png");
+    const fileName = `image-${Date.now()}.png`;
+    const storageRef = ref(storage, `images/${fileName}`);
+    uploadBytes(storageRef, imageDataToBlob(imageData)).then((snapshot) => {
+        console.log("Image uploaded successfully");
+        snapshot.ref.getDownloadURL().then((url) => {
+            console.log(`File available at ${url}`);
+            displayImage(url);
+        });
+    });
+}
+
+function imageDataToBlob(dataURI) {
+    const byteString = atob(dataURI.split(",")[1]);
+    const mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const uintArray = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < byteString.length; i++) {
+        uintArray[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([arrayBuffer], { type: mimeString });
+}
+
+function displayGallery() {
+    const imagesRef = ref(storage, "images/");
+    getStorageItems(imagesRef).then((items) => {
+        items.forEach((item) => {
+            item.getDownloadURL().then((url) => {
+                displayImage(url);
+            });
+        });
+    });
+}
+
+async function getStorageItems(ref) {
+    const listResult = await listAll(ref);
+    const items = await Promise.all(
+        listResult.items.map((itemRef) => itemRef.get())
+    );
+    return items;
+}

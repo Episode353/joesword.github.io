@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Firebase Gallery</title>
+    <style>
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+            .gallery img {
+                max-width: 200px;
+                max-height: 200px;
+                margin: 10px;
+            }
+    </style>
+</head>
+<body>
+    <div class="gallery"></div>
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-storage.js"></script>
+    <script>
+        // Your Firebase web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyCqgWyZOOfVZddqVjV-ZsDpMo6b0F1UJxs",
+            authDomain: "joesworldonline-967be.firebaseapp.com",
+            projectId: "joesworldonline-967be",
+            storageBucket: "joesworldonline-967be.appspot.com",
+            messagingSenderId: "817241549916",
+            appId: "1:817241549916:web:787af20d01f9172efaca99"
+        };
+
+        // Initialize Firebase app
+        firebase.initializeApp(firebaseConfig);
+
+        // Get a reference to the storage service
+        var storage = firebase.storage();
+
+        // Create a reference to the images folder in Firebase Storage
+        var imagesRef = storage.ref().child('images');
+
+        // Get the download URLs of all images in the images folder
+        imagesRef.listAll().then(function (result) {
+            result.items.forEach(function (imageRef) {
+                // Get the download URL for each image
+                imageRef.getDownloadURL().then(function (url) {
+                    // Create an img element with the download URL as the src attribute
+                    var img = document.createElement('img');
+                    img.src = url;
+                    // Add the img element to the gallery div
+                    document.querySelector('.gallery').appendChild(img);
+                });
+            });
+        }).catch(function (error) {
+            console.log(error);
+        });
+    </script>
+</body>
+</html>
