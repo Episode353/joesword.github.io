@@ -9,7 +9,7 @@ $(function () {
         'pages/html-shuffle/seep-rule.html',
         'pages/html-shuffle/franken-doodle-episode.html',
         'pages/html-shuffle/guiseppe.html',
-        'pages/html-shuffle/gallery.html',
+       // 'pages/html-shuffle/gallery.html',
         'pages/html-shuffle/joes-basement-countdown.html'
     ];
 
