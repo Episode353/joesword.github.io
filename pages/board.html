@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Joes World</title>
+    <link rel="icon" href="../media/ico/favicon.ico" type="image/x-icon" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Add any necessary stylesheets or scripts here -->
+    <link rel="stylesheet" href="../style.css">
+    <script src="../../seppe.js"></script>
+    <style>
+        #canvas-container {
+            display: flex;
+        }
+
+        #canvas {
+            border: 1px solid black;
+        }
+
+        #controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-left: 20px;
+        }
+
+        button {
+            margin: 5px;
+        }
+    </style>
+
+</head>
+<body>
+
+
+    <center>
+        <div class="container">
+
+            <div class="header">
+                <iframe src="header-content.html" frameborder="0" scrolling="no" class="header-content-iframe"></iframe>
+            </div>
+
+
+
+            <div class="content-large-fill" style="width:auto; height:auto ;">
+
+
+                <div id="canvas-container">
+                    <canvas id="canvas" width="800" height="600"></canvas>
+                    <div id="controls">
+                        <button id="undo">Undo</button>
+                        <button id="clear">Clear Page</button>
+                        <button id="transparent-background">transparent-background</button>
+                        <input type="color" id="color" value="#000000">
+                        <input type="color" id="background-color" value="#ffffff">
+                        <input type="range" id="brush-size" min="1" max="100" value="10">
+                        <button id="eraser">Eraser</button>
+                        <button id="brush">Brush</button>
+                        <label for="canvas-width">Width:</label>
+                        <input type="number" id="canvas-width" value="800">
+                        <label for="canvas-height">Height:</label>
+                        <input type="number" id="canvas-height" value="600">
+                        <script src="../scripts/board.js"></script>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+            <div class="footer">
+                <iframe src="footer.html" frameborder="0" width="100%" class="footer-iframe">
+                </iframe>
+
+
+
+            </div>
+
+
+
+        </div>
+    </center>
+</body>
+</html>
