@@ -208,6 +208,7 @@ document.body.addEventListener('touchmove', (event) => {
     }
 }, { passive: false });
 
+// image upload
 function saveImage() {
     const canvas = document.getElementById("board");
     const imageData = canvas.toDataURL("image/png");
@@ -250,4 +251,68 @@ async function getStorageItems(ref) {
         listResult.items.map((itemRef) => itemRef.get())
     );
     return items;
-}
+} 
+
+const shapeButton = document.getElementById('shape');
+const rectangleButton = document.getElementById('rectangle');
+const circleButton = document.getElementById('circle');
+const triangleButton = document.getElementById('triangle');
+
+let currentShape = '';
+
+shapeButton.addEventListener('click', () => {
+    currentTool = 'shape';
+    currentShape = '';
+});
+
+rectangleButton.addEventListener('click', () => {
+    currentShape = 'rectangle';
+});
+
+circleButton.addEventListener('click', () => {
+    currentShape = 'circle';
+});
+
+triangleButton.addEventListener('click', () => {
+    currentShape = 'triangle';
+});
+
+canvas.addEventListener('mousemove', (event) => {
+    if (currentTool === 'shape' && currentShape !== '') {
+        const x = event.offsetX;
+        const y = event.offsetY;
+        ctx.fillStyle = currentColor;
+        switch (currentShape) {
+            case 'rectangle':
+                ctx.fillRect(lastX, lastY, x - lastX, y - lastY);
+                break;
+            case 'circle':
+                const radius = Math.sqrt(Math.pow(x - lastX, 2) + Math.pow(y - lastY, 2));
+                ctx.beginPath();
+                ctx.arc(lastX, lastY, radius, 0, 2 * Math.PI);
+                ctx.fill();
+                break;
+            case 'triangle':
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(lastX + (x - lastX) / 2, y);
+                ctx.lineTo(x, lastY);
+                ctx.closePath();
+                ctx.fill();
+                break;
+        }
+    }
+});
+
+window.addEventListener('mouseup', () => {
+    if (isDrawing) {
+        if (currentTool === 'brush') {
+            addToUndoStack();
+        } else if (currentTool === 'shape') {
+            undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+        }
+        isDrawing = false;
+    }
+});
+
+
