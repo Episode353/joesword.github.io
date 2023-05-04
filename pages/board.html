@@ -88,7 +88,6 @@
                 <div id="gallery">
 
                     <iframe id="gallery-iframe" src="gallery.html" style="width: 1040px; height: 2000px; ">
-
                     </iframe>
 
                 </div>
@@ -100,13 +99,14 @@
 
                     // Your web app's Firebase configuration
                     const firebaseConfig = {
-                        apiKey: "AIzaSyCqgWyZOOfVZddqVjV-ZsDpMo6b0F1UJxs",
-                        authDomain: "joesworldonline-967be.firebaseapp.com",
-                        projectId: "joesworldonline-967be",
-                        storageBucket: "joesworldonline-967be.appspot.com",
-                        messagingSenderId: "817241549916",
-                        appId: "1:817241549916:web:787af20d01f9172efaca99"
-                    };
+      apiKey: "AIzaSyCqgWyZOOfVZddqVjV-ZsDpMo6b0F1UJxs",
+  authDomain: "joesworldonline-967be.firebaseapp.com",
+  projectId: "joesworldonline-967be",
+  storageBucket: "joesworldonline-967be.appspot.com",
+  messagingSenderId: "817241549916",
+  appId: "1:817241549916:web:787af20d01f9172efaca99"
+};
+
 
                     // Initialize Firebase
                     const app = initializeApp(firebaseConfig);
@@ -145,33 +145,46 @@
                     function clearCanvas() {
                         ctx.clearRect(0, 0, canvas.width, canvas.height);
                     }
-
                     function displayImage(url) {
-                        const img = document.createElement("img");
+                        const img = new Image();
                         img.src = url;
-                        img.width = 200;
-                        gallery.appendChild(img);
+                        img.onload = () => {
+                            gallery.appendChild(img);
+                        };
                     }
 
-                    function saveImage() {
-                        const file = canvas.toDataURL("image/png").replace(/^data:image\/png;base64,/, "");
-                        const storageRef = ref(storage, `images/${Date.now()}.png`);
-                        uploadBytes(storageRef, new Uint8Array(atob(file).split("").map(c => c.charCodeAt(0)))).then((snapshot) => {
-                            console.log("Image uploaded successfully");
-                            snapshot.ref.getDownloadURL().then((url) => {
-                                console.log(`File available at ${url}`);
-                                displayImage(url);
-                            });
-                        });
+
+                    function confirmUpload() {
+                        const result = confirm("Are you sure you want to upload the image?");
+                        if (result) {
+                            saveImage();
+                        }
                     }
+
+                    async function saveImage() {
+                        const canvas = document.getElementById("canvas");
+                        const storageRef = ref(storage, "images/" + Date.now() + ".png");
+                        const imageBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+
+                        // Upload the image to Firebase Storage
+                        await uploadBytes(storageRef, imageBlob);
+
+                        // Reload the HTML page
+                        // Reload the page after 3 seconds
+                        setTimeout(function () {
+                            location.reload();
+                        }, 3000);
+                    }
+
 
                     canvas.addEventListener("mousedown", startDrawing);
                     canvas.addEventListener("mouseup", stopDrawing);
                     canvas.addEventListener("mousemove", draw);
 
                     clearButton.addEventListener("click", clearCanvas);
-                    saveButton.addEventListener("click", saveImage);
+                    saveButton.addEventListener("click", confirmUpload);
                 </script>
+
 
 
 
