@@ -7,7 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Add any necessary stylesheets or scripts here -->
     <link rel="stylesheet" href=".././style.css">
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-database.js"></script>
     <script src="../scripts/seppe.js"></script>
+
     <style>
     </style>
 
@@ -27,6 +30,39 @@
                 <center>
                     <canvas id="canvas" width="800" height="800"></canvas>
                     <script>
+                        function initDatabase() {
+                            // Initialize Firebase
+                            var config = {
+                                apiKey: "AIzaSyCqgWyZOOfVZddqVjV-ZsDpMo6b0F1UJxs",
+                                authDomain: "joesworldonline-967be.firebaseapp.com",
+                                databaseURL: "https://joesworldonline-967be-default-rtdb.firebaseio.com",
+                                projectId: "joesworldonline-967be",
+                                storageBucket: "joesworldonline-967be.appspot.com",
+                                messagingSenderId: "817241549916",
+                                appId: "1:817241549916:web:787af20d01f9172efaca99"
+                            };
+
+                            };
+                            firebase.initializeApp(config);
+
+                            // Get a reference to the database service
+                            var database = firebase.database();
+
+                            // Define an array of texts
+                            var texts = ["Text 1", "Text 2", "Text 3"];
+
+                            // Get a reference to the item_spinner node
+                            var itemSpinnerRef = database.ref("item_spinner");
+
+                            // Update the texts array if the item_spinner is changed in the database
+                            itemSpinnerRef.on("child_changed", function (snapshot) {
+                                var key = snapshot.key;
+                                var index = keys.indexOf(key);
+                                texts[index] = snapshot.val();
+                            });
+                        }
+
+
                         var canvas = document.getElementById('canvas');
                         var ctx = canvas.getContext('2d');
                         var centerX = canvas.width / 2;
