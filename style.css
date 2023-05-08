@@ -9,6 +9,12 @@
 }
 
 
+@font-face {
+    font-family: viaappia;
+    src: url(../media/fonts/viaappia.ttf);
+}
+
+
 body {
     margin: 0;
     background-image: url('../media/mc/block/mushroom_stem.png');
@@ -66,6 +72,7 @@ body {
     grid-row-end: 3;
     grid-column-start: 1;
     grid-column-end: 4;
+
 }
 
 /*Controls the height and formatting of the sidebar across all pages of the site*/
@@ -137,6 +144,65 @@ body {
     grid-template-rows: repeat(2, 1fr);
     grid-gap: 40px;
     text-align: center;
+}
+
+
+.food-content-large-fill {
+    grid-row-start: 2;
+    grid-row-end: 3;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    gap: 50px;
+    padding: 50px;
+}
+
+
+/* CSS for the food review body*/
+.food-review-body {
+    display: grid;
+    grid-template-columns: 1fr 0.2fr;
+    grid-template-rows: repeat(2, 1fr);
+    grid-gap: 40px;
+    text-align: center;
+    height: 100%;
+}
+
+.food-content-photo {
+    border: 3px solid lightsteelblue;
+}
+
+.food-content-text {
+    border: 3px solid lightsteelblue;
+
+}
+
+.food-content-rate {
+    grid-row-start: 1;
+    grid-row-end: 2;
+    grid-column-start: 2;
+    grid-column-end: 2;
+    border: 3px solid lightsteelblue;
+    width: 250px;
+}
+
+    .food-content-rate p {
+        font-family: viaappia;
+        font-weight: bold;
+        font-size: 110px;
+        text-shadow: 4px 4px 0px #fec652;
+        color: #0D47A1;
+        transform: translate(0px, 0px) rotate(-20deg);
+    }   
+    
+    
+    
+    .food-content-bob p {
+        font-size: 18px;
+
+    }
+
+.food-content-bob {
+    border: 3px solid lightsteelblue;
 }
 
 
