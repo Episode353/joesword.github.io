@@ -79,10 +79,11 @@ body {
 
 
 
-/* CSS for the sidebar */
+/* CSS for the header */
+/* THIS CONTROLLS THE GRID; TO CHANGE GRID*/
 .header-content {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     grid-gap: 10px;
     text-align: center;
     height: 100%;
@@ -129,6 +130,14 @@ body {
     color: red; /* makes the text red*/
 }
 
+/* CSS for the food review header links */
+.food-review-headerlinks {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-gap: 40px;
+    text-align: center;
+}
 
 
 .word-gold {
