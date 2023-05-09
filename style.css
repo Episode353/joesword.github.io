@@ -30,7 +30,7 @@ body {
     display: grid;
     grid-template-columns: repeat(3, 2fr);
     grid-template-rows: 0.2fr 1fr 1fr 0.5fr;
-    gap: 50px;
+    gap: 90px;
     padding: 50px;
     box-sizing: border-box;
 }
