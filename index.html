@@ -38,29 +38,6 @@
             <div class="header">
                 <iframe src="pages/header-content.html" frameborder="0" scrolling="no" class="header-content-iframe"></iframe>
 
-                <!--To Party Page-->
-                <form action="redirect-page.html" id="form" style="position: relative; bottom: 250px; left: -40%; max-width: 170%;  ">
-                    <input type="text" placeholder="The ___ Breadstick" id="input-field" />
-                    <button type="submit">Submit</button>
-                </form>
-
-                <script>
-                    const form = document.querySelector('#form');
-                    const inputField = document.querySelector('#input-field');
-
-                    form.addEventListener('submit', (event) => {
-                        event.preventDefault(); // prevent form from submitting
-
-                        const correctWord = 'holy'; // replace with your desired word
-
-                        if (inputField.value.toLowerCase() === correctWord.toLowerCase()) {
-                            window.location.href = 'pages/party.html'; // replace with your desired page
-                        } else {
-                            alert('Incorrect word. Please try again.');
-                        }
-                    });
-                </script>
-                <!--To Party Page-->
 
             </div>
 
@@ -73,7 +50,7 @@
                     text-shadow: 10px 10px 0px #fec652;
                     font-size: 200%;">JoesWorld.Online</p>
                 <h2>The home for everything Seppe</h2>
-                <img style="position: relative; bottom: 280px; left: -5%; max-width: 170%;  " src="media/gif/a_place.gif" />
+                <img style="position: relative; bottom: 280px; max-width: 170%;  " src="media/gif/a_place.gif" />
                 <p>Todays soup of the day, the <a href="pages/board.html">Board</a>  page</p>
                 <p>Halal Coupon Owed to: Weirdman</p>
 

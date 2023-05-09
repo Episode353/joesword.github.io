@@ -16,7 +16,9 @@
 
 
 body {
-    background: linear-gradient(rgba(243, 255, 118, 0.5), rgba(247, 46, 46, 0.00)), url("../media/mc/block/mushroom_stem.png");
+    margin: 0;
+    background-image: url('../media/mc/block/mushroom_stem.png');
+    background-position: center; /* center the image */
 }
 
 .container {
@@ -31,8 +33,6 @@ body {
     gap: 90px;
     padding: 50px;
     box-sizing: border-box;
-    background-color: rgba(250, 255, 205, 0.2);
-    border: 5px groove #0D47A1;
 }
 
 
