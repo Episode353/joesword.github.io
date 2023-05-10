@@ -24,6 +24,13 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
 
+    <script>
+        document.addEventListener("keydown", function (event) {
+            if (event.ctrlKey && event.shiftKey && event.key === "U") {
+                window.open("pages/party.html");
+            }
+        });
+    </script>
 
 </head>
 <body>

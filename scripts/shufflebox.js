@@ -11,6 +11,7 @@ $(function () {
        'pages/html-shuffle/guiseppe.html',
        'pages/html-shuffle/gallery-shuffle.html',
        'pages/html-shuffle/feesh-brain.html',
+       'pages/html-shuffle/stolen.html',
        'pages/html-shuffle/joes-basement-countdown.html'
     ];
 
