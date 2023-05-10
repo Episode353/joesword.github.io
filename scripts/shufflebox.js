@@ -12,6 +12,7 @@ $(function () {
        'pages/html-shuffle/gallery-shuffle.html',
        'pages/html-shuffle/feesh-brain.html',
        'pages/html-shuffle/stolen.html',
+       'pages/html-shuffle/party-time.html',
        'pages/html-shuffle/joes-basement-countdown.html'
     ];
 
