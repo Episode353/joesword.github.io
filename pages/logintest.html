@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Joes World</title>
+    <link rel="icon" href="../media/ico/favicon.ico" type="image/x-icon" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Add any necessary stylesheets or scripts here -->
+    <link rel="stylesheet" href="../style.css">
+    <script src="../../seppe.js"></script>
+    <script src="../scripts/back-map.js?v=2"></script>
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-app.js"></script>
+
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-auth.js"></script>
+
+
+    <style>
+    </style>
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyCqgWyZOOfVZddqVjV-ZsDpMo6b0F1UJxs",
+            authDomain: "joesworldonline-967be.firebaseapp.com",
+            databaseURL: "https://joesworldonline-967be-default-rtdb.firebaseio.com",
+            projectId: "joesworldonline-967be",
+            storageBucket: "joesworldonline-967be.appspot.com",
+            messagingSenderId: "817241549916",
+            appId: "1:817241549916:web:787af20d01f9172efaca99"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+</head>
+<body>
+
+
+    <center>
+        <div class="container">
+
+            <div class="header">
+                <iframe src="header-content.html" frameborder="0" scrolling="no" class="header-content-iframe"></iframe>
+            </div>
+
+
+
+            <div class="content-large-fill">
+                <form>
+                    <input type="email" id="email" placeholder="Email" />
+                    <input type="password" id="password" placeholder="Password" />
+                    <button type="submit">Login</button>
+                </form>
+                <script>
+                    document.querySelector("form").addEventListener("submit", function (event) {
+                        event.preventDefault(); // prevent form submission
+
+                        var email = document.querySelector("#email").value;
+                        var password = document.querySelector("#password").value;
+
+                        firebase.auth().signInWithEmailAndPassword(email, password)
+                            .then((userCredential) => {
+                                // User is signed in
+                                document.querySelector("#result").innerHTML = "Login successful!";
+                            })
+                            .catch((error) => {
+                                // Handle errors here
+                                var errorCode = error.code;
+                                var errorMessage = error.message;
+                                console.log(errorCode, errorMessage);
+                            });
+                    });
+                </script>
+                <p>User: joe.v.toscano@gmail.com    pass:password</p>
+                <p>if working, the consle should output <em>undefined 'spinWheel is not defined'</em></p>
+            </div>
+
+
+
+            <div class="footer">
+                <iframe src="footer.html" frameborder="0" width="100%" class="footer-iframe">
+                </iframe>
+
+
+
+            </div>
+
+
+
+        </div>
+    </center>
+</body>
+</html>
