@@ -9,29 +9,12 @@
     <link rel="stylesheet" href="../style.css">
     <script src="../../seppe.js"></script>
     <script src="../scripts/back-map.js?v=2"></script>
-    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-app.js"></script>
-
-    <!-- Add Firebase products that you want to use -->
-    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-auth.js"></script>
-
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
 
     <style>
     </style>
-    <script>
-        // Your web app's Firebase configuration
-        var firebaseConfig = {
-            apiKey: "AIzaSyCqgWyZOOfVZddqVjV-ZsDpMo6b0F1UJxs",
-            authDomain: "joesworldonline-967be.firebaseapp.com",
-            databaseURL: "https://joesworldonline-967be-default-rtdb.firebaseio.com",
-            projectId: "joesworldonline-967be",
-            storageBucket: "joesworldonline-967be.appspot.com",
-            messagingSenderId: "817241549916",
-            appId: "1:817241549916:web:787af20d01f9172efaca99"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-    </script>
+
 </head>
 <body>
 
@@ -46,33 +29,60 @@
 
 
             <div class="content-large-fill">
-                <form>
-                    <input type="email" id="email" placeholder="Email" />
-                    <input type="password" id="password" placeholder="Password" />
-                    <button type="submit">Login</button>
-                </form>
                 <script>
-                    document.querySelector("form").addEventListener("submit", function (event) {
-                        event.preventDefault(); // prevent form submission
+                    // Initialize Firebase
+                    var firebaseConfig = {
+                        apiKey: "AIzaSyCqgWyZOOfVZddqVjV-ZsDpMo6b0F1UJxs",
+                        authDomain: "joesworldonline-967be.firebaseapp.com",
+                        databaseURL: "https://joesworldonline-967be-default-rtdb.firebaseio.com",
+                        projectId: "joesworldonline-967be",
+                        storageBucket: "joesworldonline-967be.appspot.com",
+                        messagingSenderId: "817241549916",
+                        appId: "1:817241549916:web:787af20d01f9172efaca99"
+                    };
+                    firebase.initializeApp(firebaseConfig);
+                </script>
 
-                        var email = document.querySelector("#email").value;
-                        var password = document.querySelector("#password").value;
+                <input type="text" id="userIdInput" placeholder="Enter your ID">
+                <button id="clickButton">Click Me</button>
 
-                        firebase.auth().signInWithEmailAndPassword(email, password)
-                            .then((userCredential) => {
-                                // User is signed in
-                                document.querySelector("#result").innerHTML = "Login successful!";
-                            })
-                            .catch((error) => {
-                                // Handle errors here
-                                var errorCode = error.code;
-                                var errorMessage = error.message;
-                                console.log(errorCode, errorMessage);
+
+
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var clickButton = document.getElementById('clickButton');
+                        var userIdInput = document.getElementById('userIdInput');
+
+                        clickButton.addEventListener('click', function () {
+                            var currentDate = new Date().toDateString();
+                            var userId = userIdInput.value; // Read the user ID from the input element
+
+                            // Create a Firebase reference to store the user's click data
+                            var userClickRef = firebase.database().ref('clicks/' + userId);
+
+                            // Retrieve the user's click data from Firebase
+                            userClickRef.once('value', function (snapshot) {
+                                var clickData = snapshot.val();
+
+                                // Check if the user has already clicked today
+                                if (clickData && clickData.lastClick === currentDate) {
+                                    // User has already clicked today
+                                    alert('You have already clicked today.');
+                                } else {
+                                    // Perform the desired action when the user clicks for the first time today
+                                    alert('Thank you for clicking!');
+
+                                    // Store the current date as the last click date for the user
+                                    userClickRef.set({
+                                        lastClick: currentDate
+                                    });
+                                }
                             });
+                        });
                     });
                 </script>
-                <p>User: joe.v.toscano@gmail.com    pass:password</p>
-                <p>if working, the consle should output <em>undefined 'spinWheel is not defined'</em></p>
+
             </div>
 
 

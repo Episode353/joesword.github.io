@@ -145,6 +145,19 @@
                                     var sectorIndex = Math.floor((targetAngle + Math.PI / sectors) / (Math.PI * 2 / sectors)) % sectors;
                                     var selectedSectorText = texts[sectorIndex];
                                     alert('You won: ' + selectedSectorText);
+                                    window.location.reload();
+
+                                    // Remove the selected text from the database
+                                    var database = firebase.database().ref("strings");
+                                    database.once("value", function (snapshot) {
+                                        snapshot.forEach(function (childSnapshot) {
+                                            var index = childSnapshot.key;
+                                            var text = childSnapshot.val();
+                                            if (text === selectedSectorText) {
+                                                database.child(index).remove();
+                                            }
+                                        });
+                                    });
 
                                     spinning = false;
                                 }
@@ -154,7 +167,42 @@
 
 
                         drawWheel();
-                       
+
+                        //USER ID code
+
+                        document.addEventListener('DOMContentLoaded', function () {
+                            var clickButton = document.getElementById('clickButton');
+                            var userIdInput = document.getElementById('userIdInput');
+
+                            clickButton.addEventListener('click', function () {
+                                var currentDate = new Date().toDateString();
+                                var userId = userIdInput.value;
+
+                                // Check if the user ID is already in the database
+                                var userClickRef = firebase.database().ref('clicks/' + userId);
+                                userClickRef.once('value', function (snapshot) {
+                                    var clickData = snapshot.val();
+
+                                    if (!clickData) {
+                                        // User ID not found in the database
+                                        alert('User ID not found in the database.');
+                                    } else if (clickData.lastClick === currentDate) {
+                                        // User has already clicked today
+                                        alert('You have already clicked today.');
+                                    } else {
+                                        // Perform the desired action when the user clicks for the first time today
+
+
+                                        spinWheel();
+                                        // Update the last click date for the user in the database
+                                        userClickRef.update({
+                                            lastClick: currentDate
+                                        });
+                                    }
+                                });
+                            });
+                        });
+
 
                     </script>
                 </center>
@@ -162,7 +210,8 @@
                 <center>
                     <div style="background-color: lightsteelblue; background: snow; font-size: 20px; padding: 10px; border: 3px solid lightsteelblue; margin: 10px; ">
 
-
+                        <input type="text" id="userIdInput" placeholder="Enter your ID">
+                        <button id="clickButton">Click Me</button>
                     </div>
                 </center>
 
