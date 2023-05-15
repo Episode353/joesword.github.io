@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Joes World</title>
+    <link rel="icon" href="../media/ico/favicon.ico" type="image/x-icon" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Add any necessary stylesheets or scripts here -->
+    <link rel="stylesheet" href="../style.css">
+    <script src="../../seppe.js"></script>
+    <script src="../scripts/back-map.js?v=2"></script>
+    <!-- Add the Firebase JavaScript library -->
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-database.js"></script>
+    <style>
+    </style>
+
+</head>
+<body>
+
+
+    <center>
+        <div class="container">
+
+            <div class="header">
+                <iframe src="header-content.html" frameborder="0" scrolling="no" class="header-content-iframe"></iframe>
+            </div>
+
+
+
+            <div class="content-large-fill">
+                <h1>Save and Display Wheel Spin Data</h1>
+
+                <!-- Textbox and Button -->
+                <input type="text" id="myText">
+                <button onclick="saveData()">Save</button>
+                <button onclick="refreshDisplay()">Refresh</button>
+
+                <!-- Display Box -->
+                <div id="displayBox"></div>
+
+
+                <!-- Initialize Firebase -->
+                <script>
+                    // Replace the following with your Firebase project configuration
+                    var firebaseConfig = {
+                        apiKey: "AIzaSyCqgWyZOOfVZddqVjV-ZsDpMo6b0F1UJxs",
+                        authDomain: "joesworldonline-967be.firebaseapp.com",
+                        databaseURL: "https://joesworldonline-967be-default-rtdb.firebaseio.com",
+                        projectId: "joesworldonline-967be",
+                        storageBucket: "joesworldonline-967be.appspot.com",
+                        messagingSenderId: "817241549916",
+                        appId: "1:817241549916:web:787af20d01f9172efaca99"
+                    };
+                    // Initialize Firebase
+                    firebase.initializeApp(firebaseConfig);
+
+                    // Get a reference to the database
+                    var database = firebase.database();
+
+                    // Function to save data to Firebase
+                    function saveData() {
+                        var text = document.getElementById("myText").value;
+                        var treeRef = database.ref("daily-wheel"); // Replace "your-tree-name" with your desired tree name
+                        var newStringRef = treeRef.push();
+                        newStringRef.set(text);
+                        document.getElementById("myText").value = ""; // Clear the textbox
+                    }
+
+                    // Function to display data from Firebase
+                    function displayData(snapshot) {
+                        var data = snapshot.val();
+                        var displayBox = document.getElementById("displayBox");
+                        displayBox.innerHTML += "<p>" + data + "</p>";
+                    }
+
+                    // Function to refresh the display box
+                    function refreshDisplay() {
+                        var displayBox = document.getElementById("displayBox");
+                        displayBox.innerHTML = ""; // Clear the display box
+
+                        // Retrieve data from Firebase and listen for changes
+                        var treeRef = database.ref("daily-wheel"); // Replace "your-tree-name" with your desired tree name
+                        treeRef.on("child_added", displayData);
+                    }
+
+                    // Refresh the display box initially
+                    refreshDisplay();
+                </script>
+                </script>
+
+                <!-- Refresh Button -->
+
+            </div>
+
+
+
+            <div class="footer">
+                <iframe src="footer.html" frameborder="0" width="100%" class="footer-iframe">
+                </iframe>
+
+
+
+            </div>
+
+
+
+        </div>
+    </center>
+</body>
+</html>
