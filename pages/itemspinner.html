@@ -7,9 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Add any necessary stylesheets or scripts here -->
     <link rel="stylesheet" href=".././style.css">
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-database.js"></script>
+
     <script src="../scripts/seppe.js"></script>
     <style>
     </style>
+
+
 
 </head>
 <body>
@@ -27,6 +32,63 @@
                 <center>
                     <canvas id="canvas" width="800" height="800"></canvas>
                     <script>
+
+
+
+                        // Initialize Firebase
+                        var firebaseConfig = {
+                            apiKey: "AIzaSyCqgWyZOOfVZddqVjV-ZsDpMo6b0F1UJxs",
+                            authDomain: "joesworldonline-967be.firebaseapp.com",
+                            databaseURL: "https://joesworldonline-967be-default-rtdb.firebaseio.com",
+                            projectId: "joesworldonline-967be",
+                            storageBucket: "joesworldonline-967be.appspot.com",
+                            messagingSenderId: "817241549916",
+                            appId: "1:817241549916:web:787af20d01f9172efaca99"
+                        };
+
+                        firebase.initializeApp(firebaseConfig);
+
+                        // Get a reference to the database
+                        var database = firebase.database().ref("daily-wheel");
+
+                        // Retrieve the sector texts from Firebase
+                        database.once("value", function (snapshot) {
+                            var numStrings = snapshot.numChildren(); // get number of strings (daily-wheel) in the database
+                            sectors = numStrings; // set the number of sectors equal to the number of strings (daily-wheel)
+                            sectorAngle = Math.PI * 2 / sectors; // recalculate sector angle based on new number of sectors
+
+                            snapshot.forEach(function (childSnapshot) {
+                                var index = childSnapshot.key;
+                                var text = childSnapshot.val();
+                                texts[index] = text;
+                            });
+
+                            // Shuffle the texts array
+                            texts.sort(function () {
+                                return 0.5 - Math.random();
+                            });
+
+                            // Set random colors for each sector
+                            for (var i = 0; i < sectors; i++) {
+                                // Generate random hue value between 0 and 360
+                                var hue = Math.floor(Math.random() * 361);
+
+                                // Generate random saturation value between 50% and 100%
+                                var saturation = Math.floor(Math.random() * 51) + 50;
+
+                                // Generate random lightness value between 40% and 70%
+                                var lightness = Math.floor(Math.random() * 31) + 40;
+
+                                // Convert HSL values to RGB
+                                var color = 'hsl(' + hue + ', ' + saturation + '%, ' + lightness + '%)';
+
+                                colors[i] = color;
+                            }
+
+                            // Draw the wheel with the shuffled sector texts and random colors
+                            drawWheel();
+                        });
+
                         var canvas = document.getElementById('canvas');
                         var ctx = canvas.getContext('2d');
                         var centerX = canvas.width / 2;
@@ -34,8 +96,8 @@
                         var radius = 350;
                         var sectors = 8;
                         var sectorAngle = Math.PI * 2 / sectors;
-                        var colors = ['#FF4136', '#FFDC00', '#0074D9', '#2ECC40', '#FF851B', '#F012BE', '#7FDBFF', '#B10DC9'];
-                        var texts = ['Sector 1', 'Sector 2', 'Sector 3', 'Sector 4', 'Sector 5', 'Sector 6', 'Sector 7', 'Sector 8'];
+                        var colors = [];
+                        var texts = [];
                         var angle = 0;
                         var speed = 0;
                         var targetAngle = 0;
@@ -61,10 +123,16 @@
                                 ctx.save();
                                 ctx.translate(centerX, centerY);
                                 ctx.rotate(startAngle + sectorAngle / 2);
-                                ctx.fillStyle = 'white';
-                                ctx.font = 'bold 20px Arial';
-                                ctx.fillText(sectorText, 250, -radius / 200);
+
+                                // Calculate dynamic font size based on container radius
+                                const fontSize = radius / 20; // Adjust the factor at which the text is sized
+
+                                ctx.fillStyle = 'black';
+                                ctx.font = 'bold ' + fontSize + 'px Arial';
+                                ctx.fillText(sectorText, 50, -radius / 200);
                                 ctx.restore();
+
+
                             }
                         }
 
@@ -95,30 +163,76 @@
                                     var sectorIndex = Math.floor((targetAngle + Math.PI / sectors) / (Math.PI * 2 / sectors)) % sectors;
                                     var selectedSectorText = texts[sectorIndex];
                                     alert('You won: ' + selectedSectorText);
+                                    window.location.reload();
+
+                                    // Remove the selected text from the database
+                                    var database = firebase.database().ref("daily-wheel");
+                                    database.once("value", function (snapshot) {
+                                        snapshot.forEach(function (childSnapshot) {
+                                            var index = childSnapshot.key;
+                                            var text = childSnapshot.val();
+                                            if (text === selectedSectorText) {
+                                                database.child(index).remove();
+                                            }
+                                        });
+                                    });
 
                                     spinning = false;
                                 }
                             }, 10);
                         }
 
+
+
                         drawWheel();
-                        canvas.addEventListener('click', spinWheel);
+
+                        //USER ID code
+
+                        document.addEventListener('DOMContentLoaded', function () {
+                            var clickButton = document.getElementById('clickButton');
+                            var userIdInput = document.getElementById('userIdInput');
+
+                            clickButton.addEventListener('click', function () {
+                                var currentDate = new Date().toDateString();
+                                var userId = userIdInput.value;
+
+                                // Check if the user ID is already in the database
+                                var userClickRef = firebase.database().ref('users/' + userId);
+                                userClickRef.once('value', function (snapshot) {
+                                    var clickData = snapshot.val();
+
+                                    if (!clickData) {
+                                        // User ID not found in the database
+                                        alert('User ID not found in the database.');
+                                    } else if (clickData.lastClick === currentDate) {
+                                        // User has already clicked today
+                                        alert('You have exceed Maximum daily spins.');
+                                    } else {
+                                        // Perform the desired action when the user clicks for the first time today
+
+
+                                        spinWheel();
+                                        // Update the last click date for the user in the database
+                                        userClickRef.update({
+                                            lastClick: currentDate
+                                        });
+                                    }
+                                });
+                            });
+                        });
+
 
                     </script>
                 </center>
-                <p>To Submit action, please enter login and click <span class="word-red">Submit</span> </p>
+
+                <p>Enter your ID and click <span class="word-red">Submit</span> to spin the wheel. </p>
+                <p>Each person only gets <em>One Spin per day</em></p>
                 <center>
                     <div style="background-color: lightsteelblue; background: snow; font-size: 20px; padding: 10px; border: 3px solid lightsteelblue; margin: 10px; ">
-                        <form>
 
-                            <label for="username">Username:</label>
-                            <input type="text" id="username" name="username">
+                        <input type="text" id="userIdInput" placeholder="Enter your ID">
+                        <button id="clickButton">Submit</button>
 
-                            <label for="password">Password:</label>
-                            <input type="password" id="password" name="password">
-
-                            <input type="submit" value="Submit" value="Submit" style="background-color: #CD5C5C; color: #ffffff; padding: 10px 20px; font-size: 16px;">
-                        </form>
                     </div>
                 </center>
 
