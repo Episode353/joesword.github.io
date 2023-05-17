@@ -9,16 +9,10 @@
     <link rel="stylesheet" href=".././style.css">
     <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-database.js"></script>
-    <script src="../scripts/back-map.js?v=2"></script>
+
     <script src="../scripts/seppe.js"></script>
+    <script src="../scripts/back-map.js?v=2"></script>
     <style>
-        #loading-image {
-            position: absolute;
-            left: 50%;
-            top: 50%;   
-
-
-        }
     </style>
 
 
@@ -37,7 +31,6 @@
 
             <div class="content-large-fill">
                 <center>
-                    <img id="loading-image" src="../media/gif/beegfishstrobe.gif" alt="Wheel Image" />
                     <canvas id="canvas" width="800" height="800"></canvas>
                     <script>
 
@@ -58,8 +51,6 @@
 
                         // Get a reference to the database
                         var database = firebase.database().ref("daily-wheel");
-
-
 
                         // Retrieve the sector texts from Firebase
                         database.once("value", function (snapshot) {
@@ -104,8 +95,8 @@
                         var centerX = canvas.width / 2;
                         var centerY = canvas.height / 2;
                         var radius = 350;
-                        var sectors = 0;
-                        var sectorAngle = 0;
+                        var sectors = 8;
+                        var sectorAngle = Math.PI * 2 / sectors;
                         var colors = [];
                         var texts = [];
                         var angle = 0;
@@ -115,24 +106,12 @@
 
 
                         function drawWheel() {
-
-                           
                             ctx.clearRect(0, 0, canvas.width, canvas.height);
+                            for (var i = 0; i < sectors; i++) {
+                                var sectorColor = colors[i];
+                                var sectorText = texts[i];
 
-
-                            var slotsLoaded = 0; // Counter for loaded slots
-                            //Change speed of loading animation here
-                            var animationDelay = 25; // Delay between each slot fill (in milliseconds)
-
-                            function drawNextSlot() {
-                                if (slotsLoaded >= sectors) {
-                                    return;
-                                }
-
-                                var sectorColor = colors[slotsLoaded];
-                                var sectorText = texts[slotsLoaded];
-
-                                var startAngle = angle + sectorAngle * slotsLoaded;
+                                var startAngle = angle + sectorAngle * i;
                                 var endAngle = startAngle + sectorAngle;
 
                                 ctx.beginPath();
@@ -163,19 +142,8 @@
                                 ctx.rotate(rotationAngle);
                                 ctx.fillText(sectorText, textX, textY);
                                 ctx.restore();
-
-                                slotsLoaded++; // Increment the counter
-
-                                setTimeout(drawNextSlot, animationDelay); // Call the function again after the delay
-                                // Remove the loading image
-                                var loadingImage = document.getElementById('loading-image');
-                                loadingImage.parentNode.removeChild(loadingImage);
                             }
-
-                            drawNextSlot(); // Start drawing the slots
-
                         }
-
 
 
 
@@ -195,7 +163,7 @@
 
                             var intervalId = setInterval(function () {
                                 angle += speed;
-                                speed *= 0.99;
+                                speed *= 0.95;
 
                                 if (angle > Math.PI * 2) {
                                     angle -= Math.PI * 2;
@@ -269,6 +237,8 @@
 
 
                     </script>
+
+
                 </center>
 
                 <p>Enter your ID and click <span class="word-red">Submit</span> to spin the wheel. </p>
@@ -276,8 +246,8 @@
                 <center>
                     <div style="background-color: lightsteelblue; background: snow; font-size: 20px; padding: 10px; border: 3px solid lightsteelblue; margin: 10px; ">
 
-                        <input type="text" id="userIdInput" placeholder="Enter your ID"  style="padding: 10px 20px; font-size: 18px;">
-                        <input type="submit" value="Submit" style="background-color: #CD5C5C; color: #ffffff; padding: 10px 20px; font-size: 16px;">
+                        <input type="text" id="userIdInput" placeholder="Enter your ID">
+                        <button id="clickButton">Submit</button>
 
                     </div>
                 </center>
