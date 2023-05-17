@@ -103,6 +103,7 @@
                         var targetAngle = 0;
                         var spinning = false;
 
+
                         function drawWheel() {
                             ctx.clearRect(0, 0, canvas.width, canvas.height);
                             for (var i = 0; i < sectors; i++) {
@@ -122,19 +123,31 @@
                                 // Add sector text
                                 ctx.save();
                                 ctx.translate(centerX, centerY);
-                                ctx.rotate(startAngle + sectorAngle / 2);
 
                                 // Calculate dynamic font size based on container radius
                                 const fontSize = radius / 20; // Adjust the factor at which the text is sized
 
                                 ctx.fillStyle = 'black';
                                 ctx.font = 'bold ' + fontSize + 'px Arial';
-                                ctx.fillText(sectorText, 50, -radius / 200);
+
+                                // Calculate text position on the inside of the wheel
+                                var textWidth = ctx.measureText(sectorText).width;
+                                var textX = (radius - textWidth) / 1.5; // Distance from the center along the x-axis
+                                var textY = fontSize / 2; // Distance from the center along the y-axis
+
+                                // Calculate text rotation angle
+                                var rotationAngle = startAngle + sectorAngle / 2.5;
+
+                                ctx.rotate(rotationAngle);
+                                ctx.fillText(sectorText, textX, textY);
                                 ctx.restore();
-
-
                             }
                         }
+
+
+
+
+
 
                         function spinWheel() {
                             if (spinning) {

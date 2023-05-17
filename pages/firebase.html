@@ -31,7 +31,7 @@
             <div class="content-large-fill">
                 <h1>Item Spinner Editor</h1>
                 <p>try to not make the text COMICALLY long or else it may not fit inside the wheel sector</p>
-
+                <p>Total items inside wheel databse: <span id="counter">0</span></p>
                 <!-- Textbox and Button -->
                 <input type="text" id="myText">
                 <button onclick="saveData()">Add to Wheel</button>
@@ -81,7 +81,8 @@
                         var key = snapshot.key;
                         var data = snapshot.val();
                         var displayBox = document.getElementById("displayBox");
-                        displayBox.innerHTML += "<p>" + data + " <button onclick='removeData(" + key + ")'>Remove</button></p>";
+                        displayBox.innerHTML += "<p>" + data + " <button onclick='removeData(" + key + ")'>Delete</button></p>";
+                        updateCounter(); // Update the counter after displaying new data
                     }
 
                     // Function to refresh the display box
@@ -92,11 +93,25 @@
                         // Retrieve data from Firebase and listen for changes
                         var treeRef = database.ref("daily-wheel"); // Replace "daily-wheel" with your desired tree name
                         treeRef.on("child_added", displayData);
+
+                        updateCounter(); // Update the counter initially
+                    }
+
+                    // Function to update the counter
+                    function updateCounter() {
+                        var treeRef = database.ref("daily-wheel"); // Replace "daily-wheel" with your desired tree name
+                        treeRef.once("value")
+                            .then(function (snapshot) {
+                                var count = snapshot.numChildren();
+                                var counterElement = document.getElementById("counter");
+                                counterElement.textContent = count;
+                            });
                     }
 
                     // Refresh the display box initially
                     refreshDisplay();
                 </script>
+
 
 
                 <!-- Refresh Button -->
