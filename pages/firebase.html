@@ -29,11 +29,12 @@
 
 
             <div class="content-large-fill">
-                <h1>Save and Display Wheel Spin Data</h1>
+                <h1>Item Spinner Editor</h1>
+                <p>try to not make the text COMICALLY long or else it may not fit inside the wheel sector</p>
 
                 <!-- Textbox and Button -->
                 <input type="text" id="myText">
-                <button onclick="saveData()">Save</button>
+                <button onclick="saveData()">Add to Wheel</button>
                 <button onclick="refreshDisplay()">Refresh</button>
 
                 <!-- Display Box -->
@@ -61,18 +62,26 @@
                     // Function to save data to Firebase
                     function saveData() {
                         var text = document.getElementById("myText").value;
-                        var treeRef = database.ref("daily-wheel"); // Replace "your-tree-name" with your desired tree name
+                        var treeRef = database.ref("daily-wheel"); // Replace "daily-wheel" with your desired tree name
                         var randomKey = Math.floor(1000000 + Math.random() * 9000000); // Generate seven-digit random number
                         var newStringRef = treeRef.child(randomKey);
                         newStringRef.set(text);
                         document.getElementById("myText").value = ""; // Clear the textbox
                     }
 
+                    // Function to remove data from Firebase
+                    function removeData(key) {
+                        var treeRef = database.ref("daily-wheel").child(key); // Replace "daily-wheel" with your desired tree name
+                        treeRef.remove();
+                        refreshDisplay();
+                    }
+
                     // Function to display data from Firebase
                     function displayData(snapshot) {
+                        var key = snapshot.key;
                         var data = snapshot.val();
                         var displayBox = document.getElementById("displayBox");
-                        displayBox.innerHTML += "<p>" + data + "</p>";
+                        displayBox.innerHTML += "<p>" + data + " <button onclick='removeData(" + key + ")'>Remove</button></p>";
                     }
 
                     // Function to refresh the display box
@@ -81,14 +90,14 @@
                         displayBox.innerHTML = ""; // Clear the display box
 
                         // Retrieve data from Firebase and listen for changes
-                        var treeRef = database.ref("daily-wheel"); // Replace "your-tree-name" with your desired tree name
+                        var treeRef = database.ref("daily-wheel"); // Replace "daily-wheel" with your desired tree name
                         treeRef.on("child_added", displayData);
                     }
 
                     // Refresh the display box initially
                     refreshDisplay();
                 </script>
-               
+
 
                 <!-- Refresh Button -->
 
