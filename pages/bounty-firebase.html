@@ -47,21 +47,50 @@
                 tierCard.className = 'bounty-card';
                 tierCard.innerHTML = '<h2>Tier ' + tier + '</h2>';
 
+                var activeBountyId = null;
+
                 for (var id in tierData) {
                     var bountyData = tierData[id];
                     var task = bountyData.Task;
                     var reward = bountyData.Reward;
                     var length = bountyData.Length;
-                    var timeLeft = bountyData.TimeLeft;
                     var rewardIcon = bountyData.RewardIcon;
 
                     var bountyItem = document.createElement('div');
                     bountyItem.innerHTML = '<h3>Bounty ID: ' + id + '</h3>';
                     bountyItem.innerHTML += '<p>Task: ' + task + '</p>';
                     bountyItem.innerHTML += '<p>Reward: ' + reward + '</p>';
-                    bountyItem.innerHTML += '<p>Length: ' + length + '</p>';
-                    bountyItem.innerHTML += '<p>Time Left: ' + timeLeft + '</p>';
+                    bountyItem.innerHTML += '<p>Length: ' + length + ' hours</p>';
+                    bountyItem.innerHTML += '<p>Time Left: <span id="time-left-' + id + '">Not Started</span></p>';
                     bountyItem.innerHTML += '<img src="' + rewardIcon + '" alt="Reward Icon">';
+
+                    var startButton = document.createElement('button');
+                    startButton.textContent = 'Start Bounty';
+                    startButton.addEventListener('click', startBounty.bind(null, tier, id, length));
+                    bountyItem.appendChild(startButton);
+
+                    if (bountyData.StartTime && bountyData.EndTime) {
+                        var currentTime = new Date().getTime();
+                        var endTime = bountyData.EndTime;
+                        var remainingTime = Math.max(0, endTime - currentTime); // Calculate remaining time in milliseconds
+
+                        if (remainingTime === 0) {
+                            bountyItem.querySelector('#time-left-' + id).textContent = 'Bounty Expired';
+                        } else {
+                            var hours = Math.floor(remainingTime / (1000 * 60 * 60));
+                            var minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+                            var seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+                            bountyItem.querySelector('#time-left-' + id).textContent = hours + 'h ' + minutes + 'm ' + seconds + 's';
+
+                            if (activeBountyId === null) {
+                                activeBountyId = id;
+                                var activeTimeLeft = bountyItem.querySelector('#time-left-' + activeBountyId);
+                                activeTimeLeft.setAttribute('data-end-time', endTime);
+                                setInterval(updateCountdown.bind(null, activeTimeLeft), 1000);
+                            }
+                        }
+                    }
 
                     tierCard.appendChild(bountyItem);
                 }
@@ -69,6 +98,42 @@
                 bountyList.appendChild(tierCard);
             });
         });
+
+        // Function to start the bounty and initiate countdown
+        function startBounty(tier, id, length) {
+            bountyRef.child(tier).child(id).once('value', function (snapshot) {
+                var bountyData = snapshot.val();
+
+                if (bountyData.StartTime) {
+                    // Bounty is already started, do not reset the countdown
+                    return;
+                }
+
+                var currentTime = new Date().getTime();
+                var endTime = currentTime + length * 60 * 60 * 1000; // Convert length to milliseconds and add to current time
+
+                bountyRef.child(tier).child(id).update({
+                    StartTime: currentTime,
+                    EndTime: endTime
+                });
+            });
+        }
+
+        // Function to update the countdown
+        function updateCountdown(activeTimeLeft) {
+            var endTime = parseInt(activeTimeLeft.getAttribute('data-end-time'));
+            var remainingTime = Math.max(0, endTime - new Date().getTime()); // Calculate remaining time in milliseconds
+
+            if (remainingTime === 0) {
+                activeTimeLeft.textContent = 'Bounty Expired';
+            } else {
+                var hours = Math.floor(remainingTime / (1000 * 60 * 60));
+                var minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+                activeTimeLeft.textContent = hours + 'h ' + minutes + 'm ' + seconds + 's';
+            }
+        }
     </script>
 </body>
 </html>

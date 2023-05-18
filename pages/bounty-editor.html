@@ -33,7 +33,6 @@
             var task = document.getElementById('task-' + tier).value;
             var reward = document.getElementById('reward-' + tier).value;
             var length = document.getElementById('length-' + tier).value;
-            var timeLeft = document.getElementById('timeLeft-' + tier).value;
             var rewardIcon = document.getElementById('rewardIcon-' + tier).value;
 
             // Create a new item in the database
@@ -41,7 +40,6 @@
                 Task: task,
                 Reward: reward,
                 Length: length,
-                TimeLeft: timeLeft,
                 RewardIcon: rewardIcon
             });
 
@@ -49,7 +47,6 @@
             document.getElementById('task-' + tier).value = '';
             document.getElementById('reward-' + tier).value = '';
             document.getElementById('length-' + tier).value = '';
-            document.getElementById('timeLeft-' + tier).value = '';
             document.getElementById('rewardIcon-' + tier).value = '';
         }
     </script>
@@ -70,9 +67,6 @@
             <label for="length-Teir1">Length:</label>
             <input type="text" id="length-Teir1" required><br>
 
-            <label for="timeLeft-Teir1">Time Left:</label>
-            <input type="text" id="timeLeft-Teir1" required><br>
-
             <label for="rewardIcon-Teir1">Reward Icon:</label>
             <input type="text" id="rewardIcon-Teir1" required><br>
 
@@ -91,9 +85,6 @@
 
             <label for="length-Teir2">Length:</label>
             <input type="text" id="length-Teir2" required><br>
-
-            <label for="timeLeft-Teir2">Time Left:</label>
-            <input type="text" id="timeLeft-Teir2" required><br>
 
             <label for="rewardIcon-Teir2">Reward Icon:</label>
             <input type="text" id="rewardIcon-Teir2" required><br>
@@ -114,9 +105,6 @@
             <label for="length-Teir3">Length:</label>
             <input type="text" id="length-Teir3" required><br>
 
-            <label for="timeLeft-Teir3">Time Left:</label>
-            <input type="text" id="timeLeft-Teir3" required><br>
-
             <label for="rewardIcon-Teir3">Reward Icon:</label>
             <input type="text" id="rewardIcon-Teir3" required><br>
 
@@ -135,9 +123,6 @@
 
             <label for="length-Teir4">Length:</label>
             <input type="text" id="length-Teir4" required><br>
-
-            <label for="timeLeft-Teir4">Time Left:</label>
-            <input type="text" id="timeLeft-Teir4" required><br>
 
             <label for="rewardIcon-Teir4">Reward Icon:</label>
             <input type="text" id="rewardIcon-Teir4" required><br>
@@ -158,61 +143,11 @@
             <label for="length-Teir5">Length:</label>
             <input type="text" id="length-Teir5" required><br>
 
-            <label for="timeLeft-Teir5">Time Left:</label>
-            <input type="text" id="timeLeft-Teir5" required><br>
-
             <label for="rewardIcon-Teir5">Reward Icon:</label>
             <input type="text" id="rewardIcon-Teir5" required><br>
 
             <button type="submit">Create</button>
         </form>
     </div>
-
-    <h2>Items</h2>
-    <ul id="itemList"></ul>
-
-    <script>
-        function addItemToList(item, itemId) {
-            // Create a new list item
-            var li = document.createElement('li');
-
-            // Create a paragraph for each item property
-            var taskPara = document.createElement('p');
-            taskPara.textContent = 'Task: ' + item.Task;
-            li.appendChild(taskPara);
-
-            var rewardPara = document.createElement('p');
-            rewardPara.textContent = 'Reward: ' + item.Reward;
-            li.appendChild(rewardPara);
-
-            var lengthPara = document.createElement('p');
-            lengthPara.textContent = 'Length: ' + item.Length;
-            li.appendChild(lengthPara);
-
-            var timeLeftPara = document.createElement('p');
-            timeLeftPara.textContent = 'Time Left: ' + item.TimeLeft;
-            li.appendChild(timeLeftPara);
-
-            var rewardIconPara = document.createElement('p');
-            rewardIconPara.textContent = 'Reward Icon: ' + item.RewardIcon;
-            li.appendChild(rewardIconPara);
-
-            // Append the list item to the item list
-            document.getElementById('itemList').appendChild(li);
-        }
-
-        // Retrieve items from the database and update the list for each tier
-        var tiers = ['Teir1', 'Teir2', 'Teir3', 'Teir4', 'Teir5'];
-
-        for (var i = 0; i < tiers.length; i++) {
-            var tierRef = database.ref('Bounty/' + tiers[i]);
-            tierRef.on('child_added', function (snapshot) {
-                var item = snapshot.val();
-                var itemId = snapshot.key;
-
-                addItemToList(item, itemId);
-            });
-        }
-    </script>
 </body>
 </html>
