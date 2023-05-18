@@ -1,0 +1,218 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Firebase Database Editor</title>
+    <!-- Add Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-database.js"></script>
+
+    <script>
+        // Initialize Firebase
+        var firebaseConfig = {
+            apiKey: "AIzaSyCqgWyZOOfVZddqVjV-ZsDpMo6b0F1UJxs",
+            authDomain: "joesworldonline-967be.firebaseapp.com",
+            databaseURL: "https://joesworldonline-967be-default-rtdb.firebaseio.com",
+            projectId: "joesworldonline-967be",
+            storageBucket: "joesworldonline-967be.appspot.com",
+            messagingSenderId: "817241549916",
+            appId: "1:817241549916:web:787af20d01f9172efaca99"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+
+        // Get a reference to the database
+        var database = firebase.database();
+
+        function createItem(tier) {
+            var tierRef = database.ref('Bounty/' + tier);
+
+            // Generate a random ID
+            var randomId = Math.floor(Math.random() * 1000000);
+
+            // Get values from the form
+            var task = document.getElementById('task-' + tier).value;
+            var reward = document.getElementById('reward-' + tier).value;
+            var length = document.getElementById('length-' + tier).value;
+            var timeLeft = document.getElementById('timeLeft-' + tier).value;
+            var rewardIcon = document.getElementById('rewardIcon-' + tier).value;
+
+            // Create a new item in the database
+            tierRef.child(randomId).set({
+                Task: task,
+                Reward: reward,
+                Length: length,
+                TimeLeft: timeLeft,
+                RewardIcon: rewardIcon
+            });
+
+            // Clear the form
+            document.getElementById('task-' + tier).value = '';
+            document.getElementById('reward-' + tier).value = '';
+            document.getElementById('length-' + tier).value = '';
+            document.getElementById('timeLeft-' + tier).value = '';
+            document.getElementById('rewardIcon-' + tier).value = '';
+        }
+    </script>
+</head>
+<body>
+    <h1>Bounty Database</h1>
+
+    <h2>Create New Items</h2>
+    <div>
+        <h3>Tier 1</h3>
+        <form onsubmit="event.preventDefault(); createItem('Teir1');">
+            <label for="task-Teir1">Task:</label>
+            <input type="text" id="task-Teir1" required><br>
+
+            <label for="reward-Teir1">Reward:</label>
+            <input type="text" id="reward-Teir1" required><br>
+
+            <label for="length-Teir1">Length:</label>
+            <input type="text" id="length-Teir1" required><br>
+
+            <label for="timeLeft-Teir1">Time Left:</label>
+            <input type="text" id="timeLeft-Teir1" required><br>
+
+            <label for="rewardIcon-Teir1">Reward Icon:</label>
+            <input type="text" id="rewardIcon-Teir1" required><br>
+
+            <button type="submit">Create</button>
+        </form>
+    </div>
+
+    <div>
+        <h3>Tier 2</h3>
+        <form onsubmit="event.preventDefault(); createItem('Teir2');">
+            <label for="task-Teir2">Task:</label>
+            <input type="text" id="task-Teir2" required><br>
+
+            <label for="reward-Teir2">Reward:</label>
+            <input type="text" id="reward-Teir2" required><br>
+
+            <label for="length-Teir2">Length:</label>
+            <input type="text" id="length-Teir2" required><br>
+
+            <label for="timeLeft-Teir2">Time Left:</label>
+            <input type="text" id="timeLeft-Teir2" required><br>
+
+            <label for="rewardIcon-Teir2">Reward Icon:</label>
+            <input type="text" id="rewardIcon-Teir2" required><br>
+
+            <button type="submit">Create</button>
+        </form>
+    </div>
+
+    <div>
+        <h3>Tier 3</h3>
+        <form onsubmit="event.preventDefault(); createItem('Teir3');">
+            <label for="task-Teir3">Task:</label>
+            <input type="text" id="task-Teir3" required><br>
+
+            <label for="reward-Teir3">Reward:</label>
+            <input type="text" id="reward-Teir3" required><br>
+
+            <label for="length-Teir3">Length:</label>
+            <input type="text" id="length-Teir3" required><br>
+
+            <label for="timeLeft-Teir3">Time Left:</label>
+            <input type="text" id="timeLeft-Teir3" required><br>
+
+            <label for="rewardIcon-Teir3">Reward Icon:</label>
+            <input type="text" id="rewardIcon-Teir3" required><br>
+
+            <button type="submit">Create</button>
+        </form>
+    </div>
+
+    <div>
+        <h3>Tier 4</h3>
+        <form onsubmit="event.preventDefault(); createItem('Teir4');">
+            <label for="task-Teir4">Task:</label>
+            <input type="text" id="task-Teir4" required><br>
+
+            <label for="reward-Teir4">Reward:</label>
+            <input type="text" id="reward-Teir4" required><br>
+
+            <label for="length-Teir4">Length:</label>
+            <input type="text" id="length-Teir4" required><br>
+
+            <label for="timeLeft-Teir4">Time Left:</label>
+            <input type="text" id="timeLeft-Teir4" required><br>
+
+            <label for="rewardIcon-Teir4">Reward Icon:</label>
+            <input type="text" id="rewardIcon-Teir4" required><br>
+
+            <button type="submit">Create</button>
+        </form>
+    </div>
+
+    <div>
+        <h3>Tier 5</h3>
+        <form onsubmit="event.preventDefault(); createItem('Teir5');">
+            <label for="task-Teir5">Task:</label>
+            <input type="text" id="task-Teir5" required><br>
+
+            <label for="reward-Teir5">Reward:</label>
+            <input type="text" id="reward-Teir5" required><br>
+
+            <label for="length-Teir5">Length:</label>
+            <input type="text" id="length-Teir5" required><br>
+
+            <label for="timeLeft-Teir5">Time Left:</label>
+            <input type="text" id="timeLeft-Teir5" required><br>
+
+            <label for="rewardIcon-Teir5">Reward Icon:</label>
+            <input type="text" id="rewardIcon-Teir5" required><br>
+
+            <button type="submit">Create</button>
+        </form>
+    </div>
+
+    <h2>Items</h2>
+    <ul id="itemList"></ul>
+
+    <script>
+        function addItemToList(item, itemId) {
+            // Create a new list item
+            var li = document.createElement('li');
+
+            // Create a paragraph for each item property
+            var taskPara = document.createElement('p');
+            taskPara.textContent = 'Task: ' + item.Task;
+            li.appendChild(taskPara);
+
+            var rewardPara = document.createElement('p');
+            rewardPara.textContent = 'Reward: ' + item.Reward;
+            li.appendChild(rewardPara);
+
+            var lengthPara = document.createElement('p');
+            lengthPara.textContent = 'Length: ' + item.Length;
+            li.appendChild(lengthPara);
+
+            var timeLeftPara = document.createElement('p');
+            timeLeftPara.textContent = 'Time Left: ' + item.TimeLeft;
+            li.appendChild(timeLeftPara);
+
+            var rewardIconPara = document.createElement('p');
+            rewardIconPara.textContent = 'Reward Icon: ' + item.RewardIcon;
+            li.appendChild(rewardIconPara);
+
+            // Append the list item to the item list
+            document.getElementById('itemList').appendChild(li);
+        }
+
+        // Retrieve items from the database and update the list for each tier
+        var tiers = ['Teir1', 'Teir2', 'Teir3', 'Teir4', 'Teir5'];
+
+        for (var i = 0; i < tiers.length; i++) {
+            var tierRef = database.ref('Bounty/' + tiers[i]);
+            tierRef.on('child_added', function (snapshot) {
+                var item = snapshot.val();
+                var itemId = snapshot.key;
+
+                addItemToList(item, itemId);
+            });
+        }
+    </script>
+</body>
+</html>

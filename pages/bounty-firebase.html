@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Bounty Tracker</title>
+    <style>
+        .bounty-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bounty Tracker</h1>
+
+    <div id="bounty-list"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-database.js"></script>
+
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyCqgWyZOOfVZddqVjV-ZsDpMo6b0F1UJxs",
+            authDomain: "joesworldonline-967be.firebaseapp.com",
+            databaseURL: "https://joesworldonline-967be-default-rtdb.firebaseio.com",
+            projectId: "joesworldonline-967be",
+            storageBucket: "joesworldonline-967be.appspot.com",
+            messagingSenderId: "817241549916",
+            appId: "1:817241549916:web:787af20d01f9172efaca99"
+        };
+        firebase.initializeApp(config);
+
+        // Get a reference to the bounty database
+        var bountyRef = firebase.database().ref('Bounty');
+
+        // Listen for changes in the bounty data
+        bountyRef.on('value', function (snapshot) {
+            var bountyList = document.getElementById('bounty-list');
+            bountyList.innerHTML = '';
+
+            snapshot.forEach(function (bounty) {
+                var tier = bounty.key;
+                var tierData = bounty.val();
+
+                var tierCard = document.createElement('div');
+                tierCard.className = 'bounty-card';
+                tierCard.innerHTML = '<h2>Tier ' + tier + '</h2>';
+
+                for (var id in tierData) {
+                    var bountyData = tierData[id];
+                    var task = bountyData.Task;
+                    var reward = bountyData.Reward;
+                    var length = bountyData.Length;
+                    var timeLeft = bountyData.TimeLeft;
+                    var rewardIcon = bountyData.RewardIcon;
+
+                    var bountyItem = document.createElement('div');
+                    bountyItem.innerHTML = '<h3>Bounty ID: ' + id + '</h3>';
+                    bountyItem.innerHTML += '<p>Task: ' + task + '</p>';
+                    bountyItem.innerHTML += '<p>Reward: ' + reward + '</p>';
+                    bountyItem.innerHTML += '<p>Length: ' + length + '</p>';
+                    bountyItem.innerHTML += '<p>Time Left: ' + timeLeft + '</p>';
+                    bountyItem.innerHTML += '<img src="' + rewardIcon + '" alt="Reward Icon">';
+
+                    tierCard.appendChild(bountyItem);
+                }
+
+                bountyList.appendChild(tierCard);
+            });
+        });
+    </script>
+</body>
+</html>
