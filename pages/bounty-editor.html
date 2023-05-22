@@ -23,17 +23,18 @@
         // Get a reference to the database
         var database = firebase.database();
 
-        function createItem(tier) {
+        function createItem() {
+            var tier = document.getElementById('tier-select').value;
             var tierRef = database.ref('Bounty/' + tier);
 
             // Generate a random ID
             var randomId = Math.floor(Math.random() * 1000000);
 
             // Get values from the form
-            var task = document.getElementById('task-' + tier).value;
-            var reward = document.getElementById('reward-' + tier).value;
-            var length = document.getElementById('length-' + tier).value;
-            var rewardIcon = document.getElementById('rewardIcon-' + tier).value;
+            var task = document.getElementById('task').value;
+            var reward = document.getElementById('reward').value;
+            var length = document.getElementById('length').value;
+            var rewardIcon = document.getElementById('rewardIcon').value;
 
             // Create a new item in the database
             tierRef.child(randomId).set({
@@ -44,10 +45,69 @@
             });
 
             // Clear the form
-            document.getElementById('task-' + tier).value = '';
-            document.getElementById('reward-' + tier).value = '';
-            document.getElementById('length-' + tier).value = '';
-            document.getElementById('rewardIcon-' + tier).value = '';
+            document.getElementById('task').value = '';
+            document.getElementById('reward').value = '';
+            document.getElementById('length').value = '';
+            document.getElementById('rewardIcon').value = '';
+        }
+
+        function editItem(tier, itemId) {
+            var tierRef = database.ref('Bounty/' + tier + '/' + itemId);
+
+            // Get values from the form
+            var task = document.getElementById('edit-task-' + tier + '-' + itemId).value;
+            var reward = document.getElementById('edit-reward-' + tier + '-' + itemId).value;
+            var length = document.getElementById('edit-length-' + tier + '-' + itemId).value;
+            var rewardIcon = document.getElementById('edit-rewardIcon-' + tier + '-' + itemId).value;
+
+            // Update the item in the database
+            tierRef.update({
+                Task: task,
+                Reward: reward,
+                Length: length,
+                RewardIcon: rewardIcon
+            });
+        }
+
+        function deleteItem(tier, itemId) {
+            var tierRef = database.ref('Bounty/' + tier + '/' + itemId);
+            tierRef.remove();
+        }
+
+        function populateEditSection(tier) {
+            var tierRef = database.ref('Bounty/' + tier);
+            var tierItemsContainer = document.getElementById(tier + '-items');
+            tierItemsContainer.innerHTML = '';
+
+            tierRef.on('value', function (snapshot) {
+                var tierItems = snapshot.val();
+                for (var itemId in tierItems) {
+                    if (tierItems.hasOwnProperty(itemId)) {
+                        var item = tierItems[itemId];
+                        var itemHtml = `
+                                <div>
+                                    <form onsubmit="event.preventDefault(); editItem('${tier}', '${itemId}');">
+                                        <label for="edit-task-${tier}-${itemId}">Task:</label>
+                                        <input type="text" id="edit-task-${tier}-${itemId}" value="${item.Task}" required><br>
+
+                                        <label for="edit-reward-${tier}-${itemId}">Reward:</label>
+                                        <input type="text" id="edit-reward-${tier}-${itemId}" value="${item.Reward}" required><br>
+
+                                        <label for="edit-length-${tier}-${itemId}">Length:</label>
+                                        <input type="text" id="edit-length-${tier}-${itemId}" value="${item.Length}" required><br>
+
+                                        <label for="edit-rewardIcon-${tier}-${itemId}">Reward Icon:</label>
+                                        <input type="text" id="edit-rewardIcon-${tier}-${itemId}" value="${item.RewardIcon}" required><br>
+
+                                        <button type="submit">Update</button>
+                                        <button onclick="deleteItem('${tier}', '${itemId}')">Delete</button>
+                                    </form>
+                                </div>
+                            `;
+                        tierItemsContainer.innerHTML += itemHtml;
+                    }
+                }
+            });
         }
     </script>
 </head>
@@ -55,104 +115,72 @@
     <h1>Bounty Database</h1>
     <p>Task: What the player has to do to get the reward</p>
     <p>Reward: What the player gets for completing the task</p>
-    <p>Lenght: How long the player has to collect the task (measured in hours)</p>
-    <em> <p>Lenght can be whole numbers like 2 (2 hours) or .5 (30 minutes)</p></em>
+    <p>Length: How long the player has to collect the task (measured in hours)</p>
+    <em> <p>Length can be whole numbers like 2 (2 hours) or .5 (30 minutes)</p></em>
     <p>Reward Icon: Not yet functional, just enter random numbers or letters for now</p>
 
-    <h2>Create New Items</h2>
+    <h2>Create New Item</h2>
     <div>
+        <label for="tier-select">Select Tier:</label>
+        <select id="tier-select">
+            <option value="Tier1">Tier 1</option>
+            <option value="Tier2">Tier 2</option>
+            <option value="Tier3">Tier 3</option>
+            <option value="Tier4">Tier 4</option>
+            <option value="Tier5">Tier 5</option>
+        </select><br>
+
+        <label for="task">Task:</label>
+        <input type="text" id="task" required><br>
+
+        <label for="reward">Reward:</label>
+        <input type="text" id="reward" required><br>
+
+        <label for="length">Length:</label>
+        <input type="text" id="length" required><br>
+
+        <label for="rewardIcon">Reward Icon:</label>
+        <input type="text" id="rewardIcon" required><br>
+
+        <button onclick="createItem()">Create</button>
+    </div>
+
+    <!-- Add Edit and Delete functionality for each item -->
+    <h2>Edit and Delete Items</h2>
+    <div id="items-container">
         <h3>Tier 1</h3>
-        <form onsubmit="event.preventDefault(); createItem('Teir1');">
-            <label for="task-Teir1">Task:</label>
-            <input type="text" id="task-Teir1" required><br>
+        <div id="Tier1-items">
+            <!-- Items will be dynamically added here -->
+        </div>
 
-            <label for="reward-Teir1">Reward:</label>
-            <input type="text" id="reward-Teir1" required><br>
-
-            <label for="length-Teir1">Length:</label>
-            <input type="text" id="length-Teir1" required><br>
-
-            <label for="rewardIcon-Teir1">Reward Icon:</label>
-            <input type="text" id="rewardIcon-Teir1" required><br>
-
-            <button type="submit">Create</button>
-        </form>
-    </div>
-
-    <div>
         <h3>Tier 2</h3>
-        <form onsubmit="event.preventDefault(); createItem('Teir2');">
-            <label for="task-Teir2">Task:</label>
-            <input type="text" id="task-Teir2" required><br>
+        <div id="Tier2-items">
+            <!-- Items will be dynamically added here -->
+        </div>
 
-            <label for="reward-Teir2">Reward:</label>
-            <input type="text" id="reward-Teir2" required><br>
-
-            <label for="length-Teir2">Length:</label>
-            <input type="text" id="length-Teir2" required><br>
-
-            <label for="rewardIcon-Teir2">Reward Icon:</label>
-            <input type="text" id="rewardIcon-Teir2" required><br>
-
-            <button type="submit">Create</button>
-        </form>
-    </div>
-
-    <div>
         <h3>Tier 3</h3>
-        <form onsubmit="event.preventDefault(); createItem('Teir3');">
-            <label for="task-Teir3">Task:</label>
-            <input type="text" id="task-Teir3" required><br>
+        <div id="Tier3-items">
+            <!-- Items will be dynamically added here -->
+        </div>
 
-            <label for="reward-Teir3">Reward:</label>
-            <input type="text" id="reward-Teir3" required><br>
-
-            <label for="length-Teir3">Length:</label>
-            <input type="text" id="length-Teir3" required><br>
-
-            <label for="rewardIcon-Teir3">Reward Icon:</label>
-            <input type="text" id="rewardIcon-Teir3" required><br>
-
-            <button type="submit">Create</button>
-        </form>
-    </div>
-
-    <div>
         <h3>Tier 4</h3>
-        <form onsubmit="event.preventDefault(); createItem('Teir4');">
-            <label for="task-Teir4">Task:</label>
-            <input type="text" id="task-Teir4" required><br>
+        <div id="Tier4-items">
+            <!-- Items will be dynamically added here -->
+        </div>
 
-            <label for="reward-Teir4">Reward:</label>
-            <input type="text" id="reward-Teir4" required><br>
-
-            <label for="length-Teir4">Length:</label>
-            <input type="text" id="length-Teir4" required><br>
-
-            <label for="rewardIcon-Teir4">Reward Icon:</label>
-            <input type="text" id="rewardIcon-Teir4" required><br>
-
-            <button type="submit">Create</button>
-        </form>
-    </div>
-
-    <div>
         <h3>Tier 5</h3>
-        <form onsubmit="event.preventDefault(); createItem('Teir5');">
-            <label for="task-Teir5">Task:</label>
-            <input type="text" id="task-Teir5" required><br>
-
-            <label for="reward-Teir5">Reward:</label>
-            <input type="text" id="reward-Teir5" required><br>
-
-            <label for="length-Teir5">Length:</label>
-            <input type="text" id="length-Teir5" required><br>
-
-            <label for="rewardIcon-Teir5">Reward Icon:</label>
-            <input type="text" id="rewardIcon-Teir5" required><br>
-
-            <button type="submit">Create</button>
-        </form>
+        <div id="Tier5-items">
+            <!-- Items will be dynamically added here -->
+        </div>
     </div>
+
+    <script>
+        // Populate the edit/delete section for each tier
+        populateEditSection('Tier1');
+        populateEditSection('Tier2');
+        populateEditSection('Tier3');
+        populateEditSection('Tier4');
+        populateEditSection('Tier5');
+    </script>
 </body>
 </html>
