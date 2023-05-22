@@ -176,25 +176,35 @@
 
                                     var sectorIndex = Math.floor((targetAngle + Math.PI / sectors) / (Math.PI * 2 / sectors)) % sectors;
                                     var selectedSectorText = texts[sectorIndex];
+
+                                    var userId = document.getElementById('userIdInput').value;
+                                    if (userId) {
+                                        // Add the won item to the user's inventory
+                                        var inventoryRef = firebase.database().ref('users/' + userId + '/Inventory');
+                                        var newItemRef = inventoryRef.push();
+                                        newItemRef.set(selectedSectorText);
+
+                                        // Remove the selected item from the database
+                                        var database = firebase.database().ref("daily-wheel");
+                                        database.once("value", function (snapshot) {
+                                            snapshot.forEach(function (childSnapshot) {
+                                                var index = childSnapshot.key;
+                                                var text = childSnapshot.val();
+                                                if (text === selectedSectorText) {
+                                                    database.child(index).remove();
+                                                }
+                                            });
+                                        });
+                                    }
+
                                     alert('You won: ' + selectedSectorText);
                                     window.location.reload();
-
-                                    // Remove the selected text from the database
-                                    var database = firebase.database().ref("daily-wheel");
-                                    database.once("value", function (snapshot) {
-                                        snapshot.forEach(function (childSnapshot) {
-                                            var index = childSnapshot.key;
-                                            var text = childSnapshot.val();
-                                            if (text === selectedSectorText) {
-                                                database.child(index).remove();
-                                            }
-                                        });
-                                    });
 
                                     spinning = false;
                                 }
                             }, 10);
                         }
+
 
 
 
