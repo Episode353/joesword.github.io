@@ -2,6 +2,14 @@
 <html>
 <head>
     <title>Bounty Rewards</title>
+    <style>
+        .bounty-details {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f5f5f5;
+        }
+    </style>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database-compat.js"></script>
     <script>
@@ -42,10 +50,66 @@
                     if (rewards.hasOwnProperty(key)) {
                         var reward = rewards[key].Reward;
                         var option = document.createElement('option');
+                        option.value = key; // Set the value to the key for identifying the selected bounty
                         option.text = reward;
                         dropdown.add(option);
                     }
                 }
+
+                // Add change event listener to the dropdown
+                dropdown.addEventListener('change', function () {
+                    var selectedBountyKey = this.value;
+                    var selectedBounty = rewards[selectedBountyKey];
+
+                    // Clear previous bounty details
+                    var bountyDetailsElement = document.getElementById('bounty-details');
+                    if (bountyDetailsElement) {
+                        bountyDetailsElement.parentNode.removeChild(bountyDetailsElement);
+                    }
+
+                    // Check if the selected bounty has time information
+                    if (selectedBounty.StartTime && selectedBounty.EndTime) {
+                        var startTime = selectedBounty.StartTime;
+                        var endTime = selectedBounty.EndTime;
+
+                        // Function to update the time left
+                        function updateTimer() {
+                            var currentTime = Date.now();
+
+                            // Calculate the time left
+                            var timeLeft = endTime - currentTime;
+                            var secondsLeft = Math.floor((timeLeft / 1000) % 60);
+                            var minutesLeft = Math.floor((timeLeft / 1000 / 60) % 60);
+                            var hoursLeft = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
+                            var daysLeft = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+
+                            // Update the time left element
+                            var timeLeftString = 'Time Left: ' + daysLeft + ' days, ' + hoursLeft + ' hours, ' + minutesLeft + ' minutes, ' + secondsLeft + ' seconds';
+                            timeLeftElement.textContent = timeLeftString;
+                        }
+
+                        // Create and append the bounty details element
+                        bountyDetailsElement = document.createElement('div');
+                        bountyDetailsElement.id = 'bounty-details';
+                        bountyDetailsElement.classList.add('bounty-details');
+
+                        // Create the task element
+                        var taskElement = document.createElement('p');
+                        taskElement.textContent = 'Task: ' + selectedBounty.Task;
+                        bountyDetailsElement.appendChild(taskElement);
+
+                        // Create the time left element
+                        var timeLeftElement = document.createElement('p');
+                        updateTimer();
+                        bountyDetailsElement.appendChild(timeLeftElement);
+
+                        // Append the bounty details element
+                        dropdown.parentNode.insertBefore(bountyDetailsElement, dropdown.nextSibling);
+
+                        // Update the time left every second
+                        setInterval(updateTimer, 1000);
+                    }
+                });
             });
         }
     </script>
@@ -66,12 +130,12 @@
     <select id="reward-dropdown-tier3">
         <option selected disabled>Select a reward</option>
     </select>
-    
+
     <h2>Tier 4</h2>
     <select id="reward-dropdown-tier4">
         <option selected disabled>Select a reward</option>
     </select>
-    
+
     <h2>Tier 5</h2>
     <select id="reward-dropdown-tier5">
         <option selected disabled>Select a reward</option>
