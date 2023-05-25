@@ -1,26 +1,12 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Bounty Tracker</title>
-    <style>
-        .bounty-card {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-    </style>
-</head>
-<body>
-    <h1>Bounty Tracker</h1>
-
-    <div id="bounty-list"></div>
-
-    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.8.0/firebase-database.js"></script>
-
+    <title>Bounty Rewards</title>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database-compat.js"></script>
     <script>
         // Initialize Firebase
-        var config = {
+        var firebaseConfig = {
             apiKey: "AIzaSyCqgWyZOOfVZddqVjV-ZsDpMo6b0F1UJxs",
             authDomain: "joesworldonline-967be.firebaseapp.com",
             databaseURL: "https://joesworldonline-967be-default-rtdb.firebaseio.com",
@@ -29,111 +15,67 @@
             messagingSenderId: "817241549916",
             appId: "1:817241549916:web:787af20d01f9172efaca99"
         };
-        firebase.initializeApp(config);
+        firebase.initializeApp(firebaseConfig);
 
-        // Get a reference to the bounty database
-        var bountyRef = firebase.database().ref('Bounty');
+        // Get references to the bounty database for each tier
+        var tier1Ref = firebase.database().ref('Bounty/Tier1');
+        var tier2Ref = firebase.database().ref('Bounty/Tier2');
+        var tier3Ref = firebase.database().ref('Bounty/Tier3');
+        var tier4Ref = firebase.database().ref('Bounty/Tier4');
+        var tier5Ref = firebase.database().ref('Bounty/Tier5');
 
-        // Listen for changes in the bounty data
-        bountyRef.on('value', function (snapshot) {
-            var bountyList = document.getElementById('bounty-list');
-            bountyList.innerHTML = '';
+        // Retrieve the rewards from the database for each tier
+        retrieveRewards(tier1Ref, 'reward-dropdown-tier1');
+        retrieveRewards(tier2Ref, 'reward-dropdown-tier2');
+        retrieveRewards(tier3Ref, 'reward-dropdown-tier3');
+        retrieveRewards(tier4Ref, 'reward-dropdown-tier4');
+        retrieveRewards(tier5Ref, 'reward-dropdown-tier5');
 
-            snapshot.forEach(function (bounty) {
-                var tier = bounty.key;
-                var tierData = bounty.val();
+        // Function to retrieve rewards and populate the dropdown
+        function retrieveRewards(ref, dropdownId) {
+            ref.once('value', function (snapshot) {
+                var rewards = snapshot.val();
+                var dropdown = document.getElementById(dropdownId);
 
-                var tierCard = document.createElement('div');
-                tierCard.className = 'bounty-card';
-                tierCard.innerHTML = '<h2>Tier ' + tier + '</h2>';
-
-                var activeBountyId = null;
-
-                for (var id in tierData) {
-                    var bountyData = tierData[id];
-                    var task = bountyData.Task;
-                    var reward = bountyData.Reward;
-                    var length = bountyData.Length;
-                    var rewardIcon = bountyData.RewardIcon;
-
-                    var bountyItem = document.createElement('div');
-                    bountyItem.innerHTML = '<h3>Bounty ID: ' + id + '</h3>';
-                    bountyItem.innerHTML += '<p>Task: ' + task + '</p>';
-                    bountyItem.innerHTML += '<p>Reward: ' + reward + '</p>';
-                    bountyItem.innerHTML += '<p>Length: ' + length + ' hours</p>';
-                    bountyItem.innerHTML += '<p>Time Left: <span id="time-left-' + id + '">Not Started</span></p>';
-                    bountyItem.innerHTML += '<img src="' + '../media/mc/' + rewardIcon + '" alt="Reward Icon">';
-
-                    var startButton = document.createElement('button');
-                    startButton.textContent = 'Start Bounty';
-                    startButton.addEventListener('click', startBounty.bind(null, tier, id, length));
-                    bountyItem.appendChild(startButton);
-
-                    if (bountyData.StartTime && bountyData.EndTime) {
-                        var currentTime = new Date().getTime();
-                        var endTime = bountyData.EndTime;
-                        var remainingTime = Math.max(0, endTime - currentTime); // Calculate remaining time in milliseconds
-
-                        if (remainingTime === 0) {
-                            bountyItem.querySelector('#time-left-' + id).textContent = 'Bounty Expired';
-                        } else {
-                            var hours = Math.floor(remainingTime / (1000 * 60 * 60));
-                            var minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-                            var seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
-
-                            bountyItem.querySelector('#time-left-' + id).textContent = hours + 'h ' + minutes + 'm ' + seconds + 's';
-
-                            if (activeBountyId === null) {
-                                activeBountyId = id;
-                                var activeTimeLeft = bountyItem.querySelector('#time-left-' + activeBountyId);
-                                activeTimeLeft.setAttribute('data-end-time', endTime);
-                                setInterval(updateCountdown.bind(null, activeTimeLeft), 1000);
-                            }
-                        }
+                // Iterate through the rewards and add them to the dropdown
+                for (var key in rewards) {
+                    if (rewards.hasOwnProperty(key)) {
+                        var reward = rewards[key].Reward;
+                        var option = document.createElement('option');
+                        option.text = reward;
+                        dropdown.add(option);
                     }
-
-                    tierCard.appendChild(bountyItem);
                 }
-
-                bountyList.appendChild(tierCard);
             });
-        });
-
-        // Function to start the bounty and initiate countdown
-        function startBounty(tier, id, length) {
-            bountyRef.child(tier).child(id).once('value', function (snapshot) {
-                var bountyData = snapshot.val();
-
-                if (bountyData.StartTime) {
-                    // Bounty is already started, do not reset the countdown
-                    return;
-                }
-
-                var currentTime = new Date().getTime();
-                var endTime = currentTime + length * 60 * 60 * 1000; // Convert length to milliseconds and add to current time
-
-                bountyRef.child(tier).child(id).update({
-                    StartTime: currentTime,
-                    EndTime: endTime
-                });
-            });
-        }
-
-        // Function to update the countdown
-        function updateCountdown(activeTimeLeft) {
-            var endTime = parseInt(activeTimeLeft.getAttribute('data-end-time'));
-            var remainingTime = Math.max(0, endTime - new Date().getTime()); // Calculate remaining time in milliseconds
-
-            if (remainingTime === 0) {
-                activeTimeLeft.textContent = 'Bounty Expired';
-            } else {
-                var hours = Math.floor(remainingTime / (1000 * 60 * 60));
-                var minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-                var seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
-
-                activeTimeLeft.textContent = hours + 'h ' + minutes + 'm ' + seconds + 's';
-            }
         }
     </script>
+</head>
+<body>
+    <h1>Bounty Rewards</h1>
+    <h2>Tier 1</h2>
+    <select id="reward-dropdown-tier1">
+        <option selected disabled>Select a reward</option>
+    </select>
+
+    <h2>Tier 2</h2>
+    <select id="reward-dropdown-tier2">
+        <option selected disabled>Select a reward</option>
+    </select>
+
+    <h2>Tier 3</h2>
+    <select id="reward-dropdown-tier3">
+        <option selected disabled>Select a reward</option>
+    </select>
+    
+    <h2>Tier 4</h2>
+    <select id="reward-dropdown-tier4">
+        <option selected disabled>Select a reward</option>
+    </select>
+    
+    <h2>Tier 5</h2>
+    <select id="reward-dropdown-tier5">
+        <option selected disabled>Select a reward</option>
+    </select>
+
 </body>
 </html>
