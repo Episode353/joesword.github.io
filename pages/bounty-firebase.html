@@ -33,17 +33,18 @@
         var tier5Ref = firebase.database().ref('Bounty/Tier5');
 
         // Retrieve the rewards from the database for each tier
-        retrieveRewards(tier1Ref, 'reward-dropdown-tier1');
-        retrieveRewards(tier2Ref, 'reward-dropdown-tier2');
-        retrieveRewards(tier3Ref, 'reward-dropdown-tier3');
-        retrieveRewards(tier4Ref, 'reward-dropdown-tier4');
-        retrieveRewards(tier5Ref, 'reward-dropdown-tier5');
+        retrieveRewards(tier1Ref, 'reward-dropdown-tier1', 'start-bounty-tier1');
+        retrieveRewards(tier2Ref, 'reward-dropdown-tier2', 'start-bounty-tier2');
+        retrieveRewards(tier3Ref, 'reward-dropdown-tier3', 'start-bounty-tier3');
+        retrieveRewards(tier4Ref, 'reward-dropdown-tier4', 'start-bounty-tier4');
+        retrieveRewards(tier5Ref, 'reward-dropdown-tier5', 'start-bounty-tier5');
 
         // Function to retrieve rewards and populate the dropdown
-        function retrieveRewards(ref, dropdownId) {
+        function retrieveRewards(ref, dropdownId, startButtonId) {
             ref.once('value', function (snapshot) {
                 var rewards = snapshot.val();
                 var dropdown = document.getElementById(dropdownId);
+                var startButton = document.getElementById(startButtonId);
 
                 // Iterate through the rewards and add them to the dropdown
                 for (var key in rewards) {
@@ -108,10 +109,36 @@
 
                         // Update the time left every second
                         setInterval(updateTimer, 1000);
+                    } else {
+                        // Bounty is not active, show Start Bounty button
+                        startButton.style.display = 'block';
                     }
                 });
             });
         }
+
+        // Function to start a bounty with appropriate start and end time
+        function startBounty(ref, selectedBountyKey) {
+            var selectedBountyRef = ref.child(selectedBountyKey);
+            var currentTime = Date.now();
+            var bountyLength = 7; // Set the length of the bounty in days
+
+            // Calculate the start and end time for the bounty
+            var startTime = currentTime;
+            var endTime = currentTime + (bountyLength * 24 * 60 * 60 * 1000); // Convert days to milliseconds
+
+            // Update the bounty with the new start and end time
+            selectedBountyRef.update({
+                StartTime: startTime,
+                EndTime: endTime
+            }).then(function () {
+                // Reload the page after updating the bounty
+                location.reload();
+            }).catch(function (error) {
+                console.error('Failed to start bounty:', error);
+            });
+        }
+
     </script>
 </head>
 <body>
@@ -120,26 +147,31 @@
     <select id="reward-dropdown-tier1">
         <option selected disabled>Select a reward</option>
     </select>
+    <button id="start-bounty-tier1" style="display: none;" onclick="startBounty(tier1Ref, this.parentNode.querySelector('select').value)">Start Bounty</button>
 
     <h2>Tier 2</h2>
     <select id="reward-dropdown-tier2">
         <option selected disabled>Select a reward</option>
     </select>
+    <button id="start-bounty-tier2" style="display: none;" onclick="startBounty(tier2Ref, this.parentNode.querySelector('select').value)">Start Bounty</button>
 
     <h2>Tier 3</h2>
     <select id="reward-dropdown-tier3">
         <option selected disabled>Select a reward</option>
     </select>
+    <button id="start-bounty-tier3" style="display: none;" onclick="startBounty(tier3Ref, this.parentNode.querySelector('select').value)">Start Bounty</button>
 
     <h2>Tier 4</h2>
     <select id="reward-dropdown-tier4">
         <option selected disabled>Select a reward</option>
     </select>
+    <button id="start-bounty-tier4" style="display: none;" onclick="startBounty(tier4Ref, this.parentNode.querySelector('select').value)">Start Bounty</button>
 
     <h2>Tier 5</h2>
     <select id="reward-dropdown-tier5">
         <option selected disabled>Select a reward</option>
     </select>
+    <button id="start-bounty-tier5" style="display: none;" onclick="startBounty(tier5Ref, this.parentNode.querySelector('select').value)">Start Bounty</button>
 
 </body>
 </html>
