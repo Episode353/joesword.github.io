@@ -27,9 +27,6 @@
             var tier = document.getElementById('tier-select').value;
             var tierRef = database.ref('Bounty/' + tier);
 
-            // Generate a random ID
-            var randomId = Math.floor(Math.random() * 1000000);
-
             // Get values from the form
             var task = document.getElementById('task').value;
             var reward = document.getElementById('reward').value;
@@ -37,7 +34,7 @@
             var rewardIcon = document.getElementById('rewardIcon').value;
 
             // Create a new item in the database
-            tierRef.child(randomId).set({
+            tierRef.child(reward).set({
                 Task: task,
                 Reward: reward,
                 Length: length,
@@ -51,14 +48,14 @@
             document.getElementById('rewardIcon').value = '';
         }
 
-        function editItem(tier, itemId) {
-            var tierRef = database.ref('Bounty/' + tier + '/' + itemId);
+        function editItem(tier, reward) {
+            var tierRef = database.ref('Bounty/' + tier + '/' + reward);
 
             // Get values from the form
-            var task = document.getElementById('edit-task-' + tier + '-' + itemId).value;
-            var reward = document.getElementById('edit-reward-' + tier + '-' + itemId).value;
-            var length = document.getElementById('edit-length-' + tier + '-' + itemId).value;
-            var rewardIcon = document.getElementById('edit-rewardIcon-' + tier + '-' + itemId).value;
+            var task = document.getElementById('edit-task-' + tier + '-' + reward).value;
+            var reward = document.getElementById('edit-reward-' + tier + '-' + reward).value;
+            var length = document.getElementById('edit-length-' + tier + '-' + reward).value;
+            var rewardIcon = document.getElementById('edit-rewardIcon-' + tier + '-' + reward).value;
 
             // Update the item in the database
             tierRef.update({
@@ -69,8 +66,8 @@
             });
         }
 
-        function deleteItem(tier, itemId) {
-            var tierRef = database.ref('Bounty/' + tier + '/' + itemId);
+        function deleteItem(tier, reward) {
+            var tierRef = database.ref('Bounty/' + tier + '/' + reward);
             tierRef.remove();
         }
 
@@ -81,29 +78,29 @@
 
             tierRef.on('value', function (snapshot) {
                 var tierItems = snapshot.val();
-                for (var itemId in tierItems) {
-                    if (tierItems.hasOwnProperty(itemId)) {
-                        var item = tierItems[itemId];
+                for (var reward in tierItems) {
+                    if (tierItems.hasOwnProperty(reward)) {
+                        var item = tierItems[reward];
                         var itemHtml = `
-                                <div>
-                                    <form onsubmit="event.preventDefault(); editItem('${tier}', '${itemId}');">
-                                        <label for="edit-task-${tier}-${itemId}">Task:</label>
-                                        <input type="text" id="edit-task-${tier}-${itemId}" value="${item.Task}" required><br>
+                                    <div>
+                                        <form onsubmit="event.preventDefault(); editItem('${tier}', '${reward}');">
+                                            <label for="edit-task-${tier}-${reward}">Task:</label>
+                                            <input type="text" id="edit-task-${tier}-${reward}" value="${item.Task}" required><br>
 
-                                        <label for="edit-reward-${tier}-${itemId}">Reward:</label>
-                                        <input type="text" id="edit-reward-${tier}-${itemId}" value="${item.Reward}" required><br>
+                                            <label for="edit-reward-${tier}-${reward}">Reward:</label>
+                                            <input type="text" id="edit-reward-${tier}-${reward}" value="${item.Reward}" required><br>
 
-                                        <label for="edit-length-${tier}-${itemId}">Length:</label>
-                                        <input type="text" id="edit-length-${tier}-${itemId}" value="${item.Length}" required><br>
+                                            <label for="edit-length-${tier}-${reward}">Length:</label>
+                                            <input type="text" id="edit-length-${tier}-${reward}" value="${item.Length}" required><br>
 
-                                        <label for="edit-rewardIcon-${tier}-${itemId}">Reward Icon:</label>
-                                        <input type="text" id="edit-rewardIcon-${tier}-${itemId}" value="${item.RewardIcon}" required><br>
+                                            <label for="edit-rewardIcon-${tier}-${reward}">Reward Icon:</label>
+                                            <input type="text" id="edit-rewardIcon-${tier}-${reward}" value="${item.RewardIcon}" required><br>
 
-                                        <button type="submit">Update</button>
-                                        <button onclick="deleteItem('${tier}', '${itemId}')">Delete</button>
-                                    </form>
-                                </div>
-                            `;
+                                            <button type="submit">Update</button>
+                                            <button onclick="deleteItem('${tier}', '${reward}')">Delete</button>
+                                        </form>
+                                    </div>
+                                `;
                         tierItemsContainer.innerHTML += itemHtml;
                     }
                 }
