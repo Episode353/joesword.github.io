@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="../../../style.css">
     <script src="../scripts/seppe.js"></script>
     <script src="../scripts/back-map.js?v=2"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database-compat.js"></script>
     <script src="../scripts/bounty.js"></script>
     <style>
     </style>
@@ -79,7 +81,7 @@
 
                 <p style="font-family: minecraft; font-size: 32px;">Bounty System</p>
 
-                <!-- Tier One -->
+ <!-- Tier One -->
                 <div style="background-image: url('../media/mc/block/copper_block.png'); border: 0px solid black; ">
 
                     <!--roating image hugs left of screen-->
@@ -90,19 +92,18 @@
                          float: left;" />
 
                     Tier <span class="word-gold">Ⅰ</span> Bounty
-                    <input type="text" id="tier_one_cost_box" name="Cost" value="???Cost???" readonly>
-                    =
+                   
                     <select id="reward-dropdown-tier1">
                         <option selected disabled>Select a reward</option>
                     </select>
-
-                    <button onclick="start_tier_one_bounty()">Start Tier One Bounty</button>
-                    <b id="teir_one_time">Time Left: 00:00</b>
+                    <button id="start-bounty-tier1" style="display: none;">Start Bounty</button>
+                    <input type="text" id="tier_one_task_box" name="Tier One Task" value="???Task???" readonly>
+                    <b id="tier_one_time">Time Left: 00:00</b>
                 </div>
 
                 <p></p>
 
-                <!-- Tier two -->
+ <!-- Tier two -->
                 <div style="background-image: url('../media/mc/block/iron_block.png'); border: 0px solid black; ">
 
                     <!--roating image hugs left of screen-->
@@ -113,27 +114,19 @@
                          float: left;" />
 
                     Tier <span class="word-gold">Ⅱ</span> Bounty
-                    <input type="text" id="tier_two_cost_box" name="Cost" value="???Cost???" readonly>
-                    =
-                    <select id="mySelect">
-                        <option value="tier_two_option_1">Teir 2 Reward Opt.1</option>
-                        <option value="tier_two_option_2">Teir 2 Reward Opt.2</option>
-                        <option value="tier_two_option_3">Teir 2 Reward Opt.3</option>
-                        <option value="tier_two_option_4">Teir 2 Reward Opt.4</option>
-                        <option value="tier_two_option_5">Teir 2 Reward Opt.5</option>
-                        <option value="tier_two_option_6">Teir 2 Reward Opt.6</option>
-                        <option value="tier_two_option_7">Teir 2 Reward Opt.7</option>
-                        <option value="tier_two_option_8">Teir 2 Reward Opt.8</option>
-                    </select>
 
-                    <button onclick="start_tier_two_bounty()">Start Tier Two Bounty</button>
-                    Time Left: 00:00
+                    <select id="reward-dropdown-tier2">
+                        <option selected disabled>Select a reward</option>
+                    </select>
+                    <button id="start-bounty-tier2" style="display: none;">Start Bounty</button>
+                    <input type="text" id="tier_two_task_box" name="Tier One Task" value="???Task???" readonly>
+                    <b id="tier_two_time">Time Left: 00:00</b>
 
                 </div>
 
                 <p></p>
 
-                <!-- Tier three -->
+ <!-- Tier three -->
                 <div style="background-image: url('../media/mc/block/gold_block.png'); border: 0px solid black;">
 
                     <!--roating image hugs left of screen-->
@@ -144,26 +137,18 @@
                          float: left;" />
 
                     Tier <span class="word-gold">Ⅲ</span> Bounty
-                    <input type="text" id="tier_three_cost_box" name="Cost" value="???Cost???" readonly>
-                    =
-                    <select id="mySelect">
-                        <option value="tier_three_option_1">Teir 3 Reward Opt.1</option>
-                        <option value="tier_three_option_2">Teir 3 Reward Opt.2</option>
-                        <option value="tier_three_option_3">Teir 3 Reward Opt.3</option>
-                        <option value="tier_three_option_4">Teir 3 Reward Opt.4</option>
-                        <option value="tier_three_option_5">Teir 3 Reward Opt.5</option>
-                        <option value="tier_three_option_6">Teir 3 Reward Opt.6</option>
-                        <option value="tier_three_option_7">Teir 3 Reward Opt.7</option>
-                        <option value="tier_three_option_8">Teir 3 Reward Opt.8</option>
-                    </select>
 
-                    <button onclick="start_tier_three_bounty()">Start Tier three Bounty</button>
-                    Time Left: 00:00
+                    <select id="reward-dropdown-tier3">
+                        <option selected disabled>Select a reward</option>
+                    </select>
+                    <button id="start-bounty-tier3" style="display: none;">Start Bounty</button>
+                    <input type="text" id="tier_three_task_box" name="Tier One Task" value="???Task???" readonly>
+                    <b id="tier_three_time">Time Left: 00:00</b>
                 </div>
 
                 <p></p>
 
-                <!-- Tier four -->
+<!-- Tier four -->
                 <div style="background-image: url('../media/mc/block/diamond_block.png'); border: 0px solid black;">
 
                     <!--roating image hugs left of screen-->
@@ -174,26 +159,18 @@
                          float: left;" />
 
                     Tier <span class="word-gold">Ⅳ</span> Bounty
-                    <input type="text" id="tier_four_cost_box" name="Cost" value="???Cost???" readonly>
-                    =
-                    <select id="mySelect">
-                        <option value="tier_four_option_1">Teir 4 Reward Opt.1</option>
-                        <option value="tier_four_option_2">Teir 4 Reward Opt.2</option>
-                        <option value="tier_four_option_3">Teir 4 Reward Opt.3</option>
-                        <option value="tier_four_option_4">Teir 4 Reward Opt.4</option>
-                        <option value="tier_four_option_5">Teir 4 Reward Opt.5</option>
-                        <option value="tier_four_option_6">Teir 4 Reward Opt.6</option>
-                        <option value="tier_four_option_7">Teir 4 Reward Opt.7</option>
-                        <option value="tier_four_option_8">Teir 4 Reward Opt.8</option>
-                    </select>
 
-                    <button onclick="start_tier_four_bounty()">Start Tier Four Bounty</button>
-                    Time Left: 00:00
+                    <select id="reward-dropdown-tier4">
+                        <option selected disabled>Select a reward</option>
+                    </select>
+                    <button id="start-bounty-tier4" style="display: none;">Start Bounty</button>
+                    <input type="text" id="tier_four_task_box" name="Tier One Task" value="???Task???" readonly>
+                    <b id="tier_four_time">Time Left: 00:00</b>
                 </div>
 
                 <p></p>
 
-                <!-- Tier five -->
+ <!-- Tier five -->
                 <div style="background-image: url('../media/mc/block/bedrock.png'); border: 0px solid black;">
 
                     <!--roating image hugs left of screen-->
@@ -204,21 +181,14 @@
                          float: left;" />
 
                     Tier <span class="word-gold">Ⅴ</span> Bounty
-                    <input type="text" id="tier_five_cost_box" name="Cost" value="???Cost???" readonly>
-                    =
-                    <select id="mySelect">
-                        <option value="tier_five_option_1">Teir 5 Reward Opt.1</option>
-                        <option value="tier_five_option_2">Teir 5 Reward Opt.2</option>
-                        <option value="tier_five_option_3">Teir 5 Reward Opt.3</option>
-                        <option value="tier_five_option_4">Teir 5 Reward Opt.4</option>
-                        <option value="tier_five_option_5">Teir 5 Reward Opt.5</option>
-                        <option value="tier_five_option_6">Teir 5 Reward Opt.6</option>
-                        <option value="tier_five_option_7">Teir 5 Reward Opt.7</option>
-                        <option value="tier_five_option_8">Teir 5 Reward Opt.8</option>
-                    </select>
 
-                    <button onclick="start_tier_five_bounty()">Start Tier Five Bounty</button>
-                    Time Left: 00:00
+                    <select id="reward-dropdown-tier5">
+                        <option selected disabled>Select a reward</option>
+                    </select>
+                    <button id="start-bounty-tier5" style="display: none;">Start Bounty</button>
+                    <input type="text" id="tier_five_task_box" name="Tier One Task" value="???Task???" readonly>
+                    <b id="tier_five_time">Time Left: 00:00</b>
+
                 </div>
 
 

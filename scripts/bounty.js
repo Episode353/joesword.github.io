@@ -70,6 +70,31 @@ function retrieveRewards(ref, dropdownId, startButtonId, taskBoxId, timeBoxId) {
             // Enable the dropdown for selecting a new bounty
             dropdown.disabled = false;
             taskBox.value = "???Task???";
+
+            // Check if the tier has any inactive bounties
+            var hasInactiveBounties = false;
+            for (var key in rewards) {
+                if (rewards.hasOwnProperty(key)) {
+                    var bounty = rewards[key];
+                    var currentTime = Date.now();
+
+                    // Check if the bounty is inactive
+                    if (bounty.StartTime > currentTime || currentTime > bounty.EndTime) {
+                        hasInactiveBounties = true;
+                        break;
+                    }
+                }
+            }
+
+            // Show the "Start Bounty" button for tiers with no active bounties
+            if (!hasInactiveBounties) {
+                startButton.style.display = "inline-block";
+                startButton.addEventListener('click', function () {
+                    startBounty(ref, dropdown.value);
+                });
+            } else {
+                startButton.style.display = "none";
+            }
         }
 
         // Iterate through the rewards and add them to the dropdown
@@ -83,6 +108,7 @@ function retrieveRewards(ref, dropdownId, startButtonId, taskBoxId, timeBoxId) {
         }
     });
 }
+
 
 
 
