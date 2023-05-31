@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Joes World</title>
+    <link rel="icon" href="../media/ico/favicon.ico" type="image/x-icon" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Add any necessary stylesheets or scripts here -->
+    <link rel="stylesheet" href="../style.css">
+    <script src="../../seppe.js"></script>
+    <script src="../scripts/back-map.js?v=2"></script>
+    <style>
+    </style>
+
+</head>
+<body>
+
+
+    <center>
+        <div class="container">
+
+            <div class="header">
+                <iframe src="header-content.html" frameborder="0" scrolling="no" class="header-content-iframe"></iframe>
+            </div>
+
+
+
+            <div class="content-large-fill">
+
+                
+                    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+                    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-database.js"></script>
+                    <script src="../scripts/subbox-front.js?v=2"></script>
+                    <b>Submission Box</b></br>
+                    <i style="font-size:70%;">What Should be added next to Joe's Basement?</i><br />
+                    <!-- Textbox and Button -->
+                    <input type="text" id="sub-text">
+                    <button onclick="saveData()">Add</button>
+                    <button onclick="refreshDisplay()">Refresh</button>
+                    <!-- Display Box -->
+                    <div id="displayBox" style="border: none; text-align: left;"></div>
+                    <p style="font-size: 70%; text-align: left; ">Total: <span id="counter">0</span></p>
+
+                
+
+            </div>
+
+
+
+            <div class="footer">
+                <iframe src="footer.html" frameborder="0" width="100%" class="footer-iframe">
+                </iframe>
+
+
+
+            </div>
+
+
+
+        </div>
+    </center>
+</body>
+</html>

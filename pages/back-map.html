@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
+
 </head>
 <body>
 
@@ -23,10 +24,30 @@
         <h1>MISC Stuff</h1>
         <a href="template.html"><p>template</p></a>
         <a href="gallery.html"><p>Gallery</p></a>
-        <a href="item-spinner-editor.html"><p>Item Spinner Editor</p></a>
+        <a href="item-spinner-editor.html"><p>Item Spinner Editor[DEV]</p></a>
+        <a href="submissions.html"><p>Submissions Page [DEV]</p></a>
     </div>
 
     <p>- - - - - - -</p>
+
+
+    <div style="border-style: solid; ">
+        <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-database.js"></script>
+        <script src="../scripts/subbox-back.js?v=2"></script>
+        <h1>Submission Box Editor</h1>
+        <p>Total: <span id="counter">0</span></p>
+        <!-- Textbox and Button -->
+        <input type="text" id="sub-text">
+        <button onclick="saveData()">Add</button>
+        <button onclick="refreshDisplay()">Refresh</button>
+        <!-- Display Box -->
+        <div id="displayBox"></div>
+    </div>
+
+    <p>- - - - - - -</p>
+
+
 
 </body>
 </html>
