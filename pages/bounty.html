@@ -11,11 +11,36 @@
     <script src="../scripts/back-map.js?v=2"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database-compat.js"></script>
-    <script src="../scripts/bounty.js"></script>
+    <script src="../scripts/bounty2.js"></script>
     <style>
-        .time-left{
-            text-shadow: 1px 1px 0px #ffffff;
+        .time-left {
+            color: black;
+            text-shadow: 1px 1px 0px #F6DDCC;
         }
+
+        .reward-dropdown {
+            color: #313131;
+            border-width: 2px;
+            border-style: outset;
+            font-weight: bold;
+            font-size: 18px;
+            background-color: #FBFBED;
+        }
+
+        .start-bounty-button {
+            color: #313131;
+            font-weight: bold;
+            font-size: 18px;
+            background-color: #FBFBED;
+        }
+
+        .task_box {
+            color: #313131;
+            font-weight: bold;
+            font-size: 18px;
+            background-color: #FBFBED;
+        }
+
     </style>
 
 </head>
@@ -39,7 +64,7 @@
                 <a href="../../index.html"><img src="../media/png/home.png" alt="Home Page"></a>
 
                 <!--The page title text-->
-                <p style="font-family: minecraft; font-size: 84px;" ">Joes World Online</p>
+                <p style="font-family: minecraft; font-size: 84px;" >Joes World Online</p>
 
                 <!--The spash screen text-->
                 <p class="mineceaft-motd-animation">
@@ -85,7 +110,7 @@
                 <p style="font-family: minecraft; font-size: 32px;">Bounty System</p>
 
  <!-- Tier One -->
-                <div style="background-image: url('../media/mc/block/copper_block.png'); border: 0px solid black; ">
+                <div style="background-image: url('../media/mc/block/smooth_stone.png'); border: 0px solid black; ">
 
                     <!--roating image hugs left of screen-->
                     <img src="../media/mc/item/copper_ingot.png"
@@ -94,13 +119,15 @@
                          style="
                          float: left;" />
 
-                    Tier <span class="word-gold">Ⅰ</span> Bounty
-                   
-                    <select id="reward-dropdown-tier1">
+                    <b style="font-size: 30px; text-shadow: 2px 2px 0px #6E6E6E; ">Tier <span class="word-gold">Ⅰ</span> Bounty</b>
+                    <br />
+
+                    <select id="reward-dropdown-tier1" class="reward-dropdown">
                         <option selected disabled>Select a reward</option>
                     </select>
-                    <button id="start-bounty-tier1" style="display: none;">Start Bounty</button>
-                    <input type="text" id="tier_one_task_box" name="Tier One Task" value="???Task???" readonly>
+                    <button class="start-bounty-button" id="start-bounty-tier1" style="display: none;">Start Bounty</button>
+                    <input class="task_box" type="text" id="tier_one_task_box" name="Tier One Task" value="???Task???" readonly>
+                    <br />
                     <b id="tier_one_time" class="time-left">Time Left: 00:00</b>
                 </div>
 
@@ -116,13 +143,15 @@
                          style="
                          float: left;" />
 
-                    Tier <span class="word-gold">Ⅱ</span> Bounty
+                    <b style="font-size: 30px; text-shadow: 2px 2px 0px #6E6E6E; ">Tier <span class="word-gold">ⅠⅠ</span> Bounty</b>
+                    <br />
 
-                    <select id="reward-dropdown-tier2">
+                    <select id="reward-dropdown-tier2" class="reward-dropdown">
                         <option selected disabled>Select a reward</option>
                     </select>
-                    <button id="start-bounty-tier2" style="display: none;">Start Bounty</button>
-                    <input type="text" id="tier_two_task_box" name="Tier One Task" value="???Task???" readonly>
+                    <button class="start-bounty-button" id="start-bounty-tier2" style="display: none;">Start Bounty</button>
+                    <input class="task_box" type="text" id="tier_two_task_box" name="Tier One Task" value="???Task???" readonly>
+                    <br />
                     <b id="tier_two_time" class="time-left">Time Left: 00:00</b>
 
                 </div>
@@ -130,7 +159,7 @@
                 <p></p>
 
  <!-- Tier three -->
-                <div style="background-image: url('../media/mc/block/gold_block.png'); border: 0px solid black;">
+                <div style="background-image: url('../media/mc/block/weathered_copper.png'); border: 0px solid black; ">
 
                     <!--roating image hugs left of screen-->
                     <img src="../media/mc/item/gold_ingot.png"
@@ -139,20 +168,22 @@
                          style="
                          float: left;" />
 
-                    Tier <span class="word-gold">Ⅲ</span> Bounty
+                    <b style="font-size: 30px; text-shadow: 2px 2px 0px #6E6E6E; ">Tier <span class="word-gold">ⅠⅠⅠ</span> Bounty</b>
+                    <br />
 
-                    <select id="reward-dropdown-tier3">
+                    <select id="reward-dropdown-tier3" class="reward-dropdown">
                         <option selected disabled>Select a reward</option>
                     </select>
-                    <button id="start-bounty-tier3" style="display: none;">Start Bounty</button>
-                    <input type="text" id="tier_three_task_box" name="Tier One Task" value="???Task???" readonly>
+                    <button class="start-bounty-button" id="start-bounty-tier3" style="display: none;">Start Bounty</button>
+                    <input class="task_box" type="text" id="tier_three_task_box" name="Tier One Task" value="???Task???" readonly>
+                    <br />
                     <b id="tier_three_time" class="time-left">Time Left: 00:00</b>
                 </div>
 
                 <p></p>
 
 <!-- Tier four -->
-                <div style="background-image: url('../media/mc/block/diamond_block.png'); border: 0px solid black;">
+                <div style="background-image: url('../media/mc/block/frosted_ice_0.png'); border: 0px solid black;">
 
                     <!--roating image hugs left of screen-->
                     <img src="../media/mc/item/diamond.png"
@@ -161,20 +192,22 @@
                          style="
                          float: left;" />
 
-                    Tier <span class="word-gold">Ⅳ</span> Bounty
+                    <b style="font-size: 30px; text-shadow: 2px 2px 0px #6E6E6E; ">Tier <span class="word-gold">ⅠⅠⅠⅠ</span> Bounty</b>
+                    <br />
 
-                    <select id="reward-dropdown-tier4">
+                    <select id="reward-dropdown-tier4" class="reward-dropdown">
                         <option selected disabled>Select a reward</option>
                     </select>
-                    <button id="start-bounty-tier4" style="display: none;">Start Bounty</button>
-                    <input type="text" id="tier_four_task_box" name="Tier One Task" value="???Task???" readonly>
+                    <button class="start-bounty-button" id="start-bounty-tier4" style="display: none;">Start Bounty</button>
+                    <input class="task_box" type="text" id="tier_four_task_box" name="Tier One Task" value="???Task???" readonly>
+                    <br />
                     <b id="tier_four_time" class="time-left">Time Left: 00:00</b>
                 </div>
 
                 <p></p>
 
  <!-- Tier five -->
-                <div style="background-image: url('../media/mc/block/bedrock.png'); border: 0px solid black;">
+                <div style="background-image: url('../media/mc/block/end_stone.png'); border: 0px solid black;">
 
                     <!--roating image hugs left of screen-->
                     <img src="../media/mc/item/elytra.png"
@@ -183,13 +216,15 @@
                          style="
                          float: left;" />
 
-                    Tier <span class="word-gold">Ⅴ</span> Bounty
+                    <b style="font-size: 30px; text-shadow: 2px 2px 0px #6E6E6E; ">Tier <span class="word-gold">Ⅴ</span> Bounty</b>
+                    <br />
 
-                    <select id="reward-dropdown-tier5">
+                    <select id="reward-dropdown-tier5" class="reward-dropdown">
                         <option selected disabled>Select a reward</option>
                     </select>
-                    <button id="start-bounty-tier5" style="display: none;">Start Bounty</button>
-                    <input type="text" id="tier_five_task_box" name="Tier One Task" value="???Task???" readonly>
+                    <button class="start-bounty-button" id="start-bounty-tier5" style="display: none;">Start Bounty</button>
+                    <input class="task_box" type="text" id="tier_five_task_box" name="Tier One Task" value="???Task???" readonly>
+                    <br />
                     <b id="tier_five_time" class="time-left">Time Left: 00:00</b>
 
                 </div>
@@ -198,11 +233,6 @@
 
 
 
-                <p>----------------------</p>
-                <p>-------------------</p>
-                <p>----------------</p>
-                <p>-------------</p>
-                <p>----------</p>
                 <p>-------</p>
                 <p>----</p>
                 <p>---</p>

@@ -1,4 +1,4 @@
-// Initialize Firebase
+﻿// Initialize Firebase
 var firebaseConfig = {
     apiKey: "AIzaSyCqgWyZOOfVZddqVjV-ZsDpMo6b0F1UJxs",
     authDomain: "joesworldonline-967be.firebaseapp.com",
@@ -8,6 +8,7 @@ var firebaseConfig = {
     messagingSenderId: "817241549916",
     appId: "1:817241549916:web:787af20d01f9172efaca99"
 };
+
 firebase.initializeApp(firebaseConfig);
 
 // Get references to the bounty database for each tier
@@ -62,14 +63,22 @@ function retrieveRewards(ref, dropdownId, startButtonId, taskBoxId, timeBoxId) {
                 var hoursLeft = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
                 var daysLeft = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
 
-                var timeLeftString = 'Time Left: ' + daysLeft + ' days, ' + hoursLeft + ' hours, ' + minutesLeft + ' minutes, ' + secondsLeft + ' seconds';
+                var timeLeftString =
+                    'Time Left: ' +
+                    daysLeft +
+                    ' days, ' +
+                    hoursLeft +
+                    ' hours, ' +
+                    minutesLeft +
+                    ' minutes, ' +
+                    secondsLeft +
+                    ' seconds';
                 timeBox.textContent = timeLeftString;
             }, 1000);
-
         } else {
             // Enable the dropdown for selecting a new bounty
             dropdown.disabled = false;
-            taskBox.value = "???Task???";
+            taskBox.value = "";
 
             // Check if the tier has any inactive bounties
             var hasInactiveBounties = false;
@@ -109,9 +118,6 @@ function retrieveRewards(ref, dropdownId, startButtonId, taskBoxId, timeBoxId) {
     });
 }
 
-
-
-
 // Function to start a bounty with appropriate start and end time
 function startBounty(ref, selectedBountyKey) {
     var selectedBountyRef = ref.child(selectedBountyKey);
@@ -124,17 +130,21 @@ function startBounty(ref, selectedBountyKey) {
 
         // Calculate the start and end time for the bounty
         var startTime = currentTime;
-        var endTime = currentTime + (bountyLength * 24 * 60 * 60 * 1000); // Convert days to milliseconds
+        var endTime = currentTime + bountyLength * 60 * 60 * 1000; // Convert hours to milliseconds
 
         // Update the bounty with the new start and end time
-        selectedBountyRef.update({
-            StartTime: startTime,
-            EndTime: endTime
-        }).then(function () {
-            // Reload the page after updating the bounty
-            location.reload();
-        }).catch(function (error) {
-            console.error('Failed to start bounty:', error);
-        });
+        selectedBountyRef
+            .update({
+                StartTime: startTime,
+                EndTime: endTime,
+            })
+            .then(function () {
+                // Reload the page after updating the bounty
+                location.reload();
+            })
+            .catch(function (error) {
+                console.error('Failed to start bounty:', error);
+            });
     });
 }
+
