@@ -17,7 +17,7 @@
 
 body {
     margin: 0;
-    background-image: url('../media/mc/block/mushroom_stem.png');
+    background-image: url('../media/mc/block/bone_block_side.png');
     background-position: center; /* center the image */
 }
 
@@ -30,7 +30,8 @@ body {
     display: grid;
     grid-template-columns: repeat(3, 2fr);
     grid-template-rows: 0.2fr 1fr 1fr 0.5fr;
-    gap: 90px;
+    grid-column-gap: 60px;
+    grid-row-gap: 60px;
     padding: 50px;
     box-sizing: border-box;
 }
@@ -39,7 +40,8 @@ body {
     .container div {
         background: #fbefcc;
         padding: 10px;
-        border: 3px solid #92AAFC;
+        border: 3px groove #92AAFC;
+        border-radius: 10px;
     }
 
 .header {
@@ -168,11 +170,15 @@ body {
 }
 
 .food-content-photo {
-    border: 3px solid lightsteelblue;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
 }
 
 .food-content-text {
-    border: 3px solid lightsteelblue;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
 
 }
 
@@ -183,6 +189,9 @@ body {
     grid-column-end: 2;
     border: 3px solid lightsteelblue;
     width: 250px;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
 }
 
     .food-content-rate p {
@@ -202,7 +211,9 @@ body {
     }
 
 .food-content-bob {
-    border: 3px solid lightsteelblue;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
 }
 
 

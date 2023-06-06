@@ -65,7 +65,13 @@
             <div class="content-large-fill" style="width:auto; height:auto ;">
 
 
-                <div id="canvas-container">
+                <div id="canvas-container" style="
+                        border-top: none;
+                        border-left: none;
+                        border-right: none;
+
+    
+                            ">
                     <canvas id="canvas" width="800" height="600"></canvas>
                     <div style="position: relative; " id="controls">
                         <button id="undo">Undo</button>
@@ -90,7 +96,11 @@
                 <br><br>
                 <h2>Gallery</h2>
                 <p>Newest First</p>
-                <div id="gallery">
+                <div id="gallery" style="
+                        border-bottom: none;
+                        border-left: none;
+                        border-right: none;
+                        ">
 
                     <iframe id="gallery-iframe" frameborder="0" src="gallery.html" style="width: 1040px; height: 2000px;"></iframe>
 
