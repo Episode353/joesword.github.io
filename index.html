@@ -55,9 +55,9 @@
                 <img style="
             padding: 10px;
             max-width: 1000px;
-            position: relative; 
-            bottom: 275px; 
-            left: 30px;  " 
+            position: relative;
+            bottom: 275px;
+            left: 30px;  "
                      src="media/gif/a_place.gif" />
 
                 <p>Todays soup of the day, the <a href="pages/board.html">Board</a>  page</p>
@@ -73,7 +73,68 @@
             <div id="htmlshufflebox"></div>
 
 
+            <div class="widget" style="
+            .widget {
+            width: 300px;
+            background-color: #f2f2f2;
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+        }
 
+        .label {
+            font-weight: bold;
+        }
+
+        .favicon {
+            width: 16px;
+            height: 16px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .server-icon {
+            max-width: 100%;
+            max-height: 150px;
+            margin-top: 10px;
+        }
+    
+    
+    ">
+                <h2>Server Status</h2>
+                <p id="description"></p>
+                <p id="status"></p>
+                <p class="label">Current Players:</p>
+                <p id="players"></p>
+                <p class="label">Version:</p>
+                <p id="version"></p>
+                <p class="label">Latency:</p>
+                <p id="latency"></p>
+                <p class="label">Favicon:</p>
+                <p id="favicon"></p>
+                <p class="label">Server Icon:</p>
+                <p id="server-icon"></p>
+            </div>
+
+            <script>
+                // Fetch server information from the API
+                fetch('https://api.minetools.eu/ping/play.joesworld.online')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Update the server information in the widget
+                        document.getElementById('description').textContent = data.description;
+                        document.getElementById('status').textContent = data.error ? 'Offline' : 'Online';
+                        document.getElementById('players').textContent = data.error ? 'N/A' : data.players.online;
+                        document.getElementById('version').textContent = data.error ? 'N/A' : data.version.name;
+                        document.getElementById('latency').textContent = data.error ? 'N/A' : data.latency + ' ms';
+                        document.getElementById('favicon').innerHTML = data.favicon ? '<img class="favicon" src="' + data.favicon + '">' : '';
+                        document.getElementById('server-icon').innerHTML = data.favicon ? '<img class="server-icon" src="' + data.favicon + '">' : '';
+                        document.querySelector('link[rel="icon"]').href = data.favicon ? data.favicon : 'default-favicon.png';
+                    })
+                    .catch(error => {
+                        console.log('An error occurred while fetching server information:', error);
+                    });
+            </script>
 
 
 
