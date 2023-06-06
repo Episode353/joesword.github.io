@@ -25,6 +25,23 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
 
+    <style>
+        #status {
+            font-weight: bold;
+        }
+
+            #status::before {
+                content: "Status: ";
+            }
+
+            #status[data-status="offline"] {
+                color: red;
+            }
+
+            #status[data-status="online"] {
+                color: green;
+            }
+    </style>
 
 </head>
 <body>
@@ -98,22 +115,18 @@
             max-height: 150px;
             margin-top: 10px;
         }
-    
-    
+
+
     ">
-                <h2>Server Status</h2>
+                <p id="server-icon" style=" position: relative; top: -15px; left: -120px; "></p>
+                <p id="status" style=" position: relative; top: -85px; left: 10px; "></p>
                 <p id="description"></p>
-                <p id="status"></p>
-                <p class="label">Current Players:</p>
+
                 <p id="players"></p>
-                <p class="label">Version:</p>
                 <p id="version"></p>
-                <p class="label">Latency:</p>
                 <p id="latency"></p>
-                <p class="label">Favicon:</p>
                 <p id="favicon"></p>
-                <p class="label">Server Icon:</p>
-                <p id="server-icon"></p>
+
             </div>
 
             <script>
@@ -124,12 +137,13 @@
                         // Update the server information in the widget
                         document.getElementById('description').textContent = data.description;
                         document.getElementById('status').textContent = data.error ? 'Offline' : 'Online';
-                        document.getElementById('players').textContent = data.error ? 'N/A' : data.players.online;
+                        document.getElementById('status').setAttribute('data-status', data.error ? 'offline' : 'online');
+                        document.getElementById('players').textContent = data.error ? 'N/A' : 'Current Players: ' + data.players.online;
                         document.getElementById('version').textContent = data.error ? 'N/A' : data.version.name;
                         document.getElementById('latency').textContent = data.error ? 'N/A' : data.latency + ' ms';
-                        document.getElementById('favicon').innerHTML = data.favicon ? '<img class="favicon" src="' + data.favicon + '">' : '';
+                        document.getElementById('favicon').style.display = 'none'; // Hide the favicon element
                         document.getElementById('server-icon').innerHTML = data.favicon ? '<img class="server-icon" src="' + data.favicon + '">' : '';
-                        document.querySelector('link[rel="icon"]').href = data.favicon ? data.favicon : 'default-favicon.png';
+                        document.querySelector('link[rel="icon"]').href = 'default-favicon.png'; // Set a default favicon
                     })
                     .catch(error => {
                         console.log('An error occurred while fetching server information:', error);

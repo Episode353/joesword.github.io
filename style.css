@@ -154,8 +154,7 @@ body {
     grid-row-end: 3;
     grid-column-start: 1;
     grid-column-end: 4;
-    gap: 50px;
-    padding: 50px;
+
 }
 
 
@@ -164,9 +163,8 @@ body {
     display: grid;
     grid-template-columns: 1fr 0.2fr;
     grid-template-rows: repeat(2, 1fr);
-    grid-gap: 40px;
-    text-align: center;
     height: 100%;
+    gap: 90px;
 }
 
 .food-content-photo {
@@ -214,6 +212,7 @@ body {
     border-top: none !important;
     border-left: none !important;
     border-right: none !important;
+    border: 3px solid lightsteelblue;
 }
 
 
