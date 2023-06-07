@@ -119,13 +119,14 @@
 
     ">
                 <p id="server-icon" style=" position: relative; top: -15px; left: -120px; "></p>
-                <p id="status" style=" position: relative; top: -85px; left: 10px; "></p>
+                <p id="status" style="position: relative; top: -85px; left: 10px; visibility: hidden; "></p>
                 <p id="description"></p>
 
                 <p id="players"></p>
                 <p id="version"></p>
-                <p id="latency"></p>
+
                 <p id="favicon"></p>
+                <p id="latency" style="position: relative; top: -285px; left: 120px; font-size: 12px;"></p>
 
             </div>
 
@@ -144,6 +145,9 @@
                         document.getElementById('favicon').style.display = 'none'; // Hide the favicon element
                         document.getElementById('server-icon').innerHTML = data.favicon ? '<img class="server-icon" src="' + data.favicon + '">' : '';
                         document.querySelector('link[rel="icon"]').href = 'default-favicon.png'; // Set a default favicon
+
+                        // Show the status element after data is loaded
+                        document.getElementById('status').style.visibility = 'visible';
                     })
                     .catch(error => {
                         console.log('An error occurred while fetching server information:', error);
