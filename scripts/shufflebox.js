@@ -12,8 +12,8 @@ $(function () {
        'pages/html-shuffle/gallery-shuffle.html',
        'pages/html-shuffle/feesh-brain.html',
        'pages/html-shuffle/stolen.html',
-       'pages/html-shuffle/jig-dirsty.html',
-       'pages/html-shuffle/joes-basement-countdown.html'
+       'pages/html-shuffle/jig-dirsty.html'
+       //'pages/html-shuffle/joes-basement-countdown.html'
     ];
 
     // Use the current time in milliseconds as a seed for the random number generator
