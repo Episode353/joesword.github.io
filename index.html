@@ -118,41 +118,62 @@
 
 
     ">
-                <p id="server-icon" style=" position: relative; top: -15px; left: -120px; "></p>
-                <p id="status" style="position: relative; top: -85px; left: 10px; visibility: hidden; "></p>
+                <p id="server-icon" style=" position: relative; border:groove; height: 64px; width: 64px; "></p>
+                <p id="status">Loading...</p>
                 <p id="description"></p>
 
                 <p id="players"></p>
                 <p id="version"></p>
 
-                <p id="favicon"></p>
-                <p id="latency" style="position: relative; top: -285px; left: 120px; font-size: 12px;"></p>
+                <p id="latency" style="position: relative; left: 0px; font-size: 12px;"></p>
 
             </div>
 
-            <script>
-                // Fetch server information from the API
-                fetch('https://api.minetools.eu/ping/play.joesworld.online')
-                    .then(response => response.json())
-                    .then(data => {
-                        // Update the server information in the widget
-                        document.getElementById('description').textContent = data.description;
-                        document.getElementById('status').textContent = data.error ? 'Offline' : 'Online';
-                        document.getElementById('status').setAttribute('data-status', data.error ? 'offline' : 'online');
-                        document.getElementById('players').textContent = data.error ? 'N/A' : 'Current Players: ' + data.players.online;
-                        document.getElementById('version').textContent = data.error ? 'N/A' : data.version.name;
-                        document.getElementById('latency').textContent = data.error ? 'N/A' : data.latency + ' ms';
-                        document.getElementById('favicon').style.display = 'none'; // Hide the favicon element
-                        document.getElementById('server-icon').innerHTML = data.favicon ? '<img class="server-icon" src="' + data.favicon + '">' : '';
-                        document.querySelector('link[rel="icon"]').href = 'default-favicon.png'; // Set a default favicon
+<script>
+    // Fetch server information from the API
+    fetch('https://eu.mc-api.net/v3/server/ping/play.joesworld.online')
+        .then(response => response.json())
+        .then(data => {
+            // Extract the relevant information from the response
+            const { players, version, latency, favicon } = data;
 
-                        // Show the status element after data is loaded
-                        document.getElementById('status').style.visibility = 'visible';
-                    })
-                    .catch(error => {
-                        console.log('An error occurred while fetching server information:', error);
-                    });
-            </script>
+            // Update the HTML elements with the server information
+            if (data.online) {
+                document.getElementById('server-icon').innerHTML = `<img src="${favicon}" alt="Server Icon" />`;
+                document.getElementById('server-icon').style.visibility = 'visible';
+                document.getElementById('status').textContent = 'Online';
+                document.getElementById('status').style.color = 'green';
+                document.getElementById('latency').textContent = `Latency: ${data.took}ms`;
+            } else {
+                document.getElementById('server-icon').style.visibility = 'hidden';
+                document.getElementById('status').textContent = 'Offline';
+                document.getElementById('status').style.color = 'red';
+                document.getElementById('status').style.position = 'relative';
+                document.getElementById('status').style.top = '-85px';
+                document.getElementById('status').style.left = '10px';
+            }
+
+            document.getElementById('description').textContent = data.description.text;
+            document.getElementById('players').textContent = `Players: ${players.online}/${players.max}`;
+            document.getElementById('version').textContent = `Version: ${version.name}`;
+
+            // Make the elements visible
+            document.getElementById('status').style.visibility = 'visible';
+        })
+        .catch(error => {
+            // Handle any errors that occurred during the fetch
+            console.error('Error:', error);
+            document.getElementById('server-icon').style.visibility = 'hidden';
+            document.getElementById('status').textContent = 'Offline';
+            document.getElementById('status').style.color = 'red';
+            document.getElementById('status').style.position = 'relative';
+            document.getElementById('status').style.top = '10px';
+            document.getElementById('status').style.left = '0px';
+            document.getElementById('status').style.visibility = 'visible';
+        });
+
+</script>
+
 
 
 
