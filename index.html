@@ -122,7 +122,7 @@
     ">
                 <p id="server-icon" style=" position: relative; border:groove; height: 64px; width: 64px; "></p>
                 <p id="status">Loading...</p>
-                <p id="description"></p>
+                <p id="description" style="border: groove white; background: grey"></p>
 
                 <p id="players"></p>
                 <p id="version"></p>
@@ -138,7 +138,7 @@
                         .then(response => response.json())
                         .then(data => {
                             // Extract the relevant information from the response
-                            const { players, version, latency, favicon } = data;
+                            const { players, version, latency, favicon, description } = data;
 
                             // Update the HTML elements with the server information
                             if (data.online) {
@@ -156,7 +156,7 @@
                                 document.getElementById('status').style.left = '10px';
                             }
 
-                            document.getElementById('description').textContent = data.description.text;
+                            document.getElementById('description').innerHTML = `<span style="font-weight: ${description.bold ? 'bold' : 'normal'}; color: ${description.color};">${description.text}</span>`;
                             document.getElementById('players').textContent = `Players: ${players.online}/${players.max}`;
                             document.getElementById('version').textContent = `Version: ${version.name}`;
 
@@ -179,8 +179,9 @@
                 // Call the fetchServerInformation function initially
                 fetchServerInformation();
 
-                // Refresh the server information every 5 seconds
-                setInterval(fetchServerInformation, 2000);
+                // Refresh the server information every number of milliseconds
+                setInterval(fetchServerInformation, 5000);
+
             </script>
 
 
