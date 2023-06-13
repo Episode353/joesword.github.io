@@ -16,20 +16,18 @@
             overflow: hidden;
             background-image: url('../media/mc/environment/end.jpg');
             background-position: center; /* center the image */
+            opacity: 0;
+            transition: opacity 1s ease-in;
         }
 
-        body {
-            opacity: 0;
-            transition: opacity 5s ease-in;
-        }
 
         .fade-in {
             opacity: 1;
-            transition: opacity 5s ease-in;
+            transition: opacity 1s ease-in;
         }
 
         .slide-in {
-            animation: slideFromTop 5s ease-in-out;
+            animation: slideFromTop 1s ease-in-out;
         }
 
 
@@ -50,16 +48,7 @@
             cursor: pointer;
         }
 
-        /* Hide the default audio controls */
-        audio::-webkit-media-controls-panel,
-        audio::-webkit-media-controls-start-playback-button,
-        audio::-webkit-media-controls-enclosure,
-        audio::-webkit-media-controls,
-        audio::-webkit-media-controls-toggle-button {
-            display: none !important;
-            opacity: 0;
-            height: 0;
-            width: 0;
+
 
 
     </style>
@@ -77,31 +66,39 @@
 
 </head>
 <body>
-    <audio id="background-audio" src="../media/mp3/14 - You Can Never Come to This Place.mp3" autoplay loop controls>
-        Your browser does not support the audio element.
-    </audio>
+
 
     <center>
-        <div class="container">
+        <div class="container" style=" display: flex; margin: 0 auto; /* This centers the container horizontally */ ">
 
 
 
 
 
-            <div class="content-large-fill" style="width: 1280px; height: 720px; background-color: #D5DBDB; ">
+            <div class="content-large-fill" 
+                 style="width: 5000px; height: 500px; background-color: #D5DBDB; ">
 
 
                
 
-                <div style=" width: 95%; height: 95%; margin-top: 0px; font-size: 60px; color: #2F4F8F; font-family: overt; padding: none; border: 3px groove #92AAFC; background-image: url('../media/mc/environment/end.jpg'); text-shadow: 2px 2px 4px white; ">
+                <div style=" 
+                        width: 95%; 
+                        height: 95%; 
+                        margin-top: 0px; 
+                        font-size: 220%; 
+                        color: #2F4F8F; 
+                        font-family: overt; 
+                        border: 3px groove #92AAFC; 
+                        background-image: url('../media/mc/environment/end.jpg'); 
+                        text-shadow: 2px 2px 4px white; ">
 
 
-                    <p style="margin-top: 20%;">This page is not intended for Mobile Phones</p>
+                    <p style="margin-top: 10%;">This page is not intended for Mobile Phones</p>
                     <p style="margin-top: 0%;">Continue?</p>
 
-                    <a href="invite.html" style="text-align: left; position: absolute; margin-left: -500px;">Yes</a>
+                    <a href="invite.html" style="text-align: left; position: absolute; margin-left: -400px;">Yes</a>
 
-                    <a href="javascript:window.close();" style="text-align: left; position: absolute; margin-left: 430px;">No</a>
+                    <a href="javascript:window.close();" style="text-align: left; position: absolute; margin-left: 270px;">No</a>
 
                 </div>
 

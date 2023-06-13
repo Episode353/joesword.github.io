@@ -47,16 +47,16 @@
 
         body {
             opacity: 0;
-            transition: opacity 15s ease-in;
+            transition: opacity 20s ease-in;
         }
 
         .fade-in {
             opacity: 1;
-            transition: opacity 30s ease-in;
+            transition: opacity 50s ease-in;
         }
 
         .slide-in {
-            animation: slideFromTop 15s ease-in-out;
+            animation: slideFromTop 20s ease-in-out;
         }
 
 
@@ -111,30 +111,51 @@
     </audio>
 
     <center>
-        <div class="container">
+        <div class="container" style=" display: flex; margin: 0 auto; /* This centers the container horizontally */ ">
 
 
 
 
 
-            <div class="content-large-fill" style="width: 1280px; height: 720px; background-color: #D5DBDB; ">
+            <div class="content-large-fill"
+                 style="width: 5000px; height: 500px; background-color: #D5DBDB; box-shadow: 0px 0px 150px 30px #A4CEE9; ">
 
-                <img style="padding: 10px;max-width: 1200px;position: relative;bottom: 0px;left: 30px;  " src="../media/gif/invite-gif.gif" />
 
-                <div id="countdown" style="border-top: none; border-left: none; border-right: none; font-size: 60px; color: #2F4F8F; background-color: transparent; font-family: overt; "></div>
 
-                <p style="font-size: 60px; color: #2F4F8F; font-family: overt; padding: 120px; border: 3px groove #92AAFC; background-image: url('../media/mc/environment/end.jpg'); text-shadow: 2px 2px 4px white; ">Come back here On Tuesday the 20th of June 2023 at 6PM to join...</p>
+
+                <div style="
+                        width: 95%;
+                        height: 95%;
+                        margin-top: 0px;
+                        font-size: 220%;
+                        color: #223b6d;
+                        font-family: overt;
+                        border: 3px groove #92AAFC;
+                        background-image: url('../media/mc/environment/end.jpg');
+                        ">
+
+                    <img style="max-width: 1000px;position: relative;bottom: 0px;left: 10px;  " src="../media/gif/invite-gif.gif" />
+
+                    <div id="countdown" style="border-top: none; border-left: none; border-right: none; font-size: 60px; color: #2F4F8F; background-color: transparent; font-family: overt; "></div>
+
+                    <p style="
+    font-size: 90%; 
+    padding: 40px; 
+    font-family: overt; 
+    background-image: url('../media/mc/environment/end.jpg'); 
+    ">Come back here On <br />Tuesday, June 20th 2023 at 6PM <br />to join...</p>
+
+
+                </div>
+                </div>
+
+
+
+
+
 
 
             </div>
-
-
-
-
-
-
-
-        </div>
     </center>
 </body>
 </html>
