@@ -14,6 +14,11 @@
     src: url(../media/fonts/viaappia.ttf);
 }
 
+@font-face {
+    font-family: overt;
+    src: url(../media/fonts/Overt.ttf);
+}
+
 
 body {
     margin: 0;

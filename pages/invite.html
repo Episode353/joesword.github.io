@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Joes World</title>
+    <link rel="icon" href="../media/ico/favicon.ico" type="image/x-icon" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Add any necessary stylesheets or scripts here -->
+    <link rel="stylesheet" href="../style.css">
+    <script src="../../seppe.js"></script>
+    <script src="../scripts/back-map.js?v=2"></script>
+    <script>
+        // Set the countdown date and time (YYYY-MM-DD HH:MM:SS format)
+        var countDownDateTime = new Date("2023-06-20T18:00:00").getTime();
+
+        // Update the countdown every second
+        var countdownTimer = setInterval(function () {
+            // Get the current date and time
+            var now = new Date().getTime();
+
+            // Calculate the distance between now and the countdown date and time
+            var distance = countDownDateTime - now;
+
+            // Calculate days, hours, minutes, and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the countdown in an element with id="countdown"
+            document.getElementById("countdown").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+
+            // If the countdown is finished, display a message
+            if (distance < 0) {
+                clearInterval(countdownTimer);
+                document.getElementById("countdown").innerHTML = "Countdown Finished!";
+            }
+        }, 1000);
+    </script>
+
+    <style>
+        body {
+            overflow: hidden;
+            background-image: url('../media/mc/environment/end.jpg');
+            background-position: center; /* center the image */
+        }
+
+        body {
+            opacity: 0;
+            transition: opacity 5s ease-in;
+        }
+
+        .fade-in {
+            opacity: 1;
+            transition: opacity 7s ease-in;
+        }
+
+        .slide-in {
+            animation: slideFromTop 7s ease-in-out;
+        }
+
+        @keyframes slideFromTop {
+            0% {
+                transform: translateY(-60%);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+    </style>
+
+    <script>
+        window.addEventListener('load', function () {
+            document.body.classList.add('fade-in', 'slide-in');
+        });
+    </script>
+
+</head>
+<body>
+
+
+    <center>
+        <div class="container">
+
+
+
+
+
+            <div class="content-large-fill" style="width: 1280px; height: 720px; background-color: #D5DBDB; ">
+
+                <img style="padding: 10px;max-width: 1200px;position: relative;bottom: 0px;left: 30px;  " src="../media/gif/invite-gif.gif" />
+
+                <div id="countdown" style="border-top: none; border-left: none; border-right: none; font-size: 60px; color: #2F4F8F; background-color: transparent; font-family: overt; "></div>
+
+                <p style="font-size: 60px; color: #2F4F8F; font-family: overt; padding: 140px; border: 3px groove #92AAFC; background-image: url('../media/mc/environment/end.jpg'); ">Come back here On Tuesday the 20th of June 2023 at 6PM to join...</p>
+               
+
+            </div>
+
+
+
+
+
+
+
+        </div>
+    </center>
+</body>
+</html>
