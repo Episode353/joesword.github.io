@@ -11,6 +11,7 @@
     <script src="../scripts/back-map.js?v=2"></script>
     <script>
         // Set the countdown date and time (YYYY-MM-DD HH:MM:SS format)
+        
         var countDownDateTime = new Date("2023-06-20T18:00:00").getTime();
 
         // Update the countdown every second
@@ -35,7 +36,17 @@
                 clearInterval(countdownTimer);
                 document.getElementById("countdown").innerHTML = "Countdown Finished!";
             }
+
+
+            // If the countdown is finished, redirect to a page
+            if (distance < 0) {
+                clearInterval(countdownTimer);
+                document.getElementById("countdown").innerHTML = "Good Luck!";
+                window.location.href = "discord"; // Replace with your desired URL
+            }
         }, 1000);
+
+
     </script>
 
     <style>
@@ -49,16 +60,16 @@
             opacity: 0;
             transition: opacity 20s ease-in;
         }
-
+        /*20s*/
         .fade-in {
             opacity: 1;
             transition: opacity 50s ease-in;
         }
-
+        /*50s*/
         .slide-in {
             animation: slideFromTop 20s ease-in-out;
         }
-
+        /*20s*/
 
 
         @keyframes slideFromTop {

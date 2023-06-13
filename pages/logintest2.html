@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Joes World</title>
+    <link rel="icon" href="../media/ico/favicon.ico" type="image/x-icon" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Add any necessary stylesheets or scripts here -->
+    <link rel="stylesheet" href="../style.css">
+    <script src="../../seppe.js"></script>
+    <script src="../scripts/back-map.js?v=2"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+
+    <style>
+    </style>
+
+</head>
+<body>
+
+
+    <center>
+        <div class="container">
+
+            <div class="header">
+                <iframe src="header-content.html" frameborder="0" scrolling="no" class="header-content-iframe"></iframe>
+            </div>
+
+
+
+            <div class="content-large-fill">
+                <script>
+                    // Initialize Firebase
+                    var firebaseConfig = {
+                        apiKey: "AIzaSyCqgWyZOOfVZddqVjV-ZsDpMo6b0F1UJxs",
+                        authDomain: "joesworldonline-967be.firebaseapp.com",
+                        databaseURL: "https://joesworldonline-967be-default-rtdb.firebaseio.com",
+                        projectId: "joesworldonline-967be",
+                        storageBucket: "joesworldonline-967be.appspot.com",
+                        messagingSenderId: "817241549916",
+                        appId: "1:817241549916:web:787af20d01f9172efaca99"
+                    };
+                    firebase.initializeApp(firebaseConfig);
+                </script>
+
+                <input type="text" id="userIdInput" placeholder="Enter your ID">
+                <button id="clickButton">Click Me</button>
+
+
+
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var clickButton = document.getElementById('clickButton');
+                        var userIdInput = document.getElementById('userIdInput');
+
+                        clickButton.addEventListener('click', function () {
+                            var currentDate = new Date().toDateString();
+                            var userId = userIdInput.value; // Read the user ID from the input element
+
+                            // Create a Firebase reference to the users collection
+                            var usersRef = firebase.database().ref('users');
+
+                            // Retrieve the user data from Firebase
+                            usersRef.child(userId).once('value', function (snapshot) {
+                                if (snapshot.exists()) {
+                                    // User exists, redirect to a different page
+                                    window.location.href = 'other-page.html';
+                                } else {
+                                    // User does not exist, show an alert message
+                                    alert('User not found.');
+                                }
+                            });
+                        });
+
+                    });
+                </script>
+
+            </div>
+
+
+
+            <div class="footer">
+                <iframe src="footer.html" frameborder="0" width="100%" class="footer-iframe">
+                </iframe>
+
+
+
+            </div>
+
+
+
+        </div>
+    </center>
+</body>
+</html>
