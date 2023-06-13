@@ -47,17 +47,19 @@
 
         body {
             opacity: 0;
-            transition: opacity 5s ease-in;
+            transition: opacity 15s ease-in;
         }
 
         .fade-in {
             opacity: 1;
-            transition: opacity 7s ease-in;
+            transition: opacity 30s ease-in;
         }
 
         .slide-in {
-            animation: slideFromTop 7s ease-in-out;
+            animation: slideFromTop 15s ease-in-out;
         }
+
+
 
         @keyframes slideFromTop {
             0% {
@@ -68,17 +70,45 @@
                 transform: translateY(0);
             }
         }
+
+        /* Hide the default audio controls */
+        audio::-webkit-media-controls-panel,
+        audio::-webkit-media-controls-start-playback-button,
+        audio::-webkit-media-controls-enclosure,
+        audio::-webkit-media-controls,
+        audio::-webkit-media-controls-toggle-button {
+            display: none !important;
+            opacity: 0;
+            height: 0;
+            width: 0;
     </style>
 
     <script>
         window.addEventListener('load', function () {
             document.body.classList.add('fade-in', 'slide-in');
         });
+
+
     </script>
+
+    <script>
+        function playAudio() {
+            var audio = document.getElementById('background-music');
+            audio.play();
+        }
+
+        window.addEventListener('load', function () {
+            document.body.classList.add('fade-in');
+            playAudio();
+        });
+    </script>
+
 
 </head>
 <body>
-
+    <audio id="background-audio" src="../media/mp3/14 - You Can Never Come to This Place.mp3" autoplay loop controls>
+        Your browser does not support the audio element.
+    </audio>
 
     <center>
         <div class="container">
@@ -93,8 +123,8 @@
 
                 <div id="countdown" style="border-top: none; border-left: none; border-right: none; font-size: 60px; color: #2F4F8F; background-color: transparent; font-family: overt; "></div>
 
-                <p style="font-size: 60px; color: #2F4F8F; font-family: overt; padding: 140px; border: 3px groove #92AAFC; background-image: url('../media/mc/environment/end.jpg'); ">Come back here On Tuesday the 20th of June 2023 at 6PM to join...</p>
-               
+                <p style="font-size: 60px; color: #2F4F8F; font-family: overt; padding: 120px; border: 3px groove #92AAFC; background-image: url('../media/mc/environment/end.jpg'); text-shadow: 2px 2px 4px white; ">Come back here On Tuesday the 20th of June 2023 at 6PM to join...</p>
+
 
             </div>
 

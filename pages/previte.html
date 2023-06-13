@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Joes World</title>
+    <link rel="icon" href="../media/ico/favicon.ico" type="image/x-icon" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Add any necessary stylesheets or scripts here -->
+    <link rel="stylesheet" href="../style.css">
+    <script src="../../seppe.js"></script>
+    <script src="../scripts/back-map.js?v=2"></script>
+
+
+    <style>
+        body {
+            overflow: hidden;
+            background-image: url('../media/mc/environment/end.jpg');
+            background-position: center; /* center the image */
+        }
+
+        body {
+            opacity: 0;
+            transition: opacity 5s ease-in;
+        }
+
+        .fade-in {
+            opacity: 1;
+            transition: opacity 5s ease-in;
+        }
+
+        .slide-in {
+            animation: slideFromTop 5s ease-in-out;
+        }
+
+
+
+        @keyframes slideFromTop {
+            0% {
+                transform: translateY(-60%);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        .link {
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        /* Hide the default audio controls */
+        audio::-webkit-media-controls-panel,
+        audio::-webkit-media-controls-start-playback-button,
+        audio::-webkit-media-controls-enclosure,
+        audio::-webkit-media-controls,
+        audio::-webkit-media-controls-toggle-button {
+            display: none !important;
+            opacity: 0;
+            height: 0;
+            width: 0;
+
+
+    </style>
+
+    <script>
+        window.addEventListener('load', function () {
+            document.body.classList.add('fade-in', 'slide-in');
+        });
+
+
+    </script>
+
+
+
+
+</head>
+<body>
+    <audio id="background-audio" src="../media/mp3/14 - You Can Never Come to This Place.mp3" autoplay loop controls>
+        Your browser does not support the audio element.
+    </audio>
+
+    <center>
+        <div class="container">
+
+
+
+
+
+            <div class="content-large-fill" style="width: 1280px; height: 720px; background-color: #D5DBDB; ">
+
+
+               
+
+                <div style=" width: 95%; height: 95%; margin-top: 0px; font-size: 60px; color: #2F4F8F; font-family: overt; padding: none; border: 3px groove #92AAFC; background-image: url('../media/mc/environment/end.jpg'); text-shadow: 2px 2px 4px white; ">
+
+
+                    <p style="margin-top: 20%;">This page is not intended for Mobile Phones</p>
+                    <p style="margin-top: 0%;">Continue?</p>
+
+                    <a href="invite.html" style="text-align: left; position: absolute; margin-left: -500px;">Yes</a>
+
+                    <a href="javascript:window.close();" style="text-align: left; position: absolute; margin-left: 430px;">No</a>
+
+                </div>
+
+
+            </div>
+
+
+
+
+
+
+
+        </div>
+    </center>
+</body>
+</html>
