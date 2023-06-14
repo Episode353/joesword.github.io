@@ -13,6 +13,7 @@ $(function () {
        'pages/html-shuffle/feesh-brain.html',
        'pages/html-shuffle/stolen.html',
        'pages/html-shuffle/loud-ward.html',
+       'pages/html-shuffle/sigma-grintset.html',
        'pages/html-shuffle/stole-inch.html',
        'pages/html-shuffle/jig-dirsty.html',
        'pages/html-shuffle/mortified_rugby.html'
