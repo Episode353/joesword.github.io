@@ -22,7 +22,8 @@
 
 body {
     margin: 0;
-    background-image: url('../media/mc/block/bone_block_side.png');
+    /*background-image: url('../media/mc/block/bone_block_side.png');*/
+    background-image: url('../media/mc/block/end_stone_bricks.png');
     background-position: center; /* center the image */
 }
 
