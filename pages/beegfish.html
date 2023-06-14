@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Spinning Image</title>
+    <style>
+        #image {
+            width: 200px;
+            height: 200px;
+        }
+
+        #counter {
+            font-size: 24px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <img id="beeg_fish" src="../media/png/spinner1.png" alt="Beeg Fish Not Found">
+    <button onclick="spinbeeg_fish()">Spin</button>
+    <div id="counter">Speed: 0</div>
+    <audio id="spinSound" src="../media/mp3/spin.mp3"></audio>
+
+    <script>
+        var beeg_fish = document.getElementById('beeg_fish');
+        var valueA = 0;
+        var prevAngle = 0;
+        var spinSound = document.getElementById('spinSound');
+        var lastSoundTime = 0;
+        var maxSoundInterval = 50; // Maximum interval between sound plays (in milliseconds)
+        var interval;
+
+        function spinbeeg_fish() {
+            if (interval) {
+                clearInterval(interval);
+            }
+            var speed = Math.floor(Math.random() * (50 - 25 + 1) + 25);
+            spin(speed);
+        }
+
+        function spin(speed) {
+            interval = setInterval(frame, 10);
+
+            function frame() {
+                valueA = (valueA + speed) % 360; // Calculate new angle
+
+                beeg_fish.style.transform = 'rotate(' + valueA + 'deg)'; // Apply rotation
+
+                speed *= 0.98; // Reduce speed
+
+                document.getElementById('counter').textContent = 'Speed: ' + speed.toFixed(2);
+
+                if (speed < 0.1) {
+                    clearInterval(interval);
+                    interval = null;
+                }
+
+                if (Math.abs(valueA - prevAngle) >= 10 && (Date.now() - lastSoundTime) >= maxSoundInterval) {
+                    playSpinSound();
+                    prevAngle = valueA;
+                    lastSoundTime = Date.now();
+                }
+            }
+        }
+
+        function playSpinSound() {
+            var newSpinSound = new Audio('../media/mp3/spin.mp3');
+            newSpinSound.play();
+        }
+    </script>
+</body>
+</html>
