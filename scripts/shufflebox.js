@@ -12,6 +12,7 @@ $(function () {
        'pages/html-shuffle/gallery-shuffle.html',
        'pages/html-shuffle/feesh-brain.html',
        'pages/html-shuffle/stolen.html',
+       'pages/html-shuffle/dorito-time.html',
        'pages/html-shuffle/loud-ward.html',
        'pages/html-shuffle/sigma-grintset.html',
        'pages/html-shuffle/stole-inch.html',

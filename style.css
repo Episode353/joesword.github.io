@@ -20,6 +20,7 @@
 }
 
 
+
 body {
     margin: 0;
     /*background-image: url('../media/mc/block/bone_block_side.png');*/
@@ -28,7 +29,7 @@ body {
 }
 
 .container {
-    width: 1200px;
+    width: 100%;
     height: 1500px;
     font-family: 'quicksand', sans-serif;
     font-weight: bold;
@@ -38,7 +39,7 @@ body {
     grid-template-rows: 0.2fr 1fr 1fr 0.5fr;
     grid-column-gap: 60px;
     grid-row-gap: 60px;
-    padding: 50px;
+    padding-top: 50px;
     box-sizing: border-box;
 }
 
@@ -102,6 +103,11 @@ body {
     text-align: center;
     height: 100%;
     overflow: hidden;
+    font-family: daydream;
+    width: 50%;
+    position: fixed;
+    top: 20%;
+    left: 40%;
 }
     /* CSS for the links in the sidebar */
     .header-content a {
@@ -270,5 +276,83 @@ body {
     }
 }
 
+    #header-logo {
+        font-family: daydream;
+        color: #0D47A1;
+        text-shadow: 10px 10px 0px #fec652;
+        text-align: center;
+        font-size: 200%;
+        position: fixed;
+        top: -25px;
+        left: 5%;
+        width: 120px;
+        height: 169px;
+    }
 
 
+
+@media only screen and (max-width: 700px) {
+    .container {
+        width: 2000%;
+        padding-left: 0;
+        padding-right: 0;
+
+    }
+    
+    .footer {
+        display: none;
+    }
+
+    #header-logo{
+        font-size: 100%;
+        top: 5%;
+        text-align: center;
+    }
+
+    .header-content{
+        top: 70%;
+        left: 0px;
+        width: 100%;
+        height: 20%;
+    }
+
+
+}
+
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (max-width: 600px) {
+
+
+    #header-logo {
+        font-size: 80%;
+        top: 5px;
+    }
+
+    .header-content a {
+        font-size: 80%;
+    }
+
+
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (max-width: 768px) {
+
+
+    .header-content {
+        font-size: 100%;
+    }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (max-width: 1900px) {
+    .container{
+        width: 70%;
+    }
+}
