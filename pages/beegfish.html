@@ -43,10 +43,8 @@
         }
 
         button {
-
             height: 128px;
             width: 128px;
-            
         }
 
         #canvas {
@@ -62,65 +60,70 @@
     <img id="bg" src="../media/png/bf-bg01.png" alt="Beeg Fish Not Found">
     <canvas id="canvas"></canvas>
     <audio id="spinSound" src="../media/mp3/spin.mp3"></audio>
-    <div id="counter">Speed: 0</div>
+    
     <div style="z-index: 3; position: absolute; transform: translate(-0px, 350px);">
-
-
-        <button onclick="spinbeeg_fish()">Spin</button>
+        <button onclick="spinBeegFish()">Spin</button>
         <button id="clear">Clear</button>
+        <div id="counter">Speed: 0</div>
     </div>
 
     <script>
-        var beeg_fish = document.getElementById('beeg_fish');
+        var beegFish = document.getElementById('beeg_fish');
         var valueA = 0;
         var prevAngle = 0;
         var spinSound = document.getElementById('spinSound');
         var lastSoundTime = 0;
         var maxSoundInterval = 50;
-        var interval;
+        var animationFrameId;
 
-        function spinbeeg_fish() {
-            if (interval) {
-                clearInterval(interval);
+        function spinBeegFish() {
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
             }
             var speed = Math.floor(Math.random() * (50 - 25 + 1) + 25);
             spin(speed);
         }
 
         function spin(speed) {
-            interval = setInterval(frame, 10);
+            var then = performance.now();
 
-            function frame() {
-                valueA = (valueA + speed) % 360;
-                beeg_fish.style.transform = 'translate(-50%, -50%) rotateZ(' + valueA + 'deg)';
+            function frame(now) {
+                var deltaTime = now - then;
+                then = now;
+
+                valueA = (valueA + speed * deltaTime / 10) % 360;
+                beegFish.style.transform = 'translate(-50%, -50%) rotateZ(' + valueA + 'deg)';
                 speed *= 0.98;
 
                 document.getElementById('counter').textContent = 'Speed: ' + speed.toFixed(2);
 
                 if (speed < 0.01) {
-                    clearInterval(interval);
-                    interval = null;
+                    cancelAnimationFrame(animationFrameId);
+                    animationFrameId = null;
                 }
 
-                if (Math.abs(valueA - prevAngle) >= 10 && (Date.now() - lastSoundTime) >= maxSoundInterval) {
+                if (Math.abs(valueA - prevAngle) >= 10 && (now - lastSoundTime) >= maxSoundInterval) {
                     playSpinSound();
                     prevAngle = valueA;
-                    lastSoundTime = Date.now();
+                    lastSoundTime = now;
+                }
+
+                if (speed >= 0.01) {
+                    animationFrameId = requestAnimationFrame(frame);
                 }
             }
+
+            animationFrameId = requestAnimationFrame(frame);
         }
 
         function playSpinSound() {
-            var newSpinSound = new Audio('../media/mp3/spin.mp3');
-            newSpinSound.play();
+            spinSound.play();
         }
     </script>
 
     <script>
         const canvas = document.getElementById("canvas");
         const clearButton = document.getElementById("clear");
-        const saveButton = document.getElementById("save");
-        const gallery = document.getElementById("gallery");
 
         const ctx = canvas.getContext("2d");
         let isDrawing = false;
@@ -140,8 +143,9 @@
         updateCanvasSize();
 
         function startDrawing(e) {
+            e.preventDefault();
             isDrawing = true;
-            [lastX, lastY] = [e.clientX, e.clientY];
+            [lastX, lastY] = [e.clientX || e.touches[0].clientX, e.clientY || e.touches[0].clientY];
         }
 
         function stopDrawing() {
@@ -152,9 +156,9 @@
             if (!isDrawing) return;
             ctx.beginPath();
             ctx.moveTo(lastX, lastY);
-            ctx.lineTo(e.clientX, e.clientY);
+            ctx.lineTo(e.clientX || e.touches[0].clientX, e.clientY || e.touches[0].clientY);
             ctx.stroke();
-            [lastX, lastY] = [e.clientX, e.clientY];
+            [lastX, lastY] = [e.clientX || e.touches[0].clientX, e.clientY || e.touches[0].clientY];
         }
 
         function clearCanvas() {
@@ -162,8 +166,11 @@
         }
 
         canvas.addEventListener("mousedown", startDrawing);
+        canvas.addEventListener("touchstart", startDrawing);
         canvas.addEventListener("mouseup", stopDrawing);
+        canvas.addEventListener("touchend", stopDrawing);
         canvas.addEventListener("mousemove", draw);
+        canvas.addEventListener("touchmove", draw);
 
         clearButton.addEventListener("click", clearCanvas);
     </script>
