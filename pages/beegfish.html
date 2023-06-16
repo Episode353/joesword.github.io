@@ -4,18 +4,17 @@
     <title>Background Photo Swapping</title>
     <style>
         body {
-        }
-
-        #container {
             display: flex;
             justify-content: center;
             align-items: center;
-            border: groove;
+            border: none;
             resize: both;
             overflow: auto;
             position: relative;
-            width: 1028px;
-            height: 561px;
+            width: 100vw; /* Set width to viewport width */
+            height: 100vh; /* Set height to viewport height */
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
         }
 
         #beeg_fish {
@@ -31,9 +30,9 @@
 
         #bg {
             position: absolute;
+            transform: translate(-50%, -50%) rotateZ(0deg);
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
             max-height: 500px;
             z-index: 0;
             pointer-events: none;
@@ -44,22 +43,32 @@
         }
 
         button {
+
+            height: 128px;
+            width: 128px;
+            
         }
 
         #canvas {
-            border: groove;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 2;
         }
     </style>
 </head>
 <body>
-    <div id="container">
-        <img id="beeg_fish" src="../media/png/spinner1.png" alt="Beeg Fish Not Found">
-        <img id="bg" src="../media/png/bf-bg01.png" alt="Beeg Fish Not Found">
-        <canvas id="canvas"></canvas>
-        <audio id="spinSound" src="../media/mp3/spin.mp3"></audio>
-    </div>
-    <button onclick="spinbeeg_fish()">Spin</button>
+    <img id="beeg_fish" src="../media/png/spinner1.png" alt="Beeg Fish Not Found">
+    <img id="bg" src="../media/png/bf-bg01.png" alt="Beeg Fish Not Found">
+    <canvas id="canvas"></canvas>
+    <audio id="spinSound" src="../media/mp3/spin.mp3"></audio>
     <div id="counter">Speed: 0</div>
+    <div style="z-index: 3; position: absolute; transform: translate(-0px, 350px);">
+
+
+        <button onclick="spinbeeg_fish()">Spin</button>
+        <button id="clear">Clear</button>
+    </div>
 
     <script>
         var beeg_fish = document.getElementById('beeg_fish');
@@ -118,22 +127,21 @@
         let lastX = 0;
         let lastY = 0;
 
-        const container = document.getElementById("container");
         window.addEventListener("resize", updateCanvasSize);
 
         const observer = new ResizeObserver(updateCanvasSize);
-        observer.observe(container);
+        observer.observe(canvas);
 
         function updateCanvasSize() {
-            canvas.width = container.clientWidth;
-            canvas.height = container.clientHeight;
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         }
 
         updateCanvasSize();
 
         function startDrawing(e) {
             isDrawing = true;
-            [lastX, lastY] = [e.offsetX, e.offsetY];
+            [lastX, lastY] = [e.clientX, e.clientY];
         }
 
         function stopDrawing() {
@@ -144,40 +152,13 @@
             if (!isDrawing) return;
             ctx.beginPath();
             ctx.moveTo(lastX, lastY);
-            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.lineTo(e.clientX, e.clientY);
             ctx.stroke();
-            [lastX, lastY] = [e.offsetX, e.offsetY];
+            [lastX, lastY] = [e.clientX, e.clientY];
         }
 
         function clearCanvas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-        }
-
-        function displayImage(url) {
-            const img = new Image();
-            img.src = url;
-            img.onload = () => {
-                gallery.appendChild(img);
-            };
-        }
-
-        function confirmUpload() {
-            const result = confirm("Are you sure you want to upload the image?");
-            if (result) {
-                saveImage();
-            }
-        }
-
-        async function saveImage() {
-            const canvas = document.getElementById("canvas");
-            const imageBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
-
-            // Here you can add your own logic to save the image or perform any desired action.
-            // Since the Firebase-related code is removed, you'll need to handle the image storage/upload yourself.
-
-            setTimeout(function () {
-                location.reload();
-            }, 100);
         }
 
         canvas.addEventListener("mousedown", startDrawing);
@@ -185,7 +166,6 @@
         canvas.addEventListener("mousemove", draw);
 
         clearButton.addEventListener("click", clearCanvas);
-        saveButton.addEventListener("click", confirmUpload);
     </script>
 </body>
 </html>
