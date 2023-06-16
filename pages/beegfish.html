@@ -107,22 +107,7 @@
         }
     </script>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
-        import { getStorage, ref, uploadBytes } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-storage.js";
-
-        const firebaseConfig = {
-            apiKey: "your-api-key",
-            authDomain: "your-auth-domain",
-            projectId: "your-project-id",
-            storageBucket: "your-storage-bucket",
-            messagingSenderId: "your-messaging-sender-id",
-            appId: "your-app-id"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const storage = getStorage(app);
-
+    <script>
         const canvas = document.getElementById("canvas");
         const clearButton = document.getElementById("clear");
         const saveButton = document.getElementById("save");
@@ -185,10 +170,10 @@
 
         async function saveImage() {
             const canvas = document.getElementById("canvas");
-            const storageRef = ref(storage, "images/" + "board_drawing_no_" + Date.now() + ".png");
             const imageBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
 
-            await uploadBytes(storageRef, imageBlob);
+            // Here you can add your own logic to save the image or perform any desired action.
+            // Since the Firebase-related code is removed, you'll need to handle the image storage/upload yourself.
 
             setTimeout(function () {
                 location.reload();
