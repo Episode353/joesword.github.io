@@ -157,7 +157,7 @@ body {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    grid-gap: 40px;
+    grid-gap: 0px;
     text-align: center;
 }
 
@@ -168,6 +168,20 @@ body {
     grid-column-start: 1;
     grid-column-end: 4;
 
+}
+
+
+.food-review-headerlinks {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-gap: 0px;
+    text-align: center;
+}
+
+#food-review-headerlinks-box {
+    border: none;
+    padding: 0;
 }
 
 
@@ -228,6 +242,9 @@ body {
     border: 3px solid lightsteelblue;
 }
 
+.food-review-picture {
+    width: 15vw;
+}
 
 .word-gold {
     color: #F1C40F; /* makes the text gold */
@@ -322,6 +339,8 @@ body {
 }
 
 
+
+
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (max-width: 600px) {
 
@@ -336,6 +355,8 @@ body {
     }
 
 
+
+
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
@@ -348,13 +369,23 @@ body {
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) {
+@media only screen and (max-width: 900px) {
+
+    .food-review-headerlinks {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        grid-gap: 0px;
+        text-align: center;
+       
+    }
 
 }
 
-/* Extra large devices (large laptops and desktops, 1200px and up) */
-@media only screen and (max-width: 1900px) {
+
+@media only screen and (max-width: 5000px) {
     .container{
         width: 70%;
     }
+
 }
