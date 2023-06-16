@@ -1,7 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-
     <title>Background Photo Swapping</title>
     <style>
         body {
@@ -14,33 +13,32 @@
             border: groove;
             resize: both;
             overflow: auto;
-            position: relative; /* Added positioning for child elements */
+            position: relative;
             width: 1028px;
             height: 561px;
         }
 
         #beeg_fish {
-            position: absolute; /* Position the first image absolutely */
-            top: 50%; /* Position it 50% from the top */
-            left: 50%; /* Position it 50% from the left */
-            transform: translate(-50%, -50%) rotateZ(0deg); /* Center the image and set initial rotation */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotateZ(0deg);
             max-height: 500px;
-            z-index: 1; /* Increase the z-index to display above other elements */
+            z-index: 1;
             pointer-events: none;
             user-select: none;
         }
 
         #bg {
-            position: absolute; /* Position the second image absolutely */
-            top: 50%; /* Position it 50% from the top */
-            left: 50%; /* Position it 50% from the left */
-            transform: translate(-50%, -50%); /* Center the image */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             max-height: 500px;
             z-index: 0;
             pointer-events: none;
             user-select: none;
         }
-
 
         #counter {
         }
@@ -48,9 +46,8 @@
         button {
         }
 
-        #canvas{
+        #canvas {
             border: groove;
-
         }
     </style>
 </head>
@@ -58,21 +55,20 @@
     <div id="container">
         <img id="beeg_fish" src="../media/png/spinner1.png" alt="Beeg Fish Not Found">
         <img id="bg" src="../media/png/bf-bg01.png" alt="Beeg Fish Not Found">
-         <canvas id="canvas" width="800" height="600"></canvas>
+        <canvas id="canvas"></canvas>
         <audio id="spinSound" src="../media/mp3/spin.mp3"></audio>
     </div>
     <button onclick="spinbeeg_fish()">Spin</button>
     <div id="counter">Speed: 0</div>
-   
+
     <script>
         var beeg_fish = document.getElementById('beeg_fish');
         var valueA = 0;
         var prevAngle = 0;
         var spinSound = document.getElementById('spinSound');
         var lastSoundTime = 0;
-        var maxSoundInterval = 50; // Maximum interval between sound plays (in milliseconds)
+        var maxSoundInterval = 50;
         var interval;
-
 
         function spinbeeg_fish() {
             if (interval) {
@@ -86,11 +82,9 @@
             interval = setInterval(frame, 10);
 
             function frame() {
-                valueA = (valueA + speed) % 360; // Calculate new angle
-
-                beeg_fish.style.transform = 'translate(-50%, -50%) rotateZ(' + valueA + 'deg)'; // Apply rotation
-
-                speed *= 0.98; // Reduce speed
+                valueA = (valueA + speed) % 360;
+                beeg_fish.style.transform = 'translate(-50%, -50%) rotateZ(' + valueA + 'deg)';
+                speed *= 0.98;
 
                 document.getElementById('counter').textContent = 'Speed: ' + speed.toFixed(2);
 
@@ -111,29 +105,22 @@
             var newSpinSound = new Audio('../media/mp3/spin.mp3');
             newSpinSound.play();
         }
-
     </script>
 
     <script type="module">
-        // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
         import { getStorage, ref, uploadBytes } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-storage.js";
 
-        // Your web app's Firebase configuration
         const firebaseConfig = {
-            apiKey: "AIzaSyCqgWyZOOfVZddqVjV-ZsDpMo6b0F1UJxs",
-            authDomain: "joesworldonline-967be.firebaseapp.com",
-            projectId: "joesworldonline-967be",
-            storageBucket: "joesworldonline-967be.appspot.com",
-            messagingSenderId: "817241549916",
-            appId: "1:817241549916:web:787af20d01f9172efaca99"
+            apiKey: "your-api-key",
+            authDomain: "your-auth-domain",
+            projectId: "your-project-id",
+            storageBucket: "your-storage-bucket",
+            messagingSenderId: "your-messaging-sender-id",
+            appId: "your-app-id"
         };
 
-
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
-
-        // Initialize Firebase Storage
         const storage = getStorage(app);
 
         const canvas = document.getElementById("canvas");
@@ -145,6 +132,19 @@
         let isDrawing = false;
         let lastX = 0;
         let lastY = 0;
+
+        const container = document.getElementById("container");
+        window.addEventListener("resize", updateCanvasSize);
+
+        const observer = new ResizeObserver(updateCanvasSize);
+        observer.observe(container);
+
+        function updateCanvasSize() {
+            canvas.width = container.clientWidth;
+            canvas.height = container.clientHeight;
+        }
+
+        updateCanvasSize();
 
         function startDrawing(e) {
             isDrawing = true;
@@ -167,6 +167,7 @@
         function clearCanvas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
+
         function displayImage(url) {
             const img = new Image();
             img.src = url;
@@ -174,9 +175,6 @@
                 gallery.appendChild(img);
             };
         }
-
-
-
 
         function confirmUpload() {
             const result = confirm("Are you sure you want to upload the image?");
@@ -190,16 +188,12 @@
             const storageRef = ref(storage, "images/" + "board_drawing_no_" + Date.now() + ".png");
             const imageBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
 
-            // Upload the image to Firebase Storage
             await uploadBytes(storageRef, imageBlob);
 
-            // Reload the HTML page
-            // Reload the page after 3 seconds
             setTimeout(function () {
                 location.reload();
             }, 100);
         }
-
 
         canvas.addEventListener("mousedown", startDrawing);
         canvas.addEventListener("mouseup", stopDrawing);
@@ -207,8 +201,6 @@
 
         clearButton.addEventListener("click", clearCanvas);
         saveButton.addEventListener("click", confirmUpload);
-
-
     </script>
 </body>
 </html>
