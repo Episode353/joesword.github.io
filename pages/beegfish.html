@@ -5,53 +5,65 @@
     <title>Background Photo Swapping</title>
     <style>
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-image: url("../media/png/bf-bg01.png");
-            background-size: cover; /* Change background-size to "cover" */
-            background-repeat: no-repeat;
-            background-position: center;
-            height: 100vh;
-            margin: 0;
-            padding: 0;
         }
 
         #container {
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            text-align: center;
-            height: 100%; /* Set container height to 100% */
+            border: groove;
+            resize: both;
+            overflow: auto;
+            position: relative; /* Added positioning for child elements */
+            width: 1028px;
+            height: 561px;
         }
 
         #beeg_fish {
+            position: absolute; /* Position the first image absolutely */
+            top: 50%; /* Position it 50% from the top */
+            left: 50%; /* Position it 50% from the left */
+            transform: translate(-50%, -50%) rotateZ(0deg); /* Center the image and set initial rotation */
+            max-height: 500px;
+            z-index: 1; /* Increase the z-index to display above other elements */
+            pointer-events: none;
+            user-select: none;
+        }
 
+        #bg {
+            position: absolute; /* Position the second image absolutely */
+            top: 50%; /* Position it 50% from the top */
+            left: 50%; /* Position it 50% from the left */
+            transform: translate(-50%, -50%); /* Center the image */
+            max-height: 500px;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
         }
 
 
         #counter {
-            height: 50px;
-            position: relative;
-            left: -45vw;
         }
 
         button {
-            height: 50px;
-            
-            position: relative;
-            left: -45vw;
+        }
+
+        #canvas{
+            border: groove;
+
         }
     </style>
 </head>
 <body>
     <div id="container">
         <img id="beeg_fish" src="../media/png/spinner1.png" alt="Beeg Fish Not Found">
-        <button onclick="spinbeeg_fish()">Spin</button>
-        <div id="counter">Speed: 0</div>
+        <img id="bg" src="../media/png/bf-bg01.png" alt="Beeg Fish Not Found">
+         <canvas id="canvas" width="800" height="600"></canvas>
         <audio id="spinSound" src="../media/mp3/spin.mp3"></audio>
     </div>
-
+    <button onclick="spinbeeg_fish()">Spin</button>
+    <div id="counter">Speed: 0</div>
+   
     <script>
         var beeg_fish = document.getElementById('beeg_fish');
         var valueA = 0;
@@ -61,15 +73,6 @@
         var maxSoundInterval = 50; // Maximum interval between sound plays (in milliseconds)
         var interval;
 
-        var backgroundPhotos = [
-            "../media/png/bf-bg01.png",
-            "../media/png/bf-bg02.png",
-            "../media/png/bf-bg03.png",
-            "../media/png/bf-bg04.png",
-            "../media/png/bf-bg05.png",
-            "../media/png/bf-bg06.png"
-        ];
-        var currentBackgroundIndex = 0;
 
         function spinbeeg_fish() {
             if (interval) {
@@ -85,7 +88,7 @@
             function frame() {
                 valueA = (valueA + speed) % 360; // Calculate new angle
 
-                beeg_fish.style.transform = 'rotate(' + valueA + 'deg)'; // Apply rotation
+                beeg_fish.style.transform = 'translate(-50%, -50%) rotateZ(' + valueA + 'deg)'; // Apply rotation
 
                 speed *= 0.98; // Reduce speed
 
@@ -104,18 +107,108 @@
             }
         }
 
-
-
         function playSpinSound() {
             var newSpinSound = new Audio('../media/mp3/spin.mp3');
             newSpinSound.play();
         }
 
-        function swapBackgroundPhoto() {
-            currentBackgroundIndex = (currentBackgroundIndex + 1) % backgroundPhotos.length;
-            var newBackgroundPhoto = backgroundPhotos[currentBackgroundIndex];
-            document.body.style.backgroundImage = 'url("' + newBackgroundPhoto + '")';
+    </script>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
+        import { getStorage, ref, uploadBytes } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-storage.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCqgWyZOOfVZddqVjV-ZsDpMo6b0F1UJxs",
+            authDomain: "joesworldonline-967be.firebaseapp.com",
+            projectId: "joesworldonline-967be",
+            storageBucket: "joesworldonline-967be.appspot.com",
+            messagingSenderId: "817241549916",
+            appId: "1:817241549916:web:787af20d01f9172efaca99"
+        };
+
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        // Initialize Firebase Storage
+        const storage = getStorage(app);
+
+        const canvas = document.getElementById("canvas");
+        const clearButton = document.getElementById("clear");
+        const saveButton = document.getElementById("save");
+        const gallery = document.getElementById("gallery");
+
+        const ctx = canvas.getContext("2d");
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+
+        function startDrawing(e) {
+            isDrawing = true;
+            [lastX, lastY] = [e.offsetX, e.offsetY];
         }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.stroke();
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+        function displayImage(url) {
+            const img = new Image();
+            img.src = url;
+            img.onload = () => {
+                gallery.appendChild(img);
+            };
+        }
+
+
+
+
+        function confirmUpload() {
+            const result = confirm("Are you sure you want to upload the image?");
+            if (result) {
+                saveImage();
+            }
+        }
+
+        async function saveImage() {
+            const canvas = document.getElementById("canvas");
+            const storageRef = ref(storage, "images/" + "board_drawing_no_" + Date.now() + ".png");
+            const imageBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+
+            // Upload the image to Firebase Storage
+            await uploadBytes(storageRef, imageBlob);
+
+            // Reload the HTML page
+            // Reload the page after 3 seconds
+            setTimeout(function () {
+                location.reload();
+            }, 100);
+        }
+
+
+        canvas.addEventListener("mousedown", startDrawing);
+        canvas.addEventListener("mouseup", stopDrawing);
+        canvas.addEventListener("mousemove", draw);
+
+        clearButton.addEventListener("click", clearCanvas);
+        saveButton.addEventListener("click", confirmUpload);
+
+
     </script>
 </body>
 </html>
