@@ -26,10 +26,11 @@ body {
     /*background-image: url('../media/mc/block/bone_block_side.png');*/
     background-image: url('../media/mc/block/end_stone_bricks.png');
     background-position: center; /* center the image */
+    transition: all 3s ease;
 }
 
 .container {
-    width: 100%;
+    width: 80%;
     height: 1500px;
     font-family: 'quicksand', sans-serif;
     font-weight: bold;
@@ -41,6 +42,7 @@ body {
     grid-row-gap: 60px;
     padding-top: 50px;
     box-sizing: border-box;
+
 }
 
 
@@ -293,7 +295,7 @@ body {
 
 @media only screen and (max-width: 700px) {
     .container {
-        width: 2000%;
+
         padding-left: 0;
         padding-right: 0;
 
