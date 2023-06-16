@@ -163,14 +163,17 @@ window.addEventListener('mouseout', () => {
 // Add touch event listeners for mobile devices
 canvas.addEventListener('touchstart', (event) => {
     isDrawing = true;
-    lastX = event.touches[0].clientX - canvas.offsetLeft;
-    lastY = event.touches[0].clientY - canvas.offsetTop;
+    const rect = canvas.getBoundingClientRect();
+    lastX = event.touches[0].clientX - rect.left;
+    lastY = event.touches[0].clientY - rect.top;
 });
 
 canvas.addEventListener('touchmove', (event) => {
     if (!isDrawing) return;
-    const x = event.touches[0].clientX - canvas.offsetLeft;
-    const y = event.touches[0].clientY - canvas.offsetTop;
+    event.preventDefault(); // Prevent scrolling
+    const rect = canvas.getBoundingClientRect();
+    const x = event.touches[0].clientX - rect.left;
+    const y = event.touches[0].clientY - rect.top;
     ctx.beginPath();
     ctx.moveTo(lastX, lastY);
     ctx.lineTo(x, y);
@@ -184,7 +187,6 @@ canvas.addEventListener('touchmove', (event) => {
 
 canvas.addEventListener('touchend', () => {
     if (isDrawing) {
-        undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
         isDrawing = false;
     }
 });
