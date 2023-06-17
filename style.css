@@ -204,6 +204,10 @@ body {
         
     }
 
+#spinner-canvas {
+    width: 60%; /* Set the desired width */
+    height: 60%; /* Set the desired height */
+}
 
 
 /* CSS for the food review body*/
@@ -379,7 +383,7 @@ body {
     }
 
     #board-controls {
-        gap: 5px;
+        gap: 100%;
     }
 
     .food-review-headerlinks {
@@ -431,9 +435,6 @@ body {
         font-size: 12px;
     }
 
-    #board-controls {
-        gap: 5px;
-    }
 
     .food-review-headerlinks {
         display: grid;
@@ -480,9 +481,7 @@ body {
         display: unset;
     }
 
-    #board-controls {
-        gap: 5px;
-    }
+
 }
 @media only screen and (min-width: 1200px) {
     /* 
@@ -514,10 +513,6 @@ body {
         display: unset;
     }
 
-    #board-controls {
-        gap: 5px;
-    }
-
 }
 
 
@@ -540,10 +535,7 @@ body {
         display: unset;
     }
 
-    #board-controls {
 
-        gap: 5px;
-    }
 
 
 }
@@ -585,6 +577,7 @@ body {
     }
 
 
+
     #canvas-container {
         display: flex;
         align-items: center;
@@ -593,6 +586,8 @@ body {
     #canvas {
         border: 1px solid black;
         margin-right: 10px; /* Add margin to create space */
+        width: 800px; /* Set the desired width for the canvas */
+        height: 600px; /* Set the desired height for the canvas */
     }
 
     #board-controls {

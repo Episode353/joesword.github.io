@@ -11,13 +11,53 @@
     <script src="../scripts/seppe.js"></script>
     <script src="../scripts/back-map.js?v=2"></script>
     <style>
-
     </style>
 
     <script>
         window.addEventListener("load", () => {
             displayGallery();
         });
+    </script>
+
+    <script>
+        window.addEventListener("load", () => {
+            updateCanvasSize();
+        });
+    </script>
+
+    <script>
+        window.addEventListener("load", () => {
+            displayGallery();
+        });
+
+        window.addEventListener("resize", () => {
+            updateCanvasSize();
+        });
+
+        function updateCanvasSize() {
+            const canvas = document.getElementById("canvas");
+            const container = document.getElementById("canvas-container");
+
+            const containerWidth = container.clientWidth;
+            const containerHeight = container.clientHeight;
+
+            const canvasWidth = Math.floor(containerWidth * 0.9); // Adjust the percentage as needed
+            const canvasHeight = Math.floor(containerHeight * 0.5); // Adjust the percentage as needed
+
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+
+            clearCanvas();
+        }
+
+        window.addEventListener("load", () => {
+            updateCanvasSize();
+        });
+
+        window.addEventListener("resize", () => {
+            updateCanvasSize();
+        });
+
     </script>
 
 
@@ -42,9 +82,9 @@
                         border-left: none;
                         border-right: none;
 
-    
+
                             ">
-                    <canvas id="canvas" width="800" height="600"></canvas>
+                    <canvas id="canvas"></canvas>
                     <div style="position: relative; " id="board-controls">
                         <button id="undo">Undo</button>
                         <button id="clear">Clear Page</button>
@@ -56,9 +96,9 @@
                         <button id="brush">Brush</button>
                         <input type="range" id="brush-size" min="1" max="100" value="10">
                         <label for="canvas-width">Width:</label>
-                        <input type="number" id="canvas-width" value="800">
+                        <input type="number" id="canvas-width">
                         <label for="canvas-height">Height:</label>
-                        <input type="number" id="canvas-height" value="600">
+                        <input type="number" id="canvas-height">
                         <button style="color:#c75f5f ;font-size: 32px;" id="save">Upload Post</button>
 
                         <script src="../scripts/board.js"></script>
@@ -67,14 +107,14 @@
 
                 <br><br>
                 <h2>Gallery</h2>
-               
+
                 <div id="gallery" style="
                         border-bottom: none;
                         border-left: none;
                         border-right: none;
                         ">
 
-                    <iframe id="gallery-iframe" frameborder="0" src="gallery.html" style="width: 1040px; height: 2000px;"></iframe>
+                    <iframe id="gallery-iframe" frameborder="0" src="gallery.html" style="width: 1040px; height: 1500px;"></iframe>
 
 
 
@@ -131,7 +171,13 @@
                     }
 
                     function clearCanvas() {
-                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        const canvas = document.getElementById("canvas");
+                        const context = canvas.getContext("2d");
+                        const canvasWidth = canvas.width;
+                        const canvasHeight = canvas.height;
+
+                        context.fillStyle = "white";
+                        context.fillRect(0, 0, canvasWidth, canvasHeight);
                     }
                     function displayImage(url) {
                         const img = new Image();
