@@ -169,9 +169,19 @@ body {
     grid-row-end: 3;
     grid-column-start: 1;
     grid-column-end: 4;
-    
-
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+    background-color: #E8DAB1 !important;
+    /*
+    background-color: blue !important;
+        */
 }
+
+    .food-content-large-fill div {
+        /*
+    background-color: red;
+        */
+    }
 
 
 .food-review-headerlinks {
@@ -199,10 +209,11 @@ body {
 /* CSS for the food review body*/
 .food-review-body {
     display: grid;
-    grid-template-columns: 1fr 0.2fr;
-    grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: auto auto;
+    grid-template-columns: auto auto;
     height: 100%;
-    gap: 90px;
+    gap: 5%;
+
 }
 
 
@@ -210,6 +221,7 @@ body {
     border-top: none !important;
     border-left: none !important;
     border-right: none !important;
+    min-width: 20rem;
 
 }
 
@@ -219,7 +231,8 @@ body {
     grid-column-start: 2;
     grid-column-end: 2;
     border: 3px solid lightsteelblue;
-    width: 250px;
+    max-width: 250rem;
+    max-height: 250rem;
     border-top: none !important;
     border-left: none !important;
     border-right: none !important;
@@ -228,18 +241,31 @@ body {
     .food-content-rate p {
         font-family: viaappia;
         font-weight: bold;
-        font-size: 110px;
+        font-size: 600%;
         text-shadow: 4px 4px 0px #fec652;
         color: #0D47A1;
         transform: translate(0px, 0px) rotate(-20deg);
-    }   
-    
-    
+    }
+
+.food-sip {
+    position: relative;
+    max-width: 10em;
+    vertical-align: bottom;
+}
     
     .food-content-bob p {
         font-size: 18px;
 
     }
+
+
+
+
+    .food-content-photo img{
+        width: 50%;
+    }
+
+
 
 .food-content-bob {
     border-top: none !important;
@@ -247,6 +273,8 @@ body {
     border-right: none !important;
     border: 3px solid lightsteelblue;
 }
+
+
 
 .food-review-picture {
     width: 12vw;
@@ -319,13 +347,13 @@ body {
 
 
 @media only screen and (min-width: 0px) {
-    /*
+    /* 
     body {
         background-image: none;
         background-color: purple;
 
     }
-        */
+    */
 
     #header-logo {
         font-size: 140%;
@@ -361,6 +389,13 @@ body {
         grid-gap: 0px;
         text-align: center;
     }
+
+    .food-review-body {
+        display: unset;
+        grid-template-columns: none;
+        grid-template-columns: none;
+    }
+
 }
 
 
@@ -407,6 +442,13 @@ body {
         grid-gap: 0px;
         text-align: center;
     }
+
+
+    .food-review-body {
+        display: grid;
+        grid-template-columns: auto auto;
+        grid-template-columns: auto auto;
+    }
 }
 
 @media only screen and (min-width: 1000px) {
@@ -443,12 +485,12 @@ body {
     }
 }
 @media only screen and (min-width: 1200px) {
-    /*
+    /* 
     body {
         background-image: none;
         background-color: yellow;
     }
-        */
+      /*  */
 
 
     .food-review-headerlinks {
@@ -485,7 +527,7 @@ body {
         background-image: none;
         background-color: orange;
     }
-        */
+       /* */
 
 
     .container {
@@ -513,7 +555,7 @@ body {
         background-color: red;
 
     }
-*/
+       */
 
     .container {
         width: 50%;
