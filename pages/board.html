@@ -11,36 +11,7 @@
     <script src="../scripts/seppe.js"></script>
     <script src="../scripts/back-map.js?v=2"></script>
     <style>
-        #canvas-container {
-            display: flex;
-        }
 
-        #canvas {
-            border: 1px solid black;
-        }
-
-        #controls {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-left: 20px;
-        }
-
-        button {
-            margin: 5px;
-        }
-
-        #gallery {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-gap: 10px;
-            margin: 20px 0;
-        }
-
-            #gallery img {
-                width: 100%;
-                height: auto;
-            }
     </style>
 
     <script>
@@ -74,7 +45,7 @@
     
                             ">
                     <canvas id="canvas" width="800" height="600"></canvas>
-                    <div style="position: relative; " id="controls">
+                    <div style="position: relative; " id="board-controls">
                         <button id="undo">Undo</button>
                         <button id="clear">Clear Page</button>
                         <button id="transparent-background">transparent-background</button>
@@ -88,7 +59,7 @@
                         <input type="number" id="canvas-width" value="800">
                         <label for="canvas-height">Height:</label>
                         <input type="number" id="canvas-height" value="600">
-                        <button style="color:#c75f5f ;font-size: 32px; position: absolute; bottom: 0px;" id="save">Upload Post</button>
+                        <button style="color:#c75f5f ;font-size: 32px;" id="save">Upload Post</button>
 
                         <script src="../scripts/board.js"></script>
                     </div>
