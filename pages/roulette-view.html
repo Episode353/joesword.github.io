@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Joes World</title>
+    <link rel="icon" href="../media/ico/favicon.ico" type="image/x-icon" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Add any necessary stylesheets or scripts here -->
+    <link rel="stylesheet" href="../style.css">
+    <script src="../../seppe.js"></script>
+    <script src="../scripts/back-map.js?v=2"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-database.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        div{
+            border: groove black !important;
+            text-align: left;
+        }
+
+        button {
+            background-color: #808080;
+            border: groove;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 1rem;
+            box-shadow: 0px 8px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease 0s;
+        }
+
+            button:hover {
+                background-color: #ff0000;
+                box-shadow: 0px 15px 20px rgba(46, 185, 125, 0.4);
+                transform: translateY(-7px);
+            }
+    </style>
+
+</head>
+<body>
+
+
+    <center>
+        <div class="container">
+
+            <div class="header">
+                <iframe src="header-content.html" frameborder="0" scrolling="no" class="header-content-iframe"></iframe>
+            </div>
+
+
+
+            <div class="content-large-fill">
+                <h1>Roulette Viewer</h1>
+
+                <button id="spin-all">Spin All</button>
+                <button onclick="shuffleLetters()">Shuffle Letters</button>
+                <button id="spin-shuffle-all"onclick="shuffleLetters()">Shuffle Everything</button>
+
+                <!--Really Good-->
+                <div>
+                    <p id="p1">A</p>
+                    <h2>Really Good</h2>
+                    <textarea id="roulette-1"></textarea>
+                    <button id="button-1">Spin</button>
+                </div>
+
+
+                <!-- Good-->
+                <div>
+                    <p id="p2">B</p>
+                    <h2>Good</h2>
+                    <textarea id="roulette-2"></textarea>
+                    <button id="button-2">Spin</button>
+                </div>
+
+                <!--Kinda Bad-->
+                <div>
+                    <p id="p3">C</p>
+                    <h2>Kinda Bad</h2>
+                    <textarea id="roulette-3"></textarea>
+                    <button id="button-3">Spin</button>
+                </div>
+
+                <!--Bad-->
+                <div>
+                    <p id="p4">D</p>
+                    <h2>Bad</h2>
+                    <textarea id="roulette-4"></textarea>
+                    <button id="button-4">Spin</button>
+                </div>
+
+                <br>
+
+
+
+
+
+
+
+                <script>
+                    // Configure Firebase
+                    const firebaseConfig = {
+                        apiKey: "AIzaSyCqgWyZOOfVZddqVjV-ZsDpMo6b0F1UJxs",
+                        authDomain: "joesworldonline-967be.firebaseapp.com",
+                        databaseURL: "https://joesworldonline-967be-default-rtdb.firebaseio.com",
+                        projectId: "joesworldonline-967be",
+                        storageBucket: "joesworldonline-967be.appspot.com",
+                        messagingSenderId: "817241549916",
+                        appId: "1:817241549916:web:787af20d01f9172efaca99"
+                    };
+                    firebase.initializeApp(firebaseConfig);
+
+                    // Attach event listeners to each button
+                    $("#button-1").click(() => loadRandomItem("roulette-1"));
+                    $("#button-2").click(() => loadRandomItem("roulette-2"));
+                    $("#button-3").click(() => loadRandomItem("roulette-3"));
+                    $("#button-4").click(() => loadRandomItem("roulette-4"));
+
+                    // Attach event listener to "Spin All" button
+                    $("#spin-all").click(() => {
+                        loadRandomItem("roulette-1");
+                        loadRandomItem("roulette-2");
+                        loadRandomItem("roulette-3");
+                        loadRandomItem("roulette-4");
+                    });
+
+                    // Attach event listener to "Spin All" button
+                    $("#spin-shuffle-all").click(() => {
+                        loadRandomItem("roulette-1");
+                        loadRandomItem("roulette-2");
+                        loadRandomItem("roulette-3");
+                        loadRandomItem("roulette-4");
+                    });
+
+
+                    // Load a random item from the given tree
+                    function loadRandomItem(treeName) {
+                        const databaseRef = firebase.database().ref("roulette/" + treeName);
+                        databaseRef.once("value", snapshot => {
+                            const items = snapshot.val();
+                            if (items) {
+                                const keys = Object.keys(items);
+                                const randomKey = keys[Math.floor(Math.random() * keys.length)];
+                                $("#" + treeName).val(items[randomKey]);
+                            } else {
+                                console.log(`No items found in ${treeName}`);
+                            }
+                        });
+                    }
+
+                    function shuffleLetters() {
+                        // Get the text content of each paragraph
+                        var p1 = document.getElementById("p1").textContent;
+                        var p2 = document.getElementById("p2").textContent;
+                        var p3 = document.getElementById("p3").textContent;
+                        var p4 = document.getElementById("p4").textContent;
+
+                        // Create an array with all the letters from the paragraphs
+                        var letters = p1.split("").concat(p2.split(""), p3.split(""), p4.split(""));
+
+                        // Shuffle the letters randomly
+                        for (var i = letters.length - 1; i > 0; i--) {
+                            var j = Math.floor(Math.random() * (i + 1));
+                            var temp = letters[i];
+                            letters[i] = letters[j];
+                            letters[j] = temp;
+                        }
+
+                        // Assign the shuffled letters back to the paragraphs
+                        document.getElementById("p1").textContent = letters.pop();
+                        document.getElementById("p2").textContent = letters.pop();
+                        document.getElementById("p3").textContent = letters.pop();
+                        document.getElementById("p4").textContent = letters.pop();
+                    }
+                </script>
+            </div>
+
+
+
+            <div class="footer">
+                <iframe src="footer.html" frameborder="0" width="100%" class="footer-iframe">
+                </iframe>
+
+
+
+            </div>
+
+
+
+        </div>
+    </center>
+</body>
+</html>

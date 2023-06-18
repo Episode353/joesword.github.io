@@ -6,13 +6,43 @@
         .gallery {
             display: flex;
             flex-wrap: wrap;
+            justify-content: center;
+            margin: 0 auto;
         }
 
             .gallery img {
-                max-width: 200px;
-                max-height: 200px;
+                max-width: 10vw;
+                max-height: 10vh;
                 margin: 10px;
             }
+
+        /* Apply different styles for screens with a max-width of 500px */
+        @media screen and (max-width: 500px) {
+            .gallery img {
+                max-width: calc(50% - 20px);
+            }
+        }
+
+        /* Apply different styles for screens with a min-width of 501px and a max-width of 768px */
+        @media screen and (min-width: 501px) and (max-width: 768px) {
+            .gallery img {
+                max-width: calc(33.33% - 20px);
+            }
+        }
+
+        /* Apply different styles for screens with a min-width of 769px and a max-width of 1024px */
+        @media screen and (min-width: 769px) and (max-width: 1024px) {
+            .gallery img {
+                max-width: calc(25% - 20px);
+            }
+        }
+
+        /* Apply different styles for screens with a min-width of 1025px */
+        @media screen and (min-width: 1025px) {
+            .gallery img {
+                max-width: calc(20% - 20px);
+            }
+        }
     </style>
 </head>
 <body>
@@ -23,13 +53,13 @@
     <script>
         // Your Firebase web app's Firebase configuration
         var firebaseConfig = {
-  apiKey: "AIzaSyCqgWyZOOfVZddqVjV-ZsDpMo6b0F1UJxs",
-  authDomain: "joesworldonline-967be.firebaseapp.com",
-  projectId: "joesworldonline-967be",
-  storageBucket: "joesworldonline-967be.appspot.com",
-  messagingSenderId: "817241549916",
-  appId: "1:817241549916:web:787af20d01f9172efaca99"
-};
+            apiKey: "AIzaSyCqgWyZOOfVZddqVjV-ZsDpMo6b0F1UJxs",
+            authDomain: "joesworldonline-967be.firebaseapp.com",
+            projectId: "joesworldonline-967be",
+            storageBucket: "joesworldonline-967be.appspot.com",
+            messagingSenderId: "817241549916",
+            appId: "1:817241549916:web:787af20d01f9172efaca99"
+        };
 
         // Initialize Firebase app
         firebase.initializeApp(firebaseConfig);
@@ -40,36 +70,34 @@
         // Create a reference to the images folder in Firebase Storage
         var imagesRef = storage.ref().child('images');
 
-// Get the download URLs and names of all images in the images folder
-var images = [];
-imagesRef.listAll().then(function (result) {
-    result.items.forEach(function (imageRef) {
-        // Get the download URL for each image
-        imageRef.getDownloadURL().then(function (url) {
-            // Get the name of the image
-            var name = imageRef.name;
-            // Add the image download URL and name to the images array
-            images.push({url: url, name: name});
-            // Sort the images array based on the image names
-            images.sort(function (a, b) {
-                return a.name.localeCompare(b.name);
+        // Get the download URLs and names of all images in the images folder
+        var images = [];
+        imagesRef.listAll().then(function (result) {
+            result.items.forEach(function (imageRef) {
+                // Get the download URL for each image
+                imageRef.getDownloadURL().then(function (url) {
+                    // Get the name of the image
+                    var name = imageRef.name;
+                    // Add the image download URL and name to the images array
+                    images.push({ url: url, name: name });
+                    // Sort the images array based on the image names
+                    images.sort(function (a, b) {
+                        return a.name.localeCompare(b.name);
+                    });
+                    // Create the img elements in alphabetical order
+                    document.querySelector('.gallery').innerHTML = "";
+                    images.forEach(function (image) {
+                        var img = document.createElement('img');
+                        img.src = image.url;
+                        document.querySelector('.gallery').appendChild(img);
+                    });
+                });
             });
-            // Create the img elements in alphabetical order
-            document.querySelector('.gallery').innerHTML = "";
-            images.forEach(function (image) {
-                var img = document.createElement('img');
-                img.src = image.url;
-                document.querySelector('.gallery').appendChild(img);
-            });
+        }).catch(function (error) {
+            console.log(error);
         });
-    });
-}).catch(function (error) {
-    console.log(error);
-});
 
     </script>
-
-
 
 </body>
 </html>

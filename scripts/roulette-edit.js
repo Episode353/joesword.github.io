@@ -18,24 +18,24 @@ var database = firebase.database();
 var displayedItems = [];
 
 // Function to save data to Firebase
-function saveData() {
-    var text = document.getElementById("sub-text").value;
-    var treeRef = database.ref("subbox"); // Replace "subbox" with your desired tree name
+function saveData(boxId) {
+    var text = document.getElementById("sub-text-" + boxId).value;
+    var treeRef = database.ref("roulette/roulette-" + boxId); // Replace "roulette" with your desired tree name
     var randomKey = Math.floor(1000000 + Math.random() * 9000000); // Generate seven-digit random number
     var newStringRef = treeRef.child(randomKey);
     newStringRef.set(text);
-    document.getElementById("subbox").value = ""; // Clear the textbox
+    document.getElementById("sub-text-" + boxId).value = ""; // Clear the textbox
 }
 
 // Function to remove data from Firebase
-function removeData(key) {
-    var treeRef = database.ref("subbox").child(key); // Replace "subbox" with your desired tree name
+function removeData(boxId, key) {
+    var treeRef = database.ref("roulette/roulette-" + boxId).child(key); // Replace "roulette" with your desired tree name
     treeRef.remove();
-    refreshDisplay();
+    refreshDisplay(boxId);
 }
 
 // Function to display data from Firebase
-function displayData(snapshot) {
+function displayData(boxId, snapshot) {
     var key = snapshot.key;
     // Check if item is already displayed
     if (displayedItems.includes(key)) {
@@ -43,34 +43,42 @@ function displayData(snapshot) {
     }
     displayedItems.push(key);
     var data = snapshot.val();
-    var displayBox = document.getElementById("displayBox");
-    displayBox.innerHTML += "<p>" + data + "</p>";
-    updateCounter(); // Update the counter after displaying new data
+    var displayBox = document.getElementById("displayBox-" + boxId);
+    displayBox.innerHTML += "<p>" + data + " <button onclick='removeData(" + boxId + ", " + key + ")'>Delete</button></p>";
+    updateCounter(boxId); // Update the counter after displaying new data
 }
 
 // Function to refresh the display box
-function refreshDisplay() {
+function refreshDisplay(boxId) {
     displayedItems = []; // Clear the displayed items array
-    var displayBox = document.getElementById("displayBox");
+    var displayBox = document.getElementById("displayBox-" + boxId);
     displayBox.innerHTML = ""; // Clear the display box
 
     // Retrieve data from Firebase and listen for changes
-    var treeRef = database.ref("subbox"); // Replace "subbox" with your desired tree name
-    treeRef.on("child_added", displayData);
+    var treeRef = database.ref("roulette/roulette-" + boxId); // Replace "roulette" with your desired tree name
+    treeRef.on("child_added", function(snapshot) {
+        displayData(boxId, snapshot);
+    });
 
-    updateCounter(); // Update the counter initially
+    updateCounter(boxId); // Update the counter initially
 }
 
 // Function to update the counter
-function updateCounter() {
-    var treeRef = database.ref("subbox"); // Replace "subbox" with your desired tree name
+function updateCounter(boxId) {
+    var treeRef = database.ref("roulette/roulette-" + boxId); // Replace "roulette" with your desired tree name
     treeRef.once("value")
-        .then(function (snapshot) {
+        .then(function(snapshot) {
             var count = snapshot.numChildren();
-            var counterElement = document.getElementById("counter");
+            var counterElement = document.getElementById("counter-" + boxId);
             counterElement.textContent = count;
         });
 }
 
 // Refresh the display box initially
-window.addEventListener("DOMContentLoaded", refreshDisplay);
+window.addEventListener("DOMContentLoaded", function() {
+    for (var i = 1; i <= 4; i++) {
+        refreshDisplay(i);
+    }
+});
+
+

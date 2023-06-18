@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Joes World</title>
+    <link rel="icon" href="../media/ico/favicon.ico" type="image/x-icon" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Add any necessary stylesheets or scripts here -->
+    <link rel="stylesheet" href="../style.css">
+    <script src="../../seppe.js"></script>
+    <script src="../scripts/back-map.js?v=2"></script>
+
+    <style>
+
+
+        div{
+            text-align: left;
+            border: none !important;
+        }
+
+
+    </style>
+
+</head>
+<body>
+
+
+    <center>
+        <div class="container">
+
+            <div class="header">
+                <iframe src="header-content.html" frameborder="0" scrolling="no" class="header-content-iframe"></iframe>
+            </div>
+
+
+
+            <div class="content-large-fill">
+
+
+
+                <div>
+                    <h1>Add/Remove Roulette Items</h1>
+
+                    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+                    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+                    <script src="../scripts/roulette-edit.js?v=2"></script>
+
+                    <div>
+                        <h3>Really Good: <span id="counter-1"></span></h3>
+                        <input type="text" id="sub-text-1" />
+                        <button onclick="saveData(1)">Save</button>
+                        <div id="displayBox-1"></div>
+                    </div>
+
+                    <div>
+                        <h3>Good: <span id="counter-2"></span></h3>
+                        <input type="text" id="sub-text-2" />
+                        <button onclick="saveData(2)">Save</button>
+                        <div id="displayBox-2"></div>
+                    </div>
+
+                    <div>
+                        <h3>Kinda Bad: <span id="counter-3"></span></h3>
+                        <input type="text" id="sub-text-3" />
+                        <button onclick="saveData(3)">Save</button>
+                        <div id="displayBox-3"></div>
+                    </div>
+
+                    <div>
+                        <h3>Bad: <span id="counter-4"></span></h3>
+                        <input type="text" id="sub-text-4" />
+                        <button onclick="saveData(4)">Save</button>
+                        <div id="displayBox-4"></div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="footer">
+                <iframe src="footer.html" frameborder="0" width="100%" class="footer-iframe">
+                </iframe>
+
+
+
+            </div>
+
+
+
+        </div>
+    </center>
+</body>
+</html>
