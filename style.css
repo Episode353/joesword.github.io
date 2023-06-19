@@ -589,26 +589,6 @@ button {
 
 
 
-
-
-        /* Adjust the positioning of the controls */
-        #board-controls button,
-        #board-controls input[type="color"],
-        #board-controls input[type="range"],
-        #board-controls input[type="number"],
-        #board-controls label {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        /* Position the save button at the bottom right */
-        #board-controls #save {
-            align-self: flex-end;
-            margin-top: 10px; /* Add margin to create space */
-            color: #c75f5f;
-            font-size: 32px;
-        }
-
 }
 
 

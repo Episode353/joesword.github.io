@@ -15,23 +15,41 @@
         #gallery-iframe {
             width: 100%;
             height: 100vh;
+            overflow: auto;
         }
 
-            #canvas {
-        border: 1px solid black;
-
-            }
+        #canvas {
+            border: 1px solid black;
+        }
 
         #save {
-            color:#c75f5f ;
-            font-size: 2em;
+            color: #c75f5f;
         }
 
 
 
-            #board-controls button {
-                max-width: 10em;
+
+
+        #board-controls {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 10px;
+            max-width: 30em;
+            margin: 0 auto;
+            padding: 10px;
+            text-align: center;
+        }
+
+            #board-controls button,
+            #board-controls input[type="color"],
+            #board-controls input[type="range"],
+            #board-controls input[type="text"],
+            #board-controls input[type="number"] {
+                width: 100%;
             }
+
+
+
     </style>
 
     <script>
@@ -42,7 +60,7 @@
 
 
 
-   
+
 
 
 </head>
@@ -86,11 +104,12 @@
 
                     <button id="brush">Brush</button>
 
-                    <input type="range" id="brush-size" min="1" max="100" value="10">
+                    <input type="range" id="brush-size" min="1" max="30" value="10">
+
 
                     <input type="text" id="canvas-width" placeholder="Enter canvas width">
 
-                    <input type="number" id="canvas-height"placeholder="Enter canvas height">
+                    <input type="number" id="canvas-height" placeholder="Enter canvas height">
 
                     <button id="save">Upload Post</button>
 
@@ -107,7 +126,7 @@
                         border-right: none;
                         ">
 
-                    <iframe id="gallery-iframe" frameborder="0" scrolling="no" src="gallery.html" ></iframe>
+                    <iframe id="gallery-iframe" frameborder="0"  src="gallery.html" ></iframe>
 
 
 

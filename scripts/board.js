@@ -98,7 +98,9 @@ backgroundColorPicker.addEventListener('input', (event) => {
 const brushSizeSlider = document.getElementById('brush-size');
 brushSizeSlider.addEventListener('input', (event) => {
     currentBrushSize = event.target.value;
+    console.log(currentBrushSize); // Print the current brush size
 });
+
 
 // Set up the eraser button
 const eraserButton = document.getElementById('eraser');
