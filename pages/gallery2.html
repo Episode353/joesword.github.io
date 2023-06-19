@@ -1,0 +1,301 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Random Sound Player</title>
+    <script>
+        var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playRandomSound() {
+            var soundGroups = {
+                all_notes: [
+                    '../media/wav/piano/0-a.wav',
+                    '../media/wav/piano/0-as.wav',
+                    '../media/wav/piano/0-b.wav',
+                    '../media/wav/piano/1-a.wav',
+                    '../media/wav/piano/1-as.wav',
+                    '../media/wav/piano/1-b.wav',
+                    '../media/wav/piano/1-c.wav',
+                    '../media/wav/piano/1-cs.wav',
+                    '../media/wav/piano/1-d.wav',
+                    '../media/wav/piano/1-ds.wav',
+                    '../media/wav/piano/1-e.wav',
+                    '../media/wav/piano/1-f.wav',
+                    '../media/wav/piano/1-fs.wav',
+                    '../media/wav/piano/1-g.wav',
+                    '../media/wav/piano/1-gs.wav',
+
+                    '../media/wav/piano/2-a.wav',
+                    '../media/wav/piano/2-as.wav',
+                    '../media/wav/piano/2-b.wav',
+                    '../media/wav/piano/2-c.wav',
+                    '../media/wav/piano/2-cs.wav',
+                    '../media/wav/piano/2-d.wav',
+                    '../media/wav/piano/2-ds.wav',
+                    '../media/wav/piano/2-e.wav',
+                    '../media/wav/piano/2-f.wav',
+                    '../media/wav/piano/2-fs.wav',
+                    '../media/wav/piano/2-g.wav',
+                    '../media/wav/piano/2-gs.wav',
+
+
+                    '../media/wav/piano/3-a.wav',
+                    '../media/wav/piano/3-as.wav',
+                    '../media/wav/piano/3-b.wav',
+                    '../media/wav/piano/3-c.wav',
+                    '../media/wav/piano/3-cs.wav',
+                    '../media/wav/piano/3-d.wav',
+                    '../media/wav/piano/3-ds.wav',
+                    '../media/wav/piano/3-e.wav',
+                    '../media/wav/piano/3-f.wav',
+                    '../media/wav/piano/3-fs.wav',
+                    '../media/wav/piano/3-g.wav',
+                    '../media/wav/piano/3-gs.wav',
+
+                    '../media/wav/piano/4-a.wav',
+                    '../media/wav/piano/4-as.wav',
+                    '../media/wav/piano/4-b.wav',
+                    '../media/wav/piano/4-c.wav',
+                    '../media/wav/piano/4-cs.wav',
+                    '../media/wav/piano/4-d.wav',
+                    '../media/wav/piano/4-ds.wav',
+                    '../media/wav/piano/4-e.wav',
+                    '../media/wav/piano/4-f.wav',
+                    '../media/wav/piano/4-fs.wav',
+                    '../media/wav/piano/4-g.wav',
+                    '../media/wav/piano/4-gs.wav',
+
+                    '../media/wav/piano/5-a.wav',
+                    '../media/wav/piano/5-as.wav',
+                    '../media/wav/piano/5-b.wav',
+                    '../media/wav/piano/5-c.wav',
+                    '../media/wav/piano/5-cs.wav',
+                    '../media/wav/piano/5-d.wav',
+                    '../media/wav/piano/5-ds.wav',
+                    '../media/wav/piano/5-e.wav',
+                    '../media/wav/piano/5-f.wav',
+                    '../media/wav/piano/5-fs.wav',
+                    '../media/wav/piano/5-g.wav',
+                    '../media/wav/piano/5-gs.wav',
+
+                    '../media/wav/piano/6-a.wav',
+                    '../media/wav/piano/6-as.wav',
+                    '../media/wav/piano/6-b.wav',
+                    '../media/wav/piano/6-c.wav',
+                    '../media/wav/piano/6-cs.wav',
+                    '../media/wav/piano/6-d.wav',
+                    '../media/wav/piano/6-ds.wav',
+                    '../media/wav/piano/6-e.wav',
+                    '../media/wav/piano/6-f.wav',
+                    '../media/wav/piano/6-fs.wav',
+                    '../media/wav/piano/6-g.wav',
+                    '../media/wav/piano/6-gs.wav',
+                    
+                    '../media/wav/piano/7-a.wav',
+                    '../media/wav/piano/7-as.wav',
+                    '../media/wav/piano/7-b.wav',
+                    '../media/wav/piano/7-c.wav',
+                    '../media/wav/piano/7-cs.wav',
+                    '../media/wav/piano/7-d.wav',
+                    '../media/wav/piano/7-ds.wav',
+                    '../media/wav/piano/7-e.wav',
+                    '../media/wav/piano/7-f.wav',
+                    '../media/wav/piano/7-fs.wav',
+                    '../media/wav/piano/7-g.wav',
+                    '../media/wav/piano/7-gs.wav',
+
+                    '../media/wav/piano/8-c.wav',],
+
+
+                a_maj_pentatonic: [
+                    '../media/wav/piano/0-a.wav',
+                    '../media/wav/piano/0-b.wav',
+                    '../media/wav/piano/1-a.wav',
+                    '../media/wav/piano/1-b.wav',
+                    '../media/wav/piano/1-cs.wav',
+                    '../media/wav/piano/1-e.wav',
+                    '../media/wav/piano/1-fs.wav',
+
+                    '../media/wav/piano/2-a.wav',
+                    '../media/wav/piano/2-b.wav',
+                    '../media/wav/piano/2-cs.wav',
+                    '../media/wav/piano/2-e.wav',
+                    '../media/wav/piano/2-fs.wav',
+
+
+                    '../media/wav/piano/3-a.wav',
+                    '../media/wav/piano/3-b.wav',
+                    '../media/wav/piano/3-cs.wav',
+                    '../media/wav/piano/3-e.wav',
+                    '../media/wav/piano/3-fs.wav',
+
+                    '../media/wav/piano/4-a.wav',
+                    '../media/wav/piano/4-b.wav',
+                    '../media/wav/piano/4-cs.wav',
+                    '../media/wav/piano/4-e.wav',
+                    '../media/wav/piano/4-fs.wav',
+
+                    '../media/wav/piano/5-a.wav',
+                    '../media/wav/piano/5-b.wav',
+                    '../media/wav/piano/5-cs.wav',
+                    '../media/wav/piano/5-e.wav',
+                    '../media/wav/piano/5-fs.wav',
+
+                    '../media/wav/piano/6-a.wav',
+                    '../media/wav/piano/6-b.wav',
+                    '../media/wav/piano/6-cs.wav',
+                    '../media/wav/piano/6-e.wav',
+                    '../media/wav/piano/6-fs.wav',
+
+                    '../media/wav/piano/7-a.wav',
+                    '../media/wav/piano/7-b.wav',
+                    '../media/wav/piano/7-cs.wav',
+                    '../media/wav/piano/7-e.wav',
+                    '../media/wav/piano/7-fs.wav',
+
+                    '../media/wav/piano/8-c.wav',],
+
+
+                f_maj: [
+                    '../media/wav/piano/0-a.wav',
+                    '../media/wav/piano/1-a.wav',
+                    '../media/wav/piano/1-c.wav',
+                    '../media/wav/piano/1-d.wav',
+                    '../media/wav/piano/1-e.wav',
+                    '../media/wav/piano/1-f.wav',
+                    '../media/wav/piano/1-g.wav',
+
+                    '../media/wav/piano/2-a.wav',
+                    '../media/wav/piano/2-as.wav',
+                    '../media/wav/piano/2-c.wav',
+                    '../media/wav/piano/2-d.wav',
+                    '../media/wav/piano/2-e.wav',
+                    '../media/wav/piano/2-f.wav',
+                    '../media/wav/piano/2-g.wav',
+
+
+                    '../media/wav/piano/3-a.wav',
+                    '../media/wav/piano/3-as.wav',
+                    '../media/wav/piano/3-c.wav',
+                    '../media/wav/piano/3-d.wav',
+                    '../media/wav/piano/3-e.wav',
+                    '../media/wav/piano/3-f.wav',
+                    '../media/wav/piano/3-g.wav',
+
+                    '../media/wav/piano/4-a.wav',
+                    '../media/wav/piano/4-as.wav',
+                    '../media/wav/piano/4-c.wav',
+                    '../media/wav/piano/4-d.wav',
+                    '../media/wav/piano/4-e.wav',
+                    '../media/wav/piano/4-f.wav',
+                    '../media/wav/piano/4-g.wav',
+
+                    '../media/wav/piano/5-a.wav',
+                    '../media/wav/piano/5-as.wav',
+                    '../media/wav/piano/5-c.wav',
+                    '../media/wav/piano/5-d.wav',
+                    '../media/wav/piano/5-e.wav',
+                    '../media/wav/piano/5-f.wav',
+                    '../media/wav/piano/5-g.wav',
+
+                    '../media/wav/piano/6-a.wav',
+                    '../media/wav/piano/6-as.wav',
+                    '../media/wav/piano/6-c.wav',
+                    '../media/wav/piano/6-d.wav',
+                    '../media/wav/piano/6-e.wav',
+                    '../media/wav/piano/6-f.wav',
+                    '../media/wav/piano/6-g.wav',
+
+                    '../media/wav/piano/7-a.wav',
+                    '../media/wav/piano/7-as.wav',
+                    '../media/wav/piano/7-c.wav',
+                    '../media/wav/piano/7-d.wav',
+                    '../media/wav/piano/7-e.wav',
+                    '../media/wav/piano/7-f.wav',
+                    '../media/wav/piano/7-g.wav',
+
+                    '../media/wav/piano/8-c.wav',],
+                // Add more sound groups and their respective sound files here
+            };
+
+            var selectedGroup = document.getElementById('soundGroup').value;
+            var soundFiles = soundGroups[selectedGroup];
+            var randomIndex = Math.floor(Math.random() * soundFiles.length);
+            var soundFile = soundFiles[randomIndex];
+
+            fetch(soundFile)
+                .then(response => response.arrayBuffer())
+                .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+                .then(audioBuffer => {
+                    var source = audioContext.createBufferSource();
+                    source.buffer = audioBuffer;
+
+                    var volume = document.getElementById('volume').value / 100;
+                    var gainNode = audioContext.createGain();
+                    gainNode.gain.value = volume;
+                    source.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+
+                    var reverbTime = document.getElementById('reverbTime').value;
+                    var convolver = audioContext.createConvolver();
+                    var impulseResponse = generateImpulseResponse(reverbTime);
+                    convolver.buffer = impulseResponse;
+                    gainNode.connect(convolver);
+                    convolver.connect(audioContext.destination);
+
+                    source.start();
+                })
+                .catch(error => console.error(error));
+        }
+
+        function startPlaying() {
+            var duration = document.getElementById('duration').value;
+            setInterval(playRandomSound, duration * 1000);
+        }
+
+        function generateImpulseResponse(reverbTime) {
+            var sampleRate = audioContext.sampleRate;
+            var length = sampleRate * reverbTime;
+            var impulse = audioContext.createBuffer(2, length, sampleRate);
+            var impulseLeft = impulse.getChannelData(0);
+            var impulseRight = impulse.getChannelData(1);
+
+            for (var i = 0; i < length; i++) {
+                impulseLeft[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 2);
+                impulseRight[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 2);
+            }
+
+            return impulse;
+        }
+    </script>
+</head>
+<body>
+    <h1>Random Sound Player</h1>
+
+    <label for="soundGroup">Select a Sound Group:</label>
+    <select id="soundGroup">
+        <option value="all_notes">all_notes</option>
+        <option value="a_maj_pentatonic">a_maj_pentatonic</option>
+        <option value="f_maj">f_maj</option>
+        <!-- Add more options for additional sound groups -->
+    </select>
+
+    <br>
+
+    <label for="duration">Duration (in seconds):</label>
+    <input type="number" id="duration" value="5">
+
+    <br>
+
+    <label for="volume">Volume:</label>
+    <input type="range" id="volume" min="0" max="70" value="20">
+
+    <br>
+
+    <label for="reverbTime">Reverb Time (in seconds):</label>
+    <input type="number" id="reverbTime" value="1">
+
+    <br><br>
+
+    <button onclick="startPlaying()">Start Playing</button>
+</body>
+</html>
