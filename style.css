@@ -38,7 +38,6 @@ body {
     display: grid;
     grid-template-columns: repeat(3, 2fr);
     box-sizing: border-box;
-
 }
 
 
@@ -379,8 +378,8 @@ button {
         grid-template-rows: 0.05fr 1fr 1fr 0.5fr;
         grid-column-gap: 1%;
         grid-row-gap: 1%;
-        padding-top: 1%;
-        font-size: 12px;
+        /* padding-top: 1%; */
+        /* font-size: 12px; */
     }
 
 
