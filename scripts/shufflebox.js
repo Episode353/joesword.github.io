@@ -14,11 +14,13 @@ $(function () {
        'pages/html-shuffle/stolen.html',
        'pages/html-shuffle/dorito-time.html',
        'pages/html-shuffle/loud-ward.html',
+       'pages/html-shuffle/drake-trash.html',
+       'pages/html-shuffle/arizona.html',
        'pages/html-shuffle/sigma-grintset.html',
        'pages/html-shuffle/stole-inch.html',
        'pages/html-shuffle/jig-dirsty.html',
        'pages/html-shuffle/mortified_rugby.html'
-       //'pages/html-shuffle/joes-basement-countdown.html'
+
     ];
 
     // Use the current time in milliseconds as a seed for the random number generator
