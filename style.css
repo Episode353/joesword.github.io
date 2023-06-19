@@ -186,25 +186,7 @@ button {
     }
 
 
-.food-review-headerlinks {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    grid-gap: 0px;
-    text-align: center;
-    flex-direction: column;
-    align-items: center;
-}
 
-
-    .food-review-headerlinks a {
-        display: block;
-        margin-top: 10px; /* Adjust the margin as needed */
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        
-    }
 
 #spinner-canvas {
     width: 60%; /* Set the desired width */
@@ -384,11 +366,8 @@ button {
 
 
     .food-review-headerlinks {
-        display: grid;
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: repeat(3, 1fr);
-        grid-gap: 0px;
-        text-align: center;
     }
 
     .food-review-body {
@@ -436,11 +415,9 @@ button {
 
 
     .food-review-headerlinks {
-        display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(2, 1fr);
-        grid-gap: 0px;
-        text-align: center;
+
     }
 
 
@@ -489,11 +466,9 @@ button {
 
 
     .food-review-headerlinks {
-        display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(2, 1fr);
-        grid-gap: 0px;
-        text-align: center;
+
        
     }
     .container {
