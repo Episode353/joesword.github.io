@@ -4,6 +4,7 @@
     <title>Random Sound Player</title>
     <script>
         var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        var previousOctave = 3; // Initialize with octave 3
 
         function playRandomSound() {
             var soundGroups = {
@@ -89,7 +90,7 @@
                     '../media/wav/piano/6-fs.wav',
                     '../media/wav/piano/6-g.wav',
                     '../media/wav/piano/6-gs.wav',
-                    
+
                     '../media/wav/piano/7-a.wav',
                     '../media/wav/piano/7-as.wav',
                     '../media/wav/piano/7-b.wav',
@@ -219,8 +220,18 @@
 
             var selectedGroup = document.getElementById('soundGroup').value;
             var soundFiles = soundGroups[selectedGroup];
-            var randomIndex = Math.floor(Math.random() * soundFiles.length);
-            var soundFile = soundFiles[randomIndex];
+
+            // Calculate the maximum distance between octaves
+            var maxDistance = Math.abs(previousOctave - 1) + 2;
+
+            // Filter sound files based on the maximum distance
+            var filteredSoundFiles = soundFiles.filter(function (soundFile) {
+                var currentOctave = parseInt(soundFile.split('/')[4].split('-')[0]);
+                return Math.abs(currentOctave - previousOctave) <= maxDistance;
+            });
+
+            var randomIndex = Math.floor(Math.random() * filteredSoundFiles.length);
+            var soundFile = filteredSoundFiles[randomIndex];
 
             fetch(soundFile)
                 .then(response => response.arrayBuffer())
@@ -243,6 +254,9 @@
                     convolver.connect(audioContext.destination);
 
                     source.start();
+
+                    // Update the previously played octave
+                    previousOctave = parseInt(soundFile.split('/')[4].split('-')[0]);
                 })
                 .catch(error => console.error(error));
         }
