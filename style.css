@@ -147,12 +147,7 @@ button {
     margin-top: 20px; /* adjust this value to control the height of the raised text */
 }
 
-#board-controls {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-left: 20px;
-}
+
 
 .word-red {
     color: red; /* makes the text red*/
@@ -388,9 +383,7 @@ button {
         font-size: 12px;
     }
 
-    #board-controls {
-        gap: 100%;
-    }
+
 
     .food-review-headerlinks {
         display: grid;
@@ -594,20 +587,10 @@ button {
         align-items: center;
     }
 
-    #canvas {
-        border: 1px solid black;
-        margin-right: 10px; /* Add margin to create space */
-        width: 800px; /* Set the desired width for the canvas */
-        height: 600px; /* Set the desired height for the canvas */
-    }
 
-    #board-controls {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start; /* Align controls to the left */
-        width: 100%;
-        gap: 20px;
-    }
+
+
+
 
         /* Adjust the positioning of the controls */
         #board-controls button,

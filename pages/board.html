@@ -17,6 +17,31 @@
             height: 100vh;
         }
 
+            #canvas {
+        border: 1px solid black;
+
+            }
+
+        #canvas-container{
+            max-height: 30em;
+        }
+
+        #save {
+            color:#c75f5f ;
+            font-size: 2em;
+        }
+
+        #board-controls {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            grid-gap: 0px;
+            text-align: center;
+        }
+
+            #board-controls button {
+                max-width: 10em;
+            }
     </style>
 
     <script>
@@ -26,44 +51,40 @@
     </script>
 
     <script>
-        window.addEventListener("load", () => {
-            updateCanvasSize();
-        });
-    </script>
+  window.addEventListener("load", () => {
+    displayGallery();
+    updateCanvasSize();
+  });
 
-    <script>
-        window.addEventListener("load", () => {
-            displayGallery();
-        });
 
-        window.addEventListener("resize", () => {
-            updateCanvasSize();
-        });
 
-        function updateCanvasSize() {
-            const canvas = document.getElementById("canvas");
-            const container = document.getElementById("canvas-container");
+  function updateCanvasSize() {
+  const canvas = document.getElementById("canvas");
+  const container = document.getElementById("canvas-container");
 
-            const containerWidth = container.clientWidth;
-            const containerHeight = container.clientHeight;
+  const containerWidth = container.offsetWidth;
+  const containerHeight = container.offsetHeight;
 
-            const canvasWidth = Math.floor(containerWidth * 0.9); // Adjust the percentage as needed
-            const canvasHeight = Math.floor(containerHeight * 0.5); // Adjust the percentage as needed
+  const canvasWidth = Math.floor(containerWidth * 0.7); // Adjust the percentage as needed
+  const canvasHeight = Math.floor(containerHeight * 1); // Adjust the percentage as needed
 
-            canvas.width = canvasWidth;
-            canvas.height = canvasHeight;
+  canvas.width = canvasWidth;
+  canvas.height = canvasHeight;
+}
 
-            clearCanvas();
-        }
+  function clearCanvas() {
+    const canvas = document.getElementById("canvas");
+    const context = canvas.getContext("2d");
+    const canvasWidth = canvas.width;
+    const canvasHeight = canvas.height;
 
-        window.addEventListener("load", () => {
-            updateCanvasSize();
-        });
+    context.fillStyle = "white";
+    context.fillRect(0, 0, canvasWidth, canvasHeight);
+  }
 
-        window.addEventListener("resize", () => {
-            updateCanvasSize();
-        });
-
+    window.addEventListener("resize", () => {
+    updateCanvasSize();
+  });
     </script>
 
 
@@ -91,6 +112,7 @@
 
                             ">
                     <canvas id="canvas"></canvas>
+                </div>
                     <div style="position: relative; " id="board-controls">
                         <button id="undo">Undo</button>
                         <button id="clear">Clear Page</button>
@@ -105,11 +127,11 @@
                         <input type="number" id="canvas-width">
                         <label for="canvas-height">Height:</label>
                         <input type="number" id="canvas-height">
-                        <button style="color:#c75f5f ;font-size: 32px;" id="save">Upload Post</button>
+                        <button id="save">Upload Post</button>
 
                         <script src="../scripts/board.js"></script>
                     </div>
-                </div>
+               
 
                 <br><br>
                 <h2>Gallery</h2>
