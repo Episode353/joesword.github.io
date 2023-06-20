@@ -25,7 +25,6 @@ retrieveRewards(tier3Ref, 'reward-dropdown-tier3', 'start-bounty-tier3', 'tier_t
 retrieveRewards(tier4Ref, 'reward-dropdown-tier4', 'start-bounty-tier4', 'tier_four_task_box', 'tier_four_time');
 retrieveRewards(tier5Ref, 'reward-dropdown-tier5', 'start-bounty-tier5', 'tier_five_task_box', 'tier_five_time');
 
-// Function to retrieve rewards and populate the dropdown
 function retrieveRewards(ref, dropdownId, startButtonId, taskBoxId, timeBoxId) {
     ref.once('value', function (snapshot) {
         var rewards = snapshot.val();
@@ -36,6 +35,7 @@ function retrieveRewards(ref, dropdownId, startButtonId, taskBoxId, timeBoxId) {
 
         // Check if there is an active bounty for the tier
         var activeBounty = null;
+        var activeBountyKey = null;
         for (var key in rewards) {
             if (rewards.hasOwnProperty(key)) {
                 var bounty = rewards[key];
@@ -44,16 +44,17 @@ function retrieveRewards(ref, dropdownId, startButtonId, taskBoxId, timeBoxId) {
                 // Check if the bounty is active
                 if (bounty.StartTime <= currentTime && currentTime <= bounty.EndTime) {
                     activeBounty = bounty;
+                    activeBountyKey = key;
                     break;
                 }
             }
         }
-
         if (activeBounty) {
             // Disable the dropdown and show active bounty details
             dropdown.disabled = true;
             dropdown.value = activeBounty.Reward;
             taskBox.value = activeBounty.Task;
+
 
             // Update the time left every second
             setInterval(function () {
@@ -74,7 +75,10 @@ function retrieveRewards(ref, dropdownId, startButtonId, taskBoxId, timeBoxId) {
                     secondsLeft +
                     ' seconds';
                 timeBox.textContent = timeLeftString;
-            }, 1000);
+
+                // Update the shown reward with the active bounty reward
+                dropdown.value = activeBounty.Reward;
+            }, 10);
         } else {
             // Enable the dropdown for selecting a new bounty
             dropdown.disabled = false;
@@ -105,6 +109,9 @@ function retrieveRewards(ref, dropdownId, startButtonId, taskBoxId, timeBoxId) {
                 startButton.style.display = "none";
             }
         }
+
+        // Clear existing options from the dropdown
+        dropdown.innerHTML = "";
 
         // Iterate through the rewards and add them to the dropdown
         for (var key in rewards) {
@@ -147,4 +154,3 @@ function startBounty(ref, selectedBountyKey) {
             });
     });
 }
-
