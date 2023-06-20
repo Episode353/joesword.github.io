@@ -56,16 +56,41 @@
     </style>
 </head>
 <body>
+
     <img id="beeg_fish" src="../media/png/spinner1.png" alt="Beeg Fish Not Found">
     <img id="bg" src="../media/png/bf-bg01.png" alt="Beeg Fish Not Found">
     <canvas id="canvas"></canvas>
     <audio id="spinSound" src="../media/mp3/spin.mp3"></audio>
-    
+
+
+
     <div style="z-index: 3; position: absolute; transform: translate(-0px, 350px);">
         <button onclick="spinBeegFish()">Spin</button>
+        <button onclick="stopSpin()">Stop</button>
         <button id="clear">Clear</button>
         <div id="counter">Speed: 0</div>
+
+        <select id="backgroundSelect" onchange="changeBackground()">
+            <option value="../media/png/bf-bg01.png">Background 1</option>
+            <option value="../media/png/bf-bg02.png">Background 2</option>
+            <option value="../media/png/bf-bg03.png">Background 3</option>
+            <option value="../media/png/bf-bg04.png">Background 4</option>
+            <option value="../media/png/bf-bg05.png">Background 5</option>
+            <option value="../media/png/bf-bg-roulette-01.png">Roulette 1</option>
+            <option value="../media/png/bf-bg-roulette-02.png">Roulette 2</option>
+            <option value="../media/png/bf-bg-roulette-01-letters.png">Roulette 1 Letters</option>
+            <option value="../media/png/bf-bg-roulette-02-letters.png">Roulette 2 Letters</option>
+        </select>
     </div>
+
+    <script>
+        function changeBackground() {
+            var selectElement = document.getElementById("backgroundSelect");
+            var selectedValue = selectElement.options[selectElement.selectedIndex].value;
+            var bgImage = document.getElementById("bg");
+            bgImage.src = selectedValue;
+        }
+</script>   
 
     <script>
         var beegFish = document.getElementById('beeg_fish');
@@ -119,6 +144,15 @@
         function playSpinSound() {
             spinSound.play();
         }
+
+        function stopSpin() {
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+            document.getElementById('counter').textContent = 'Speed: 0';
+        }
+
     </script>
 
     <script>

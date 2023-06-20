@@ -11,6 +11,7 @@ $(function () {
        'pages/html-shuffle/guiseppe.html',
        'pages/html-shuffle/gallery-shuffle.html',
        'pages/html-shuffle/feesh-brain.html',
+       'pages/html-shuffle/fish-plan.html',
        'pages/html-shuffle/stolen.html',
        'pages/html-shuffle/dorito-time.html',
        'pages/html-shuffle/loud-ward.html',
