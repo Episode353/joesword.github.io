@@ -25,6 +25,13 @@ retrieveRewards(tier3Ref, 'reward-dropdown-tier3', 'start-bounty-tier3', 'tier_t
 retrieveRewards(tier4Ref, 'reward-dropdown-tier4', 'start-bounty-tier4', 'tier_four_task_box', 'tier_four_time');
 retrieveRewards(tier5Ref, 'reward-dropdown-tier5', 'start-bounty-tier5', 'tier_five_task_box', 'tier_five_time');
 
+// Check for ended bounties on startup
+checkEndedBounties(tier1Ref);
+checkEndedBounties(tier2Ref);
+checkEndedBounties(tier3Ref);
+checkEndedBounties(tier4Ref);
+checkEndedBounties(tier5Ref);
+
 function retrieveRewards(ref, dropdownId, startButtonId, taskBoxId, timeBoxId) {
     ref.once('value', function (snapshot) {
         var rewards = snapshot.val();
@@ -55,10 +62,17 @@ function retrieveRewards(ref, dropdownId, startButtonId, taskBoxId, timeBoxId) {
             dropdown.value = activeBounty.Reward;
             taskBox.value = activeBounty.Task;
 
-
             // Update the time left every second
-            setInterval(function () {
+            var intervalId = setInterval(function () {
                 var timeLeft = activeBounty.EndTime - Date.now();
+
+                // Check if the bounty has ended
+                if (timeLeft <= 0) {
+                    clearInterval(intervalId);
+                    deleteBounty(ref, activeBountyKey); // Delete the bounty
+                    return;
+                }
+
                 var secondsLeft = Math.floor((timeLeft / 1000) % 60);
                 var minutesLeft = Math.floor((timeLeft / 1000 / 60) % 60);
                 var hoursLeft = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
@@ -152,5 +166,35 @@ function startBounty(ref, selectedBountyKey) {
             .catch(function (error) {
                 console.error('Failed to start bounty:', error);
             });
+    });
+}
+
+// Function to delete a bounty
+function deleteBounty(ref, bountyKey) {
+    ref.child(bountyKey)
+        .remove()
+        .then(function () {
+            // Reload the page after deleting the bounty
+            location.reload();
+        })
+        .catch(function (error) {
+            console.error('Failed to delete bounty:', error);
+        });
+}
+
+// Function to check for ended bounties and delete them
+function checkEndedBounties(ref) {
+    ref.once('value', function (snapshot) {
+        var bounties = snapshot.val();
+        var currentTime = Date.now();
+
+        for (var key in bounties) {
+            if (bounties.hasOwnProperty(key)) {
+                var bounty = bounties[key];
+                if (bounty.EndTime <= currentTime) {
+                    deleteBounty(ref, key); // Delete the ended bounty
+                }
+            }
+        }
     });
 }
