@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Background Photo Swapping</title>
+    <title>Beeg Fish</title>
     <style>
         body {
             display: flex;
@@ -60,7 +60,7 @@
     <img id="beeg_fish" src="../media/png/spinner1.png" alt="Beeg Fish Not Found">
     <img id="bg" src="../media/png/bf-bg01.png" alt="Beeg Fish Not Found">
     <canvas id="canvas"></canvas>
-    <audio id="spinSound" src="../media/mp3/spin.mp3"></audio>
+    <audio id="spinSound" src="../media/mp3/spin.mp3" ></audio>
 
 
 
@@ -69,6 +69,11 @@
         <button onclick="stopSpin()">Stop</button>
         <button id="clear">Clear</button>
         <div id="counter">Speed: 0</div>
+        <label for="speedMultiplier">Speed Multiplier:</label>
+        <input type="number" id="speedMultiplier" min="0" step="0.01" value="3">
+        <label for="speedFalloff">Speed Falloff:</label>
+        <input type="number" id="speedFalloff" min="0" max="1" step="0.001" value="0.98">
+
 
         <select id="backgroundSelect" onchange="changeBackground()">
             <option value="../media/png/bf-bg01.png">Background 1</option>
@@ -82,6 +87,9 @@
             <option value="../media/png/bf-bg-roulette-02-letters.png">Roulette 2 Letters</option>
             <option value="../media/png/bf-bg-coin01.png">Coin Flip 1</option>
         </select>
+
+
+
     </div>
 
     <script>
@@ -101,46 +109,65 @@
         var lastSoundTime = 0;
         var maxSoundInterval = 20;
         var animationFrameId;
+        var currentSpeed = 0; // Add a variable to store the current speed
 
         function spinBeegFish() {
             if (animationFrameId) {
                 cancelAnimationFrame(animationFrameId);
             }
             var speed = Math.floor(Math.random() * (50 - 25 + 1) + 25);
-            spin(speed);
+            var speedMultiplier = parseFloat(document.getElementById("speedMultiplier").value);
+            currentSpeed += speed * speedMultiplier;
+            spin();
         }
 
-        function spin(speed) {
+
+        function spin() {
             var then = performance.now();
+            var maxSpinSoundInterval = 1000 / 100; // Maximum interval between spin sound plays (e.g., 200 times per second)
 
             function frame(now) {
                 var deltaTime = now - then;
                 then = now;
 
-                valueA = (valueA + speed * deltaTime / 10) % 360;
+                valueA = (valueA + currentSpeed * deltaTime / 10) % 360;
                 beegFish.style.transform = 'translate(-50%, -50%) rotateZ(' + valueA + 'deg)';
-                speed *= 0.98;
+                currentSpeed *= getSpeedFalloff(); // Apply the speed falloff value
 
-                document.getElementById('counter').textContent = 'Speed: ' + speed.toFixed(2);
+                document.getElementById('counter').textContent = 'Speed: ' + currentSpeed.toFixed(2);
 
-                if (speed < 0.01) {
+                if (currentSpeed < 0.01) {
                     cancelAnimationFrame(animationFrameId);
                     animationFrameId = null;
                 }
 
-                if (Math.abs(valueA - prevAngle) >= 10 && (now - lastSoundTime) >= maxSoundInterval) {
-                    playSpinSound();
+                if (Math.abs(valueA - prevAngle) >= 10 && (now - lastSoundTime) >= maxSpinSoundInterval) {
+                    var spinSoundCount = Math.floor((now - lastSoundTime) / maxSpinSoundInterval);
+                    for (var i = 0; i < spinSoundCount; i++) {
+                        playSpinSound();
+                    }
                     prevAngle = valueA;
                     lastSoundTime = now;
                 }
 
-                if (speed >= 0.01) {
+                if (currentSpeed >= 0.01) {
                     animationFrameId = requestAnimationFrame(frame);
                 }
             }
 
             animationFrameId = requestAnimationFrame(frame);
         }
+
+
+        function getSpeedFalloff() {
+            var speedFalloff = parseFloat(document.getElementById("speedFalloff").value);
+            return speedFalloff;
+        }
+
+
+
+
+
 
         function playSpinSound() {
             spinSound.play();
@@ -151,8 +178,10 @@
                 cancelAnimationFrame(animationFrameId);
                 animationFrameId = null;
             }
+            currentSpeed = 0; // Reset the current speed to 0
             document.getElementById('counter').textContent = 'Speed: 0';
         }
+
 
     </script>
 
