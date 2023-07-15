@@ -22,8 +22,9 @@ $(function () {
         'pages/html-shuffle/sigma-grintset.html',
         'pages/html-shuffle/stole-inch.html',
         'pages/html-shuffle/man-eat-fish.html',
-        'pages/html-shuffle/brough.html',
+        'pages/html-shuffle/brough.html',                       
         'pages/html-shuffle/tornado_courage.html',
+        'pages/html-shuffle/link_burn.html',
         'pages/html-shuffle/sky_error.html',
         'pages/html-shuffle/jig-dirsty.html',
         'pages/html-shuffle/mortified_rugby.html'
