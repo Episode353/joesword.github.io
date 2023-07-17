@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Firebase Authentication Example</title>
+    <!-- Include the Firebase JavaScript SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+</head>
+<body>
+    <h1>Firebase Authentication Example</h1>
+
+    <div id="login">
+        <h2>Login</h2>
+        <input type="email" id="email" placeholder="Email" /><br>
+        <input type="password" id="password" placeholder="Password" /><br>
+        <button onclick="login()">Login</button>
+    </div>
+
+    <div id="data" style="display: none;">
+        <h2>Data</h2>
+        <label for="name">Name:</label>
+        <input type="text" id="name" /><br>
+
+        <label for="currentHealth">Current Health:</label>
+        <input type="number" id="currentHealth" /><br>
+
+        <label for="maxHealth">Max Health:</label>
+        <input type="number" id="maxHealth" /><br>
+
+        <label for="location">Location:</label>
+        <input type="text" id="location" /><br>
+
+        <button onclick="saveData()">Save Data</button>
+        <button onclick="loadData()">Load Data</button>
+
+        <!-- Console-style text box -->
+        <textarea id="console" cols="50" rows="10" disabled></textarea>
+    </div>
+
+    <script>
+        // Initialize Firebase
+        var firebaseConfig = {
+            apiKey: "AIzaSyCqgWyZOOfVZddqVjV-ZsDpMo6b0F1UJxs",
+            authDomain: "joesworldonline-967be.firebaseapp.com",
+            databaseURL: "https://joesworldonline-967be-default-rtdb.firebaseio.com",
+            projectId: "joesworldonline-967be",
+            storageBucket: "joesworldonline-967be.appspot.com",
+            messagingSenderId: "817241549916",
+            appId: "1:817241549916:web:787af20d01f9172efaca99"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        // Function to handle login
+        function login() {
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+
+            firebase.auth().signInWithEmailAndPassword(email, password)
+                .then(function (userCredential) {
+                    // Successful login
+                    console.log("User logged in");
+                    loadData();
+                    document.getElementById("login").style.display = "none";
+                    document.getElementById("data").style.display = "block";
+                })
+                .catch(function (error) {
+                    // Error handling
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    console.log("Error: " + errorMessage);
+                });
+        }
+
+        // Function to save data
+        function saveData() {
+            var name = document.getElementById("name").value;
+            var currentHealth = parseInt(document.getElementById("currentHealth").value);
+            var maxHealth = parseInt(document.getElementById("maxHealth").value);
+            var location = document.getElementById("location").value;
+
+            firebase.auth().onAuthStateChanged(function (user) {
+                if (user) {
+                    // User is signed in, save data under their UID
+                    var uid = user.uid;
+                    var timestamp = new Date().getTime(); // Timestamp in milliseconds
+
+                    firebase.database().ref('dnd/users/' + uid).once('value')
+                        .then(function (snapshot) {
+                            var data = snapshot.val();
+                            var updates = {};
+                            var logMessage = "";
+
+                            if (data && data.name !== name) {
+                                updates['dnd/users/' + uid + '/name'] = name;
+                                logMessage += "Name changed to " + name + "\n";
+                            }
+
+                            if (data && data.currentHealth !== currentHealth) {
+                                updates['dnd/users/' + uid + '/currentHealth'] = currentHealth;
+                                logMessage += "Current Health changed to " + currentHealth + "\n";
+                            }
+
+                            if (data && data.maxHealth !== maxHealth) {
+                                updates['dnd/users/' + uid + '/maxHealth'] = maxHealth;
+                                logMessage += "Max Health changed to " + maxHealth + "\n";
+                            }
+
+                            if (data && data.location !== location) {
+                                updates['dnd/users/' + uid + '/location'] = location;
+                                logMessage += "Location changed to " + location + "\n";
+                            }
+
+                            updates['dnd/logs/' + uid + '/' + timestamp] = {
+                                message: logMessage,
+                                timestamp: firebase.database.ServerValue.TIMESTAMP
+                            };
+
+                            return firebase.database().ref().update(updates);
+                        })
+                        .then(function () {
+                            console.log("Data saved successfully");
+                            loadData();
+                        })
+                        .catch(function (error) {
+                            console.log("Error saving data: " + error.message);
+                        });
+                }
+            });
+        }
+
+        // Function to load data
+        function loadData() {
+            firebase.auth().onAuthStateChanged(function (user) {
+                if (user) {
+                    // User is signed in, load data under their UID
+                    var uid = user.uid;
+                    firebase.database().ref('dnd/users/' + uid).once('value')
+                        .then(function (snapshot) {
+                            var data = snapshot.val();
+                            document.getElementById("name").value = data.name || '';
+                            document.getElementById("currentHealth").value = data.currentHealth || '';
+                            document.getElementById("maxHealth").value = data.maxHealth || '';
+                            document.getElementById("location").value = data.location || '';
+                            console.log("Data loaded successfully");
+                        })
+                        .catch(function (errorsss) {
+                            console.log("Error loading data: " + error.message);
+                        });
+                }
+            });
+        }
+
+        // Listen for database changes and update the console
+        function setupDatabaseListener() {
+            firebase.auth().onAuthStateChanged(function (user) {
+                if (user) {
+                    var uid = user.uid;
+                    var consoleElement = document.getElementById("console");
+
+                    // Monitor changes in the database under the user's UID
+                    firebase.database().ref('dnd/logs/' + uid).on('child_added', function (snapshot) {
+                        var log = snapshot.val();
+                        var timestamp = new Date(log.timestamp).toLocaleString();
+                        var consoleMessage = timestamp + ": " + log.message;
+                        // Append new messages to the bottom of the console
+                        consoleElement.value += consoleMessage + "\n";
+                    });
+                }
+            });
+        }
+
+        // Call the setupDatabaseListener function to start listening for changes
+        setupDatabaseListener();
+    </script>
+</body>
+</html>
