@@ -33,9 +33,6 @@
 
         <button onclick="saveData()">Save Data</button>
         <button onclick="loadData()">Load Data</button>
-
-        <!-- Console-style text box -->
-        <textarea id="console" cols="50" rows="10" disabled></textarea>
     </div>
 
     <script>
@@ -83,48 +80,16 @@
                 if (user) {
                     // User is signed in, save data under their UID
                     var uid = user.uid;
-                    var timestamp = new Date().getTime(); // Timestamp in milliseconds
-
-                    firebase.database().ref('dnd/users/' + uid).once('value')
-                        .then(function (snapshot) {
-                            var data = snapshot.val();
-                            var updates = {};
-                            var logMessage = "";
-
-                            if (data && data.name !== name) {
-                                updates['dnd/users/' + uid + '/name'] = name;
-                                logMessage += "Name changed to " + name + "\n";
-                            }
-
-                            if (data && data.currentHealth !== currentHealth) {
-                                updates['dnd/users/' + uid + '/currentHealth'] = currentHealth;
-                                logMessage += "Current Health changed to " + currentHealth + "\n";
-                            }
-
-                            if (data && data.maxHealth !== maxHealth) {
-                                updates['dnd/users/' + uid + '/maxHealth'] = maxHealth;
-                                logMessage += "Max Health changed to " + maxHealth + "\n";
-                            }
-
-                            if (data && data.location !== location) {
-                                updates['dnd/users/' + uid + '/location'] = location;
-                                logMessage += "Location changed to " + location + "\n";
-                            }
-
-                            updates['dnd/logs/' + uid + '/' + timestamp] = {
-                                message: logMessage,
-                                timestamp: firebase.database.ServerValue.TIMESTAMP
-                            };
-
-                            return firebase.database().ref().update(updates);
-                        })
-                        .then(function () {
-                            console.log("Data saved successfully");
-                            loadData();
-                        })
-                        .catch(function (error) {
-                            console.log("Error saving data: " + error.message);
-                        });
+                    firebase.database().ref('dnd/users/' + uid).set({
+                        name: name,
+                        currentHealth: currentHealth,
+                        maxHealth: maxHealth,
+                        location: location
+                    }).then(function () {
+                        console.log("Data saved successfully");
+                    }).catch(function (error) {
+                        console.log("Error saving data: " + error.message);
+                    });
                 }
             });
         }
@@ -144,34 +109,12 @@
                             document.getElementById("location").value = data.location || '';
                             console.log("Data loaded successfully");
                         })
-                        .catch(function (errorsss) {
+                        .catch(function (error) {
                             console.log("Error loading data: " + error.message);
                         });
                 }
             });
         }
-
-        // Listen for database changes and update the console
-        function setupDatabaseListener() {
-            firebase.auth().onAuthStateChanged(function (user) {
-                if (user) {
-                    var uid = user.uid;
-                    var consoleElement = document.getElementById("console");
-
-                    // Monitor changes in the database under the user's UID
-                    firebase.database().ref('dnd/logs/' + uid).on('child_added', function (snapshot) {
-                        var log = snapshot.val();
-                        var timestamp = new Date(log.timestamp).toLocaleString();
-                        var consoleMessage = timestamp + ": " + log.message;
-                        // Append new messages to the bottom of the console
-                        consoleElement.value += consoleMessage + "\n";
-                    });
-                }
-            });
-        }
-
-        // Call the setupDatabaseListener function to start listening for changes
-        setupDatabaseListener();
     </script>
 </body>
 </html>
