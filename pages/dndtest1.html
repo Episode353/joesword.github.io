@@ -53,13 +53,16 @@
         };
         firebase.initializeApp(firebaseConfig);
 
+        // Declare a global variable to store the user's name
+        var userDataName = '';
+
         // Function to handle d20 roll
         function rollD20() {
             var rollResult = Math.floor(Math.random() * 20) + 1;
             var user = firebase.auth().currentUser;
 
             if (user) {
-                var username = user.displayName;
+                var username = userDataName || user.email; // Use email as a fallback
                 firebase.database().ref('dnd/d20Rolls').push({
                     username: username,
                     rollResult: rollResult
@@ -70,6 +73,8 @@
                 });
             }
         }
+
+
 
         // Function to listen for d20 roll updates
         function listenForD20Rolls() {
@@ -94,7 +99,6 @@
                 document.getElementById("rollList").appendChild(listItem);
             });
         }
-
         // Function to handle login
         function login() {
             var email = document.getElementById("email").value;
@@ -104,9 +108,21 @@
                 .then(function (userCredential) {
                     // Successful login
                     console.log("User logged in");
-                    loadData();
-                    document.getElementById("login").style.display = "none";
-                    document.getElementById("data").style.display = "block";
+                    // Set the user's display name
+                    var user = userCredential.user;
+                    var name = document.getElementById("name").value;
+                    user.updateProfile({
+                        displayName: name
+                    }).then(function () {
+                        // Display data section and d20 section after setting display name
+                        document.getElementById("login").style.display = "none";
+                        document.getElementById("data").style.display = "block";
+                        document.getElementById("d20Section").style.display = "block";
+                        loadData();
+                        listenForD20Rolls();
+                    }).catch(function (error) {
+                        console.log("Error setting user display name: " + error.message);
+                    });
                 })
                 .catch(function (error) {
                     // Error handling
@@ -115,6 +131,7 @@
                     console.log("Error: " + errorMessage);
                 });
         }
+
 
         // Function to save data
         function saveData() {
@@ -157,6 +174,8 @@
                             document.getElementById("location").value = data.location || '';
                             // Update the header with the user's name followed by "Inventory"
                             document.getElementById("inventoryHeader").innerText = data.name + "'s Inventory";
+                            // Save the user's name to a global variable for later use
+                            userDataName = data.name;
                             console.log("Data loaded successfully");
                         })
                         .catch(function (error) {
@@ -165,6 +184,7 @@
                 }
             });
         }
+
         // Function to delete a roll
         function deleteRoll(rollKey) {
             firebase.database().ref('dnd/d20Rolls/' + rollKey).remove()
