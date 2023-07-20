@@ -8,17 +8,16 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 </head>
 <body>
-    <h1>Firebase Authentication Example</h1>
+    <h1 id="inventoryHeader"></h1>
 
     <div id="login">
-        <h2>Login</h2>
+        <h2>Login to your Charachter</h2>
         <input type="email" id="email" placeholder="Email" /><br>
         <input type="password" id="password" placeholder="Password" /><br>
         <button onclick="login()">Login</button>
     </div>
 
     <div id="data" style="display: none;">
-        <h2>Data</h2>
         <label for="name">Name:</label>
         <input type="text" id="name" /><br>
 
@@ -35,6 +34,12 @@
         <button onclick="loadData()">Load Data</button>
     </div>
 
+    <div id="d20Section">
+        <h2>Roll a d20</h2>
+        <button onclick="rollD20()">Roll</button>
+        <ul id="rollList"></ul>
+    </div>
+
     <script>
         // Initialize Firebase
         var firebaseConfig = {
@@ -47,6 +52,48 @@
             appId: "1:817241549916:web:787af20d01f9172efaca99"
         };
         firebase.initializeApp(firebaseConfig);
+
+        // Function to handle d20 roll
+        function rollD20() {
+            var rollResult = Math.floor(Math.random() * 20) + 1;
+            var user = firebase.auth().currentUser;
+
+            if (user) {
+                var username = user.displayName;
+                firebase.database().ref('dnd/d20Rolls').push({
+                    username: username,
+                    rollResult: rollResult
+                }).then(function () {
+                    console.log("D20 roll saved successfully");
+                }).catch(function (error) {
+                    console.log("Error saving D20 roll: " + error.message);
+                });
+            }
+        }
+
+        // Function to listen for d20 roll updates
+        function listenForD20Rolls() {
+            firebase.database().ref('dnd/d20Rolls').on('child_added', function (snapshot) {
+                var rollData = snapshot.val();
+                var listItem = document.createElement("li");
+
+                // Display the username and roll result
+                listItem.innerText = rollData.username + " rolled: " + rollData.rollResult;
+
+                // Create the delete button
+                var deleteButton = document.createElement("button");
+                deleteButton.innerText = "Delete";
+                deleteButton.onclick = function () {
+                    deleteRoll(snapshot.key);
+                };
+
+                // Append the delete button to the list item
+                listItem.appendChild(deleteButton);
+
+                // Append the list item to the rollList
+                document.getElementById("rollList").appendChild(listItem);
+            });
+        }
 
         // Function to handle login
         function login() {
@@ -87,6 +134,7 @@
                         location: location
                     }).then(function () {
                         console.log("Data saved successfully");
+                        loadData();
                     }).catch(function (error) {
                         console.log("Error saving data: " + error.message);
                     });
@@ -107,6 +155,8 @@
                             document.getElementById("currentHealth").value = data.currentHealth || '';
                             document.getElementById("maxHealth").value = data.maxHealth || '';
                             document.getElementById("location").value = data.location || '';
+                            // Update the header with the user's name followed by "Inventory"
+                            document.getElementById("inventoryHeader").innerText = data.name + "'s Inventory";
                             console.log("Data loaded successfully");
                         })
                         .catch(function (error) {
@@ -115,6 +165,67 @@
                 }
             });
         }
+        // Function to delete a roll
+        function deleteRoll(rollKey) {
+            firebase.database().ref('dnd/d20Rolls/' + rollKey).remove()
+                .then(function () {
+                    console.log("D20 roll deleted successfully");
+                    // Update the roll list after the roll is deleted
+                    updateRollList();
+                })
+                .catch(function (error) {
+                    console.log("Error deleting D20 roll: " + error.message);
+                });
+        }
+        // Call the function to listen for d20 roll updates after successful login
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                loadData();
+                document.getElementById("login").style.display = "none";
+                document.getElementById("data").style.display = "block";
+                document.getElementById("d20Section").style.display = "block";
+                listenForD20Rolls();
+            } else {
+                document.getElementById("d20Section").style.display = "none";
+            }
+        });
+
+        // Function to update the roll list
+        function updateRollList() {
+            // Clear the existing list
+            var rollList = document.getElementById("rollList");
+            rollList.innerHTML = "";
+
+            // Re-populate the list with updated data
+            firebase.database().ref('dnd/d20Rolls').once('value')
+                .then(function (snapshot) {
+                    snapshot.forEach(function (childSnapshot) {
+                        var rollData = childSnapshot.val();
+                        var listItem = document.createElement("li");
+
+                        // Display the username and roll result
+                        listItem.innerText = rollData.username + " rolled: " + rollData.rollResult;
+
+                        // Create the delete button
+                        var deleteButton = document.createElement("button");
+                        deleteButton.innerText = "Delete";
+                        deleteButton.onclick = function () {
+                            deleteRoll(childSnapshot.key);
+                        };
+
+                        // Append the delete button to the list item
+                        listItem.appendChild(deleteButton);
+
+                        // Append the list item to the rollList
+                        rollList.appendChild(listItem);
+                    });
+                })
+                .catch(function (error) {
+                    console.log("Error updating roll list: " + error.message);
+                });
+        }
+
+
     </script>
 </body>
 </html>
