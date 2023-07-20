@@ -60,22 +60,39 @@
 
         // Function to handle d20 roll
         function rollD20() {
-            var rollResult = Math.floor(Math.random() * 20) + 1;
-            var user = firebase.auth().currentUser;
+            // Add a loading message while the roll is being generated
+            var loadingMessage = document.createElement("li");
+            loadingMessage.innerText = "Rolling..."; // Display a loading message
+            
+            document.getElementById("rollList").appendChild(loadingMessage);
 
-            if (user) {
-                var username = userDataName || user.email; // Use email as a fallback
-                var timestamp = new Date().toLocaleString(); // Get current timestamp in a condensed manner
-                firebase.database().ref('dnd/d20Rolls').push({
-                    username: username,
-                    rollResult: rollResult,
-                    timestamp: timestamp // Include the timestamp
-                }).then(function () {
-                    console.log("D20 roll saved successfully");
-                }).catch(function (error) {
-                    console.log("Error saving D20 roll: " + error.message);
-                });
-            }
+            setTimeout(function () {
+                var rollResult = Math.floor(Math.random() * 20) + 1;
+                var user = firebase.auth().currentUser;
+
+                if (user) {
+                    var username = userDataName || user.email; // Use email as a fallback
+                    var timestamp = new Date().toLocaleString(); // Get current timestamp in a condensed manner
+                    firebase.database().ref('dnd/d20Rolls').push({
+                        username: username,
+                        rollResult: rollResult,
+                        timestamp: timestamp // Include the timestamp
+                    }).then(function () {
+                        console.log("D20 roll saved successfully");
+
+                        // Remove the loading message
+                        document.getElementById("rollList").removeChild(loadingMessage);
+
+                        // Display the roll result
+                        var listItem = document.createElement("li");
+                        listItem.innerText = new Date(timestamp).toLocaleString() + " | " + username + " rolled a " + rollResult;
+                        document.getElementById("rollList").appendChild(listItem);
+                        updateRollList();
+                    }).catch(function (error) {
+                        console.log("Error saving D20 roll: " + error.message);
+                    });
+                }
+            }, 1500); // Simulate a delay of 1.5 seconds before showing the result
         }
 
 
@@ -101,6 +118,11 @@
 
                 // Append the list item to the rollList
                 document.getElementById("rollList").appendChild(listItem);
+            });
+
+            firebase.database().ref('dnd/d20Rolls').on('child_removed', function (snapshot) {
+                // When a roll is removed, update the roll list on the page
+                updateRollList();
             });
         }
         // Function to handle login
