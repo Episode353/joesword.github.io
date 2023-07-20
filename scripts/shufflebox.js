@@ -14,6 +14,7 @@ $(function () {
         'pages/html-shuffle/fish-plan.html',
         'pages/html-shuffle/stolen.html',
         'pages/html-shuffle/david_death.html',
+        'pages/html-shuffle/fly_edible.html',
         'pages/html-shuffle/dorito-time.html',
         'pages/html-shuffle/loud-ward.html',
         'pages/html-shuffle/twinks.html',
