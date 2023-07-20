@@ -33,13 +33,27 @@
         <button onclick="saveData()">Save Data</button>
         <button onclick="loadData()">Load Data</button>
         <button onclick="logout()">Logout</button>
+
+
+
+        <div id="diceSection">
+            <h2>Roll a Dice</h2>
+            <label for="diceType">Select Dice Type:</label>
+            <select id="diceType">
+                <option value="d4">d4</option>
+                <option value="d6">d6</option>
+                <option value="d8">d8</option>
+                <option value="d10">d10</option>
+                <option value="d12">d12</option>
+                <option value="d20">d20</option>
+                <option value="d100">d100</option>
+            </select>
+            <button onclick="rollDice()">Roll</button>
+            <ul id="rollList"></ul>
+        </div>
     </div>
 
-    <div id="d20Section">
-        <h2>Roll a d20</h2>
-        <button onclick="rollD20()">Roll</button>
-        <ul id="rollList"></ul>
-    </div>
+
 
     <script>
         // Initialize Firebase
@@ -56,61 +70,76 @@
 
         // Declare a global variable to store the user's name
         var userDataName = '';
+        
+
+        // Function to handle logout on page load
+        function logoutOnLoad() {
+            firebase.auth().signOut().then(function () {
+                console.log("User logged out on startup");
+            }).catch(function (error) {
+                console.log("Error logging out on startup: " + error.message);
+            });
+        }
+
+        // Call the logoutOnLoad function when the page loads
+        logoutOnLoad();
 
 
-        // Function to handle d20 roll
-        function rollD20() {
+        // Function to handle dice roll
+        function rollDice() {
+            var diceType = document.getElementById("diceType").value; // Get the selected dice type
+
             // Add a loading message while the roll is being generated
             var loadingMessage = document.createElement("li");
             loadingMessage.innerText = "Rolling..."; // Display a loading message
-            
+
             document.getElementById("rollList").appendChild(loadingMessage);
 
             setTimeout(function () {
-                var rollResult = Math.floor(Math.random() * 20) + 1;
+                var rollResult = Math.floor(Math.random() * parseInt(diceType.slice(1))) + 1; // Parse the number of sides from the diceType
                 var user = firebase.auth().currentUser;
 
                 if (user) {
                     var username = userDataName || user.email; // Use email as a fallback
                     var timestamp = new Date().toLocaleString(); // Get current timestamp in a condensed manner
-                    firebase.database().ref('dnd/d20Rolls').push({
+                    firebase.database().ref('dnd/diceRolls').push({
                         username: username,
+                        diceType: diceType,
                         rollResult: rollResult,
                         timestamp: timestamp // Include the timestamp
                     }).then(function () {
-                        console.log("D20 roll saved successfully");
+                        console.log("Dice roll saved successfully");
 
                         // Remove the loading message
                         document.getElementById("rollList").removeChild(loadingMessage);
 
                         // Display the roll result
                         var listItem = document.createElement("li");
-                        listItem.innerText = new Date(timestamp).toLocaleString() + " | " + username + " rolled a " + rollResult;
+                        listItem.innerText = new Date(timestamp).toLocaleString() + " | " + username + " rolled a " + rollResult + " (" + diceType + ")";
                         document.getElementById("rollList").appendChild(listItem);
                         updateRollList();
                     }).catch(function (error) {
-                        console.log("Error saving D20 roll: " + error.message);
+                        console.log("Error saving dice roll: " + error.message);
                     });
                 }
             }, 1500); // Simulate a delay of 1.5 seconds before showing the result
         }
 
-
-
-        // Function to listen for d20 roll updates
-        function listenForD20Rolls() {
-            firebase.database().ref('dnd/d20Rolls').on('child_added', function (snapshot) {
+        // Function to listen for dice roll updates
+        function listenForDiceRolls() {
+            firebase.database().ref('dnd/diceRolls').on('child_added', function (snapshot) {
                 var rollData = snapshot.val();
                 var listItem = document.createElement("li");
+                listItem.setAttribute("id", snapshot.key); // Set a unique ID for the list item based on the snapshot key
 
-                // Display the username, roll result, and timestamp in a condensed manner
-                listItem.innerText = new Date(rollData.timestamp).toLocaleString() + " | " + rollData.username + " rolled a " + rollData.rollResult;
+                // Display the username, dice type, roll result, and timestamp in a condensed manner
+                listItem.innerText = new Date(rollData.timestamp).toLocaleString() + " | " + rollData.username + " rolled a " + rollData.rollResult + " (" + rollData.diceType + ")";
 
                 // Create the delete button
                 var deleteButton = document.createElement("button");
                 deleteButton.innerText = "Delete";
                 deleteButton.onclick = function () {
-                    deleteRoll(snapshot.key);
+                    deleteRoll(snapshot.key); // Pass the snapshot key to deleteRoll function
                 };
 
                 // Append the delete button to the list item
@@ -120,11 +149,16 @@
                 document.getElementById("rollList").appendChild(listItem);
             });
 
-            firebase.database().ref('dnd/d20Rolls').on('child_removed', function (snapshot) {
+            firebase.database().ref('dnd/diceRolls').on('child_removed', function (snapshot) {
                 // When a roll is removed, update the roll list on the page
-                updateRollList();
+                var listItem = document.getElementById(snapshot.key);
+                if (listItem) {
+                    document.getElementById("rollList").removeChild(listItem);
+                }
             });
         }
+
+
         // Function to handle login
         function login() {
             var email = document.getElementById("email").value;
@@ -146,6 +180,7 @@
                         document.getElementById("d20Section").style.display = "block";
                         loadData();
                         listenForD20Rolls();
+                        
                     }).catch(function (error) {
                         console.log("Error setting user display name: " + error.message);
                     });
@@ -212,6 +247,7 @@
                             document.getElementById("inventoryHeader").innerText = data.name + "'s Inventory";
                             // Save the user's name to a global variable for later use
                             userDataName = data.name;
+                            updateRollList();
                             console.log("Data loaded successfully");
                         })
                         .catch(function (error) {
@@ -223,26 +259,27 @@
 
         // Function to delete a roll
         function deleteRoll(rollKey) {
-            firebase.database().ref('dnd/d20Rolls/' + rollKey).remove()
+            firebase.database().ref('dnd/diceRolls/' + rollKey).remove()
                 .then(function () {
-                    console.log("D20 roll deleted successfully");
-                    // Update the roll list after the roll is deleted
-                    updateRollList();
+                    console.log("Dice roll deleted successfully");
+                    // Roll has been successfully deleted, no need to updateRollList here
                 })
                 .catch(function (error) {
-                    console.log("Error deleting D20 roll: " + error.message);
+                    console.log("Error deleting dice roll: " + error.message);
                 });
         }
+
         // Call the function to listen for d20 roll updates after successful login
         firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
                 loadData();
                 document.getElementById("login").style.display = "none";
                 document.getElementById("data").style.display = "block";
-                document.getElementById("d20Section").style.display = "block";
-                listenForD20Rolls();
+                document.getElementById("diceSection").style.display = "block";
+                listenForDiceRolls();
+                updateRollList(); // Load the roll list on startup
             } else {
-                document.getElementById("d20Section").style.display = "none";
+                document.getElementById("diceSection").style.display = "none";
             }
         });
 
@@ -253,20 +290,21 @@
             rollList.innerHTML = "";
 
             // Re-populate the list with updated data
-            firebase.database().ref('dnd/d20Rolls').once('value')
+            firebase.database().ref('dnd/diceRolls').once('value')
                 .then(function (snapshot) {
                     snapshot.forEach(function (childSnapshot) {
                         var rollData = childSnapshot.val();
                         var listItem = document.createElement("li");
+                        listItem.setAttribute("id", childSnapshot.key); // Set a unique ID for the list item based on the snapshot key
 
-                        // Display the username, roll result, and timestamp in a condensed manner
-                        listItem.innerText = new Date(rollData.timestamp).toLocaleString() + " | " + rollData.username + " rolled a " + rollData.rollResult;
+                        // Display the username, dice type, roll result, and timestamp in a condensed manner
+                        listItem.innerText = new Date(rollData.timestamp).toLocaleString() + " | " + rollData.username + " rolled a " + rollData.rollResult + " (" + rollData.diceType + ")";
 
                         // Create the delete button
                         var deleteButton = document.createElement("button");
                         deleteButton.innerText = "Delete";
                         deleteButton.onclick = function () {
-                            deleteRoll(childSnapshot.key);
+                            deleteRoll(childSnapshot.key); // Pass the snapshot key to deleteRoll function
                         };
 
                         // Append the delete button to the list item
@@ -280,6 +318,7 @@
                     console.log("Error updating roll list: " + error.message);
                 });
         }
+
 
 
     </script>
