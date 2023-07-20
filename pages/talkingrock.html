@@ -4,7 +4,7 @@
     <title>Image Switch with Key Press</title>
 </head>
 <body>
-    <h1>Press and hold the "H" key to switch images!</h1>
+    <h1>Press <em>"Spacebar"</em> to Speak</h1>
     <img id="imageSwitch" src="../media/jpg/talkingrock_mouth_closed.jpg" alt="Original Image">
 
     <script>
@@ -20,7 +20,7 @@
 
         // Event listener for keydown event
         document.addEventListener("keydown", function (event) {
-            if (event.key === "h") {
+            if (event.key === " ") {
                 isKeyPressed = true;
                 switchImage();
             }
@@ -28,7 +28,7 @@
 
         // Event listener for keyup event
         document.addEventListener("keyup", function (event) {
-            if (event.key === "h") {
+            if (event.key === " ") {
                 isKeyPressed = false;
                 switchImage();
             }
