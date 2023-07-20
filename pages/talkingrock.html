@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Switch with Key Press</title>
+</head>
+<body>
+    <h1>Press and hold the "H" key to switch images!</h1>
+    <img id="imageSwitch" src="../media/jpg/talkingrock_mouth_closed.jpg" alt="Original Image">
+
+    <script>
+        let isKeyPressed = false;
+        const originalImageSrc = "../media/jpg/talkingrock_mouth_closed.jpg";
+        const newImageSrc = "../media/jpg/talkingrock_mouth_open.jpg";
+
+        // Function to switch the image
+        function switchImage() {
+            const image = document.getElementById("imageSwitch");
+            image.src = isKeyPressed ? newImageSrc : originalImageSrc;
+        }
+
+        // Event listener for keydown event
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "h") {
+                isKeyPressed = true;
+                switchImage();
+            }
+        });
+
+        // Event listener for keyup event
+        document.addEventListener("keyup", function (event) {
+            if (event.key === "h") {
+                isKeyPressed = false;
+                switchImage();
+            }
+        });
+    </script>
+</body>
+</html>
