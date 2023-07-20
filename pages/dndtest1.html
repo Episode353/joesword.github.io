@@ -32,6 +32,7 @@
 
         <button onclick="saveData()">Save Data</button>
         <button onclick="loadData()">Load Data</button>
+        <button onclick="logout()">Logout</button>
     </div>
 
     <div id="d20Section">
@@ -56,6 +57,7 @@
         // Declare a global variable to store the user's name
         var userDataName = '';
 
+
         // Function to handle d20 roll
         function rollD20() {
             var rollResult = Math.floor(Math.random() * 20) + 1;
@@ -63,9 +65,11 @@
 
             if (user) {
                 var username = userDataName || user.email; // Use email as a fallback
+                var timestamp = new Date().toLocaleString(); // Get current timestamp in a condensed manner
                 firebase.database().ref('dnd/d20Rolls').push({
                     username: username,
-                    rollResult: rollResult
+                    rollResult: rollResult,
+                    timestamp: timestamp // Include the timestamp
                 }).then(function () {
                     console.log("D20 roll saved successfully");
                 }).catch(function (error) {
@@ -82,8 +86,8 @@
                 var rollData = snapshot.val();
                 var listItem = document.createElement("li");
 
-                // Display the username and roll result
-                listItem.innerText = rollData.username + " rolled: " + rollData.rollResult;
+                // Display the username, roll result, and timestamp in a condensed manner
+                listItem.innerText = new Date(rollData.timestamp).toLocaleString() + " | " + rollData.username + " rolled a " + rollData.rollResult;
 
                 // Create the delete button
                 var deleteButton = document.createElement("button");
@@ -132,6 +136,16 @@
                 });
         }
 
+        // Function to handle logout
+        function logout() {
+            firebase.auth().signOut().then(function () {
+                console.log("User logged out");
+                document.getElementById("data").style.display = "none";
+                document.getElementById("login").style.display = "block";
+            }).catch(function (error) {
+                console.log("Error logging out: " + error.message);
+            });
+        }
 
         // Function to save data
         function saveData() {
@@ -223,8 +237,8 @@
                         var rollData = childSnapshot.val();
                         var listItem = document.createElement("li");
 
-                        // Display the username and roll result
-                        listItem.innerText = rollData.username + " rolled: " + rollData.rollResult;
+                        // Display the username, roll result, and timestamp in a condensed manner
+                        listItem.innerText = new Date(rollData.timestamp).toLocaleString() + " | " + rollData.username + " rolled a " + rollData.rollResult;
 
                         // Create the delete button
                         var deleteButton = document.createElement("button");
