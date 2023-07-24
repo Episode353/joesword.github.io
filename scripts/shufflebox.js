@@ -34,6 +34,7 @@ $(function () {
         'pages/html-shuffle/jig-dirsty.html',
         'pages/html-shuffle/wheatley_power.html',
         'pages/html-shuffle/mort_russia.html',
+        'pages/html-shuffle/Ender4Mod_agust7_2013.html',
         'pages/html-shuffle/whats_jiggy_thinking_about.html',
         'pages/html-shuffle/mortified_rugby.html'
        
