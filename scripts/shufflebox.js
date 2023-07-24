@@ -32,6 +32,8 @@ $(function () {
         'pages/html-shuffle/link_burn.html',
         'pages/html-shuffle/sky_error.html',
         'pages/html-shuffle/jig-dirsty.html',
+        'pages/html-shuffle/wheatley_power.html',
+        'pages/html-shuffle/mort_russia.html',
         'pages/html-shuffle/mortified_rugby.html'
        
     ];
