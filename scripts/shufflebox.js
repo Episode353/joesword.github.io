@@ -36,6 +36,8 @@ $(function () {
         'pages/html-shuffle/mort_russia.html',
         'pages/html-shuffle/Ender4Mod_agust7_2013.html',
         'pages/html-shuffle/whats_jiggy_thinking_about.html',
+        'pages/html-shuffle/missing_couch.html',
+        'pages/html-shuffle/LETMEOUT.html',
         'pages/html-shuffle/mortified_rugby.html'
        
     ];
