@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Switch with Key Press</title>
+</head>
+<body>
+    <img id="imageSwitch" src="../media/png/bass_mouth_closed.png" alt="Original Image">
+
+    <script>
+        let isKeyPressed = false;
+        let showThirdImage = false;
+        let showFourthImage = false;
+        const originalImageSrc = "../media/png/bass_mouth_closed.png";
+        const newImageSrc = "../media/png/bass_mouth_open.png";
+        const thirdImageSrc = "../media/png/bass_mouth_open_look_at_closed.png";
+        const fourthImageSrc = "../media/png/bass_mouth_open_look_at_open.png";
+
+        // Function to switch the image
+        function switchImage() {
+            const image = document.getElementById("imageSwitch");
+            if (showFourthImage) {
+                image.src = fourthImageSrc;
+            } else if (showThirdImage) {
+                image.src = thirdImageSrc;
+            } else {
+                image.src = isKeyPressed ? newImageSrc : originalImageSrc;
+            }
+        }
+
+        // Event listener for keydown event
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "v") {
+                isKeyPressed = true;
+                switchImage();
+            } else if (event.key === "b" || event.key === "B") {
+                showThirdImage = true;
+                switchImage();
+            } else if (event.key === "n" || event.key === "N") {
+                showFourthImage = true;
+                switchImage();
+            }
+        });
+
+        // Event listener for keyup event
+        document.addEventListener("keyup", function (event) {
+            if (event.key === "v") {
+                isKeyPressed = false;
+                switchImage();
+            } else if (event.key === "b" || event.key === "B") {
+                showThirdImage = false;
+                switchImage();
+            } else if (event.key === "n" || event.key === "N") {
+                showFourthImage = false;
+                switchImage();
+            }
+        });
+    </script>
+</body>
+</html>

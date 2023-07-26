@@ -4,35 +4,57 @@
     <title>Image Switch with Key Press</title>
 </head>
 <body>
-    <h1>Press <em>"Spacebar"</em> to Speak</h1>
-    <img id="imageSwitch" src="../media/jpg/talkingrock_mouth_closed.jpg" alt="Original Image">
+    <img id="imageSwitch" src="../media/jpg/talkingrock_mouth_closed.jpg"; alt="Original Image">
 
     <script>
         let isKeyPressed = false;
+        let showThirdImage = false;
+        let showFourthImage = false;
         const originalImageSrc = "../media/jpg/talkingrock_mouth_closed.jpg";
         const newImageSrc = "../media/jpg/talkingrock_mouth_open.jpg";
+        const thirdImageSrc = "../media/jpg/talkingrock_mouth_closed_lit.jpg";
+        const fourthImageSrc = "../media/jpg/talkingrock_mouth_open_lit.jpg";
 
         // Function to switch the image
         function switchImage() {
             const image = document.getElementById("imageSwitch");
-            image.src = isKeyPressed ? newImageSrc : originalImageSrc;
+            if (showFourthImage) {
+                image.src = fourthImageSrc;
+            } else if (showThirdImage) {
+                image.src = thirdImageSrc;
+            } else {
+                image.src = isKeyPressed ? newImageSrc : originalImageSrc;
+            }
         }
 
         // Event listener for keydown event
         document.addEventListener("keydown", function (event) {
-            if (event.key === " ") {
+            if (event.key === "v") {
                 isKeyPressed = true;
+                switchImage();
+            } else if (event.key === "b" || event.key === "B") {
+                showThirdImage = true;
+                switchImage();
+            } else if (event.key === "n" || event.key === "N") {
+                showFourthImage = true;
                 switchImage();
             }
         });
 
         // Event listener for keyup event
         document.addEventListener("keyup", function (event) {
-            if (event.key === " ") {
+            if (event.key === "v") {
                 isKeyPressed = false;
+                switchImage();
+            } else if (event.key === "b" || event.key === "B") {
+                showThirdImage = false;
+                switchImage();
+            } else if (event.key === "n" || event.key === "N") {
+                showFourthImage = false;
                 switchImage();
             }
         });
     </script>
 </body>
 </html>
+
