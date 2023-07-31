@@ -1,0 +1,219 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Joes World</title>
+    <link rel="icon" href="../media/ico/favicon.ico" type="image/x-icon" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Add any necessary stylesheets or scripts here -->
+    <link rel="stylesheet" href="../../style.css">
+    <script src="../../scripts/seppe.js"></script>
+    <style>
+        .food-content-rate {
+            grid-row-start: unset;
+            grid-row-end: unset;
+            grid-column-start: 2;
+            grid-column-end: 2;
+            border: 3px solid lightsteelblue;
+            max-width: 250rem;
+            max-height: 250rem;
+            border-top: none !important;
+            border-left: none !important;
+            border-right: none !important;
+        }
+
+        .container{
+            height: 6vh;
+        }
+
+        /* CSS for the food review body*/
+        .food-review-body {
+            display: grid;
+            grid-template-columns: auto auto;
+            grid-template-columns: auto auto;
+            height: 25%;
+            gap: 5%;
+        }
+
+        @keyframes moveText {
+            0% {
+                transform: translateX(0px);
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateX(5px);
+                transform: translateY(2px);
+            }
+
+            100% {
+                transform: translateX(0px);
+                transform: translateY(0px);
+            }
+        }
+
+        .moving-text-container {
+            overflow: hidden;
+            border: 0px !important;
+            background: none !important;
+            width: 200px; /* Set an appropriate width to contain the text */
+        }
+
+        .moving-text {
+            color: red;
+            animation: moveText 0.001s infinite; /* Adjust the duration and animation details as desired */
+        }
+
+
+    </style>
+
+</head>
+<body>
+
+
+    <center>
+        <div class="container">
+
+            <div class="header">
+                <iframe src="../header-content.html" frameborder="0" scrolling="no" class="header-content-iframe"></iframe>
+
+            </div>
+
+         
+            <div class="food-content-large-fill" style=" padding: inherit; height:120%;">
+
+                <!--Gif Header/Title    -->
+                <img style=" width:80%;" src="../../media/gif/bay-village-pizza-gif1.gif" />
+                <img style=" width:50%;" src="../../media/gif/bay-village-pizza-gif2.gif" />
+
+                <p>On 7-30-2023 History was made.</p>
+                <p>Seppe, Jig and Schmaibo went on their <em>Third</em> trip down to Long Beach Island. </p>
+                <p>We won some stuff at the arcade, went Metal Detecting, etc.</p>
+                <p>But the entire trip i was dreaming...<em> salivating even</em>, for one thing...</p>
+                <div class="moving-text-container">
+                    <p class="moving-text">The Forbidden Fries.</p>
+                </div>
+                <p>For you see the previous two years <em>(2022 & 2021)</em> we tried eating at <em>Bay Village Pizza.</em></p>
+                <p>The only issue is that the previous two years we went in the Fall/Winter.</p>
+                <p>This year we went in the summer, which turns out, is the only time they are open.</p>
+                <p>Seeing the pizzeria with people hoarding the front was a weird experience since i have seen it barren and empty more times than not.</p>
+
+                <!--Bay Village Pizza Image-->
+                <img style=" width:70%;" src="../../media/jpg/bay-village-pizza-exterior.jpg" />
+
+                <p>The wait time for <em>A Large Cheese Pie and Two Large Fries</em> was about 20 minues, and the total was about $55 Before tip.</p>
+                <p>So after all these years, here is the comprehensive review of Bay Village Pizza.</p>
+
+                <!--The Pizza Header-->
+                <img style=" width:50%; border: dotted 2px red;" src="../../media/gif/bay-village-pizza-gif3.gif" />
+
+                <div class="food-review-body" style="background: transparent; border: 0px solid lightsteelblue; ">
+
+
+
+
+                    <!--Photo of the Food -- files are 1280x1280px-->
+                    <div class="food-content-photo">
+                        <img src="../../media/jpg/bay_village_pizza_pizza.jpg">
+                    </div>
+
+                    <!--The rating of the food-->
+                    <div class="food-content-rate">
+                        Seppe Says...
+                        <p>7.5/10</p>
+                        <!--Enable or disable sip approved here-->
+                        <!-- <img class="food-sip" src="../../media/png/sip-approved.png">-->
+                        <!--Enable or disable sip disapproved here-->
+                        <!--<img class="food-sip" src="../../media/png/sip-disapproved.png">-->
+                    </div>
+
+                    <div class="food-content-text">
+
+                        <p>The Pizza is an authentic New York style, with</p>
+                        <p>a stuff bottom but not <em>"Crunchy as a Cracker"</em></p>
+
+                        <p style="color:red;">Pizza with <em>Potato Chip Level Crunch</em> is viewed Sinful here on <span class="word-seppe">Joesworld.online</span></p>
+                        <img style=" width:30%; border: dotted 2px red;" src="../../media/jpg/chip-crunch-bad.jpg" />
+                        
+
+                        <p>The Cheese is nothing to write home about,</p>
+                        <p>And the Slice itself is not a river of oil, so it is Seppe approved.</p>
+                        <p>Dont get me wrong, its not bad at all, but deffinetly over shadowed by his older brother...</p>
+                    </div>
+
+
+                    <div class="food-content-bob" style="position: relative;">
+                        <p>Would Seep take this to Bob Marley's House?</p>
+                        <p style="height: 169px; position: absolute; top: 15%; left: 65%; transform: rotate(20deg);">Yes</p>
+                        <!--To change from yes to no face, just change the no/yes in the file name-->
+                        <img src="../../media/png/bob-yes.png">
+                        <p>Would Seep stop a train for this?</p>
+                        <p style="height: 169px; position: absolute; top: 60%; left: 65%; transform: rotate(20deg);">no</p>
+                        <img src="../../media/png/bob-no.png">
+                    </div>
+
+
+
+
+                </div>
+                <!--The Fries Header-->
+                <img style=" width:50%; border: dotted 2px red;" src="../../media/gif/bay-village-pizza-gif4.gif" />
+                <div class="food-review-body" style="background: transparent; border: 0px solid lightsteelblue; ">
+
+
+
+
+                    <!--Photo of the Food -- files are 1280x1280px-->
+                    <div class="food-content-photo">
+                        <img src="../../media/jpg/bay_village_pizza_fries.jpg">
+                    </div>
+
+                    <!--The rating of the food-->
+                    <div class="food-content-rate">
+                        Seppe Says...
+                        <p>9/10</p>
+                        <!--Enable or disable sip approved here-->
+                        <!-- <img class="food-sip" src="../../media/png/sip-approved.png">-->
+                        <!--Enable or disable sip disapproved here-->
+                        <!--<img class="food-sip" src="../../media/png/sip-disapproved.png">-->
+                    </div>
+
+                    <div class="food-content-text">
+                        <p>These fries alone are worth the Two Hour drive.</p>
+                        <p style="color:blue; text-align: left;"><em>I'm not a conspiracy theorist...</em></p>
+                        <p style="color:blue; text-align: left;"><em>I'm not letting monkey brain talk for me...</em></p>
+                        <p>These are Unironically <span style="color:goldenrod;">S</span> Teir Fries.</p>
+                        <img style=" width:30%; border: dotted 2px red;" src="../../media/jpg/hggghhhh.jpg" />
+                        <p>This is the <span style="color:red;">DEFINITION</span> of "Would stop a train for this."</p>
+                        <p>The texture is a crunchy glass like exterior with a fluffy interior.</p>
+                        <p style="color: red;"><em>I'm gonna level with you, the ketchup they had was really good</em></p>
+                        <p>Fries with no Ketchup would be an 8</p>
+
+                        <p>They were definetly a little over salted but lets not nit-pick here</p>
+                    </div>
+
+
+                    <div class="food-content-bob" style="position: relative;">
+                        <p>Would Seep take this to Bob Marley's House?</p>
+                        <p style="height: 169px; position: absolute; top: 15%; left: 65%; transform: rotate(20deg);">yes</p>
+                        <!--To change from yes to no face, just change the no/yes in the file name-->
+                        <img src="../../media/png/bob-yes.png">
+                        <p>Would Seep stop a train for this?</p>
+                        <p style="height: 169px; position: absolute; top: 60%; left: 65%; transform: rotate(20deg);">Yes</p>
+                        <img src="../../media/png/bob-yes.png">
+                    </div>
+
+                </div>
+
+
+
+
+
+
+
+
+            </div>
+            </div>
+</center>
+</body>
+</html>
