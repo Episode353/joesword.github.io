@@ -559,8 +559,8 @@ button {
 .seep-coin-text {
     font-family: daydream;
     color: #0D47A1;
-    font-size: 2rem;
-    text-shadow: 5px 5px 0px #fec652;
+    font-size: 2em;
+    text-shadow: 5px 5px 0px #1adb31;
     -webkit-mask-image: linear-gradient(-75deg, rgba(255,255,255,.2) 30%, #fff 50%, rgba(255,255,255,.2) 70%);
     -webkit-mask-size: 1%;
     animation: animate 20s infinite;
