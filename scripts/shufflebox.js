@@ -38,6 +38,11 @@ $(function () {
         'pages/html-shuffle/whats_jiggy_thinking_about.html',
         'pages/html-shuffle/missing_couch.html',
         'pages/html-shuffle/LETMEOUT.html',
+        'pages/html-shuffle/me_when_mango.html',
+        'pages/html-shuffle/blood_test.html',
+        'pages/html-shuffle/sus_nug.html',
+        'pages/html-shuffle/mordecai_smooth_head.html',
+        'pages/html-shuffle/how_to_say_hi_in_mandarin.html',
         'pages/html-shuffle/mortified_rugby.html'
        
     ];
