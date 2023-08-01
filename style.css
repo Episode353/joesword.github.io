@@ -152,6 +152,8 @@ button {
 
 
 
+
+
 .word-red {
     color: red; /* makes the text red*/
 }
@@ -553,3 +555,31 @@ button {
 
 
 
+/*Seep Coin text*/
+.seep-coin-text {
+    font-family: daydream;
+    color: #0D47A1;
+    font-size: 2rem;
+    text-shadow: 5px 5px 0px #fec652;
+    -webkit-mask-image: linear-gradient(-75deg, rgba(255,255,255,.2) 30%, #fff 50%, rgba(255,255,255,.2) 70%);
+    -webkit-mask-size: 1%;
+    animation: animate 20s infinite;
+    border: none !important;
+}
+
+@keyframes animate {
+    from {
+        -webkit-mask-position: 150%;
+    }
+
+    to {
+        -webkit-mask-position: -50%;
+    }
+}
+
+.scoreboard-data {
+    text-align: left;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 3em;
+    border: none !important;
+}

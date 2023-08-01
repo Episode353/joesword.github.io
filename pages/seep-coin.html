@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Joes World</title>
+    <link rel="icon" href="../media/ico/favicon.ico" type="image/x-icon" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Add any necessary stylesheets or scripts here -->
+    <link rel="stylesheet" href="../style.css">
+    <script src="../../seppe.js"></script>
+    <script src="../scripts/back-map.js?v=2"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <style>
+
+
+
+    </style>
+
+</head>
+<body>
+
+
+    <center>
+        <div class="container">
+
+            <div class="header">
+                <iframe src="header-content.html" frameborder="0" scrolling="no" class="header-content-iframe"></iframe>
+            </div>
+
+
+
+            <div class="content-large-fill">
+                <div style=" display: flex; align-items: center; justify-content: center; border:none;">
+                    <div class="seep-coin-text">
+                        <h2>Seep Coin</h2>
+                    </div>
+
+                </div>
+                Coming Soon...
+
+                <div class="scoreboard-data">
+                    <table>
+                        <tbody id="scoreboard-body">
+                            <!-- Data will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+
+
+                <!--
+
+                Remove Commend to Activaet
+
+                <script>
+                    // Initialize Firebase with your project's configuration
+                    var firebaseConfig = {
+                        apiKey: "AIzaSyCqgWyZOOfVZddqVjV-ZsDpMo6b0F1UJxs",
+                        authDomain: "joesworldonline-967be.firebaseapp.com",
+                        databaseURL: "https://joesworldonline-967be-default-rtdb.firebaseio.com",
+                        projectId: "joesworldonline-967be",
+                        storageBucket: "joesworldonline-967be.appspot.com",
+                        messagingSenderId: "817241549916",
+                        appId: "1:817241549916:web:787af20d01f9172efaca99"
+                    };
+
+                    firebase.initializeApp(firebaseConfig);
+
+                    // Reference to the Firebase Realtime Database
+                    var database = firebase.database();
+
+                    // Function to update the scoreboard on the page
+                    function updateScoreboard(snapshot) {
+                        var scoreboardBody = document.getElementById('scoreboard-body');
+                        scoreboardBody.innerHTML = '';
+
+                        var scoreboardData = [];
+
+                        snapshot.forEach(function (childSnapshot) {
+                            var username = childSnapshot.key; // Get the username from the snapshot key
+                            var score = childSnapshot.val();
+                            scoreboardData.push({ username: username, score: score.points });
+                        });
+
+                        // Sort the scoreboard data in descending order based on scores
+                        scoreboardData.sort((a, b) => b.score - a.score);
+
+                        var positions = ["1st", "2nd", "3rd"];
+                        for (var i = 0; i < scoreboardData.length; i++) {
+                            var row = document.createElement('tr');
+                            var userCell = document.createElement('td');
+                            var pointsCell = document.createElement('td');
+
+                            if (i < positions.length) {
+                                // For the top three positions, display custom messages
+                                userCell.textContent = `${positions[i]} Place : ${scoreboardData[i].username}`;
+                            } else {
+                                // For positions after third place, display ordinal numbers
+                                userCell.textContent = `${i + 1}th Place : ${scoreboardData[i].username}`;
+                            }
+
+                            pointsCell.textContent = scoreboardData[i].score;
+                            row.appendChild(userCell);
+                            row.appendChild(pointsCell);
+                            scoreboardBody.appendChild(row);
+                        }
+                    }
+
+                    // Listen for changes in the 'scores' node and update the scoreboard accordingly
+                    database.ref('scores').on('value', function (snapshot) {
+                        updateScoreboard(snapshot);
+                    });
+
+                </script>
+    -->
+            </div>
+
+
+
+            <div class="footer">
+                <iframe src="footer.html" frameborder="0" width="100%" class="footer-iframe">
+                </iframe>
+
+
+
+            </div>
+
+
+
+        </div>
+    </center>
+</body>
+</html>
