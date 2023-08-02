@@ -597,9 +597,11 @@ button {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #333;
+    background-image: url('../media/mc/block/obsidian.png');
     color: white;
     padding: 10px 20px;
+    border: groove;
+    border-color: #b2b5c7;
 }
 
 .logo {
@@ -614,6 +616,7 @@ button {
     background-color: transparent;
     border: none;
     color: white;
+    text-shadow: white .1em .1em .5em;
     cursor: pointer;
 }
 
@@ -678,3 +681,6 @@ button {
         cursor: pointer;
     }
 
+#loginFormContainer.draggable {
+    cursor: grab;
+}

@@ -248,3 +248,38 @@ logoutBtn.addEventListener('click', () => {
 //
 //
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+// Add this at the end of your <script> tag or in a separate JavaScript file
+document.addEventListener("DOMContentLoaded", function () {
+    const loginFormContainer = document.getElementById("loginFormContainer");
+
+    let offsetX = 0;
+    let offsetY = 0;
+    let isDragging = false;
+
+    loginFormContainer.addEventListener("mousedown", (e) => {
+        isDragging = true;
+        offsetX = e.clientX - loginFormContainer.getBoundingClientRect().left;
+        offsetY = e.clientY - loginFormContainer.getBoundingClientRect().top;
+
+        loginFormContainer.style.cursor = "grabbing";
+    });
+
+    document.addEventListener("mousemove", (e) => {
+        if (!isDragging) return;
+
+        const newX = e.clientX - offsetX + 100;
+        const newY = e.clientY - offsetY + 100;
+
+        const maxX = window.innerWidth - loginFormContainer.offsetWidth;
+        const maxY = window.innerHeight - loginFormContainer.offsetHeight;
+
+        loginFormContainer.style.left = `${Math.min(maxX, Math.max(0, newX))}px`;
+        loginFormContainer.style.top = `${Math.min(maxY, Math.max(0, newY))}px`;
+    });
+
+    document.addEventListener("mouseup", () => {
+        isDragging = false;
+        loginFormContainer.style.cursor = "grab";
+    });
+});
