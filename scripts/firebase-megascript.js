@@ -63,7 +63,7 @@ function addSubmission() {
 
 
 
-/// Function to display data from Firebase
+// Function to display data from Firebase
 function displayData(snapshot) {
     var key = snapshot.key;
     // Check if item is already displayed
@@ -73,9 +73,17 @@ function displayData(snapshot) {
     displayedItems.push(key);
     var data = snapshot.val();
     var displayBox = document.getElementById("displayBox");
-    displayBox.innerHTML += "<p>" + data + " <button onclick='removeData(\"" + key + "\")'>x</button></p>";
+
+    // Check if the user is logged in before displaying the delete button
+    if (auth.currentUser) {
+        displayBox.innerHTML += "<p>" + data + " <button onclick='removeData(\"" + key + "\")'>Delete</button></p>";
+    } else {
+        displayBox.innerHTML += "<p>" + data + "</p>";
+    }
+
     updateCounter(); // Update the counter after displaying new data
 }
+
 
 // Function to remove data from Firebase
 function removeData(key) {
@@ -197,28 +205,33 @@ accountBtn.addEventListener('click', () => {
     loginFormContainer.style.display = 'block';
 });
 
-loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = emailInput.value;
-    const password = passwordInput.value;
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = emailInput.value;
+        const password = passwordInput.value;
 
-    try {
-        await auth.signInWithEmailAndPassword(email, password);
-        loginFormContainer.style.display = 'none';
-        loginStatus.style.display = 'flex';
-        loginStatusText.textContent = `Logged in as: ${email}`;
-        loginStatusText.style.color = 'green';
-    } catch (error) {
-        console.error(error.message);
-        loginStatus.style.display = 'flex';
-        loginStatusText.textContent = 'Login unsuccessful. Please try again.';
-        loginStatusText.style.color = 'red';
-    }
-});
+        try {
+            await auth.signInWithEmailAndPassword(email, password);
+            loginFormContainer.style.display = 'none';
+            loginStatus.style.display = 'flex';
+            loginStatusText.textContent = `Logged in as: ${email}`;
+            loginStatusText.style.color = 'green';
+
+            // Reload the page after a successful login
+            location.reload();
+        } catch (error) {
+            console.error(error.message);
+            loginStatus.style.display = 'flex';
+            loginStatusText.textContent = 'Login unsuccessful. Please try again.';
+            loginStatusText.style.color = 'red';
+        }
+    });
+
 
 logoutBtn.addEventListener('click', () => {
     auth.signOut();
     loginStatus.style.display = 'none';
+    location.reload();
 });
 
 //All code before this "});" will not be excecuted until the page is fully loaded
