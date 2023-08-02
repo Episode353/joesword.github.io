@@ -3,45 +3,28 @@
 <head>
     <title>Firebase Gallery</title>
     <style>
-
-
-            .gallery img {
-                max-width: 200px;
-                max-height: 200px;
-                margin: 10px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
+        .gallery img {
+            max-width: 200px;
+            max-height: 200px;
+            margin: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
+
 </head>
 <body>
     <center>
         <div class="gallery"></div>
         <p>Submit your own art on <br /><a href="pages/board.html">The Board</a></p>
         <script>
-            // Your Firebase web app's Firebase configuration
-            var firebaseConfig = {
-                apiKey: "AIzaSyCqgWyZOOfVZddqVjV-ZsDpMo6b0F1UJxs",
-                authDomain: "joesworldonline-967be.firebaseapp.com",
-                projectId: "joesworldonline-967be",
-                storageBucket: "joesworldonline-967be.appspot.com",
-                messagingSenderId: "817241549916",
-                appId: "1:817241549916:web:787af20d01f9172efaca99"
-            };
-
-            // Initialize Firebase app
-            firebase.initializeApp(firebaseConfig);
-
-            // Get a reference to the storage service
-            var storage = firebase.storage();
-
             // Create a reference to the images folder in Firebase Storage
             var imagesRef = storage.ref().child('images');
 
-            // Get the download URLs of all images in the images folder
+            // Get the list of all images in the images folder
             imagesRef.listAll().then(function (result) {
-                // Get a random image URL from the list of URLs
+                // Get a random image from the list of items
                 var randomIndex = Math.floor(Math.random() * result.items.length);
                 var randomImageRef = result.items[randomIndex];
 

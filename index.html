@@ -13,16 +13,25 @@
     <!----CODE FOR THE SHUFFLE BOX-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <!-- Add the Firebase SDK scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-database.js"></script>
+
+
+
+
     <script src="scripts/seppe.js?v=2"></script>
     <script src="scripts/shufflebox.js?v=2"></script>
     <script src="scripts/back-map.js?v=2"></script>
 
+    <!-- Your custom script with the Subbox and Gallery code -->
+    <script src="scripts/firebase-megascript.js"></script>
 
 
-    <!--shufflebox board code-->
 
-    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-storage.js"></script>
+
+
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -66,120 +75,59 @@
             <div class="content-large">
 
                 <!--     <img style="
-            padding: 10px;
-            width: 50vw;
-            position: relative;
-            bottom: 20vh;
-            left: -20px;  "
-                     src="media/gif/a_place.gif" />
-    -->
+                padding: 10px;
+                width: 50vw;
+                position: relative;
+                bottom: 20vh;
+                left: -20px;  "
+                         src="media/gif/a_place.gif" />
+        -->
 
 
-                <h1 style="color:red">BEHOLD</h1>
-                <h2><a href="pages/seep-coin.html" color="yellow" target="_top">Seep Coins</a> are Finally Here!</h2>
-               
-                
+                <h1 style="color:red">HOLY SHIT</h1>
+                <h2>LOOK AT THAT ---></h2>
+
                 <div style="border: dotted 2px green;">
                     <p>Two Halal guys coupons owed to weird man</p>
                 </div>
 
 
+                <!--Gallery Shuffle-->
+                <center>
+                    <style>
+                        .gallery img {
+                            max-width: 200px;
+                            max-height: 200px;
+                            margin: 10px;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                        }
+                    </style>
+                    <div class="gallery" style="max-width: 20rem; margin-top: 5rem;"></div>
+                    <p>Submit your own art on <br /><a href="pages/board.html">The Board</a></p>
+
+                </center>
+
+            </div>
+
+            <!--Submissions Box-->
+            <div>
+                <center>
+                    <b>Submission Box</b></br>
+                    <i style="font-size:70%;">What Should be added next to Joe's Basement?</i><br />
+                    <!-- Textbox and Button -->
+                    <input type="text" id="sub-text" style="width: 10vw;">
+                    <button onclick="addSubmission()">Add</button>
+                    <!--The Refresh button works, but is currently not needed <button onclick="refreshDisplay()">Refresh</button>-->
+                    <!-- Display Box -->
+                    <div id="displayBox" style="border: none; font-size: .8rem;"></div>
+                    <p style="font-size: 40%; margin: 0px;">Total: <span id="counter">0</span></p>
+                </center>
             </div>
 
 
 
-
-            <div class="widget" style="
-            .widget {
-            width: 300px;
-            background-color: #f2f2f2;
-            border: 1px solid #ccc;
-            padding: 10px;
-            font-family: Arial, sans-serif;
-        }
-
-        .label {
-            font-weight: bold;
-        }
-
-        .favicon {
-            width: 16px;
-            height: 16px;
-            margin-right: 5px;
-            vertical-align: middle;
-        }
-
-        .server-icon {
-            max-width: 100%;
-            max-height: 150px;
-            margin-top: 10px;
-        }
-
-
-    ">
-                <p id="server-icon" style=" position: relative; border:groove; height: 64px; width: 64px; "></p>
-                <p id="status">Loading...</p>
-                <p id="description" style="border: groove white; background: grey"></p>
-
-                <p id="players"></p>
-                <p id="version"></p>
-
-                <p id="latency" style="position: relative; left: 0px; font-size: 12px;"></p>
-
-            </div>
-
-            <script>
-                // Function to fetch server information and update the HTML elements
-                function fetchServerInformation() {
-                    fetch('https://eu.mc-api.net/v3/server/ping/play.joesworld.online')
-                        .then(response => response.json())
-                        .then(data => {
-                            // Extract the relevant information from the response
-                            const { players, version, latency, favicon, description } = data;
-
-                            // Update the HTML elements with the server information
-                            if (data.online) {
-                                document.getElementById('server-icon').innerHTML = `<img src="${favicon}" alt="Server Icon" />`;
-                                document.getElementById('server-icon').style.visibility = 'visible';
-                                document.getElementById('status').textContent = 'Online';
-                                document.getElementById('status').style.color = 'green';
-                                document.getElementById('latency').textContent = `Latency: ${data.took}ms`;
-                            } else {
-                                document.getElementById('server-icon').style.visibility = 'hidden';
-                                document.getElementById('status').textContent = 'Offline';
-                                document.getElementById('status').style.color = 'red';
-                                document.getElementById('status').style.position = 'relative';
-                                document.getElementById('status').style.top = '-85px';
-                                document.getElementById('status').style.left = '10px';
-                            }
-
-                            document.getElementById('description').innerHTML = `<span style="font-weight: ${description.bold ? 'bold' : 'normal'}; color: ${description.color};">${description.text}</span>`;
-                            document.getElementById('players').textContent = `Players: ${players.online}/${players.max}`;
-                            document.getElementById('version').textContent = `Version: ${version.name}`;
-
-                            // Make the elements visible
-                            document.getElementById('status').style.visibility = 'visible';
-                        })
-                        .catch(error => {
-                            // Handle any errors that occurred during the fetch
-                            console.error('Error:', error);
-                            document.getElementById('server-icon').style.visibility = 'hidden';
-                            document.getElementById('status').textContent = 'Offline';
-                            document.getElementById('status').style.color = 'red';
-                            document.getElementById('status').style.position = 'relative';
-                            document.getElementById('status').style.top = '10px';
-                            document.getElementById('status').style.left = '0px';
-                            document.getElementById('status').style.visibility = 'visible';
-                        });
-                }
-
-                // Call the fetchServerInformation function initially
-                fetchServerInformation();
-
-                // Refresh the server information every number of milliseconds
-                setInterval(fetchServerInformation, 5000);
-
-            </script>
 
             <!--HTML Shuffle, it loads a differnet page on every time you load-->
 

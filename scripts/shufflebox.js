@@ -9,7 +9,6 @@ $(function () {
         'pages/html-shuffle/seep-rule.html',
         'pages/html-shuffle/franken-doodle-episode.html',
         'pages/html-shuffle/guiseppe.html',
-        'pages/html-shuffle/gallery-shuffle.html',
         'pages/html-shuffle/feesh-brain.html',
         'pages/html-shuffle/fish-plan.html',
         'pages/html-shuffle/stolen.html',
@@ -19,7 +18,7 @@ $(function () {
         'pages/html-shuffle/loud-ward.html',
         'pages/html-shuffle/twinks.html',
         'pages/html-shuffle/drake-trash.html',
-        'pages/html-shuffle/arizona.html',              
+        'pages/html-shuffle/arizona.html',
         'pages/html-shuffle/doyoumissher.html',
         'pages/html-shuffle/snoopy-rave.html',
         'pages/html-shuffle/garfield.html',
@@ -27,7 +26,7 @@ $(function () {
         'pages/html-shuffle/sigma-grintset.html',
         'pages/html-shuffle/stole-inch.html',
         'pages/html-shuffle/man-eat-fish.html',
-        'pages/html-shuffle/brough.html',                       
+        'pages/html-shuffle/brough.html',
         'pages/html-shuffle/tornado_courage.html',
         'pages/html-shuffle/link_burn.html',
         'pages/html-shuffle/sky_error.html',
@@ -44,7 +43,7 @@ $(function () {
         'pages/html-shuffle/mordecai_smooth_head.html',
         'pages/html-shuffle/how_to_say_hi_in_mandarin.html',
         'pages/html-shuffle/mortified_rugby.html'
-       
+
     ];
 
     // Use the current time in milliseconds as a seed for the random number generator

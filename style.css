@@ -523,7 +523,7 @@ button {
    */
 
     .container {
-        width: 50%;
+        width: 60%;
         grid-template-rows: 0.05fr 1fr 1fr 0.5fr;
         grid-column-gap: 60px;
         grid-row-gap: 60px;
