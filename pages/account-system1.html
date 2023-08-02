@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Account System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+        }
+
+        .account-dropdown {
+            position: relative;
+        }
+
+        .account-btn {
+            background-color: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .user-info {
+            padding: 10px;
+        }
+
+        #logoutBtn {
+            width: 100%;
+            background-color: #f44336;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+        .login-form-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+            .login-form-container form {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .login-form-container h2 {
+                margin-bottom: 10px;
+            }
+
+            .login-form-container input {
+                margin-bottom: 10px;
+                padding: 8px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+
+            .login-form-container button {
+                background-color: #333;
+                color: #fff;
+                border: none;
+                padding: 10px;
+                cursor: pointer;
+            }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">Your Logo</div>
+        <div class="account-dropdown">
+            <button class="account-btn" id="accountBtn">Login</button>
+            <div class="dropdown-content" id="dropdownContent">
+                <div id="userDisplay" class="user-info"></div>
+                <button id="logoutBtn">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="loginFormContainer" class="login-form-container">
+        <form id="loginForm">
+            <h2>Login</h2>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+        <script>
+            var firebaseConfig = {
+                apiKey: "AIzaSyCqgWyZOOfVZddqVjV-ZsDpMo6b0F1UJxs",
+                authDomain: "joesworldonline-967be.firebaseapp.com",
+                databaseURL: "https://joesworldonline-967be-default-rtdb.firebaseio.com",
+                projectId: "joesworldonline-967be",
+                storageBucket: "joesworldonline-967be.appspot.com",
+                messagingSenderId: "817241549916",
+                appId: "1:817241549916:web:787af20d01f9172efaca99"
+            };
+            firebase.initializeApp(firebaseConfig);
+
+            const accountBtn = document.getElementById('accountBtn');
+            const dropdownContent = document.getElementById('dropdownContent');
+            const userDisplay = document.getElementById('userDisplay');
+            const logoutBtn = document.getElementById('logoutBtn');
+
+            const auth = firebase.auth();
+
+            auth.onAuthStateChanged(user => {
+                if (user) {
+                    accountBtn.style.display = 'none';
+                    dropdownContent.style.display = 'block';
+                    userDisplay.textContent = `Logged in as: ${user.email}`;
+                } else {
+                    accountBtn.style.display = 'block';
+                    dropdownContent.style.display = 'none';
+                    userDisplay.textContent = '';
+                }
+            });
+
+            const loginFormContainer = document.getElementById('loginFormContainer');
+            const loginForm = document.getElementById('loginForm');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+
+            accountBtn.addEventListener('click', () => {
+                loginFormContainer.style.display = 'block';
+            });
+
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = emailInput.value;
+                const password = passwordInput.value;
+
+                try {
+                    await auth.signInWithEmailAndPassword(email, password);
+                    loginFormContainer.style.display = 'none';
+                } catch (error) {
+                    console.error(error.message);
+                }
+            });
+
+            logoutBtn.addEventListener('click', () => {
+                auth.signOut();
+            });
+
+        </script>
+</body>
+</html>
