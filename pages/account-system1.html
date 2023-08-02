@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,7 +12,7 @@
             padding: 0;
         }
 
-        .header {
+        .header-login {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -59,6 +59,7 @@
             border: none;
             cursor: pointer;
         }
+
         .login-form-container {
             display: none;
             position: fixed;
@@ -96,16 +97,22 @@
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="logo">Your Logo</div>
+    <div class="header-login">
         <div class="account-dropdown">
             <button class="account-btn" id="accountBtn">Login</button>
+            <button id="logoutBtn" style="display: none;">Logout</button>
             <div class="dropdown-content" id="dropdownContent">
-                <div id="userDisplay" class="user-info"></div>
-                <button id="logoutBtn">Logout</button>
+                <div id="userDisplay" class="user-info" style="display:none;"></div>
             </div>
         </div>
+        <div id="loginStatus" style="display: none; align-items: center;">
+            <div style="width: 10px; height: 10px; background-color: green; border-radius: 50%; margin-right: 5px;"></div>
+            <div id="loginStatusText" style="color: green;">Logged in</div>
+        </div>
     </div>
+
+
+
 
     <div id="loginFormContainer" class="login-form-container">
         <form id="loginForm">
@@ -118,63 +125,83 @@
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-        <script>
-            var firebaseConfig = {
-                apiKey: "AIzaSyCqgWyZOOfVZddqVjV-ZsDpMo6b0F1UJxs",
-                authDomain: "joesworldonline-967be.firebaseapp.com",
-                databaseURL: "https://joesworldonline-967be-default-rtdb.firebaseio.com",
-                projectId: "joesworldonline-967be",
-                storageBucket: "joesworldonline-967be.appspot.com",
-                messagingSenderId: "817241549916",
-                appId: "1:817241549916:web:787af20d01f9172efaca99"
-            };
-            firebase.initializeApp(firebaseConfig);
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyCqgWyZOOfVZddqVjV-ZsDpMo6b0F1UJxs",
+            authDomain: "joesworldonline-967be.firebaseapp.com",
+            databaseURL: "https://joesworldonline-967be-default-rtdb.firebaseio.com",
+            projectId: "joesworldonline-967be",
+            storageBucket: "joesworldonline-967be.appspot.com",
+            messagingSenderId: "817241549916",
+            appId: "1:817241549916:web:787af20d01f9172efaca99"
+        };
+        firebase.initializeApp(firebaseConfig);
 
+        const accountBtn = document.getElementById('accountBtn');
+        const dropdownContent = document.getElementById('dropdownContent');
+        const userDisplay = document.getElementById('userDisplay');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        const auth = firebase.auth();
+
+        auth.onAuthStateChanged(user => {
             const accountBtn = document.getElementById('accountBtn');
             const dropdownContent = document.getElementById('dropdownContent');
             const userDisplay = document.getElementById('userDisplay');
-            const logoutBtn = document.getElementById('logoutBtn');
+            const loginStatus = document.getElementById('loginStatus');
+            const loginStatusText = document.getElementById('loginStatusText');
+            if (user) {
+                accountBtn.style.display = 'none';
+                dropdownContent.style.display = 'block';
+                userDisplay.textContent = `Logged in as: ${user.email}`;
+                loginStatus.style.display = 'flex';
+                loginStatusText.textContent = `Logged in as: ${user.email}`;
+                logoutBtn.style.display = 'block'; // Display the logout button
+            } else {
+                accountBtn.style.display = 'block';
+                dropdownContent.style.display = 'none';
+                userDisplay.textContent = '';
+                loginStatus.style.display = 'none';
+                logoutBtn.style.display = 'none'; // Hide the logout button
+            }
+        });
 
-            const auth = firebase.auth();
+        const loginFormContainer = document.getElementById('loginFormContainer');
+        const loginForm = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const loginStatus = document.getElementById('loginStatus');
+        const loginStatusText = document.getElementById('loginStatusText');
 
-            auth.onAuthStateChanged(user => {
-                if (user) {
-                    accountBtn.style.display = 'none';
-                    dropdownContent.style.display = 'block';
-                    userDisplay.textContent = `Logged in as: ${user.email}`;
-                } else {
-                    accountBtn.style.display = 'block';
-                    dropdownContent.style.display = 'none';
-                    userDisplay.textContent = '';
-                }
-            });
+        accountBtn.addEventListener('click', () => {
+            loginFormContainer.style.display = 'block';
+        });
 
-            const loginFormContainer = document.getElementById('loginFormContainer');
-            const loginForm = document.getElementById('loginForm');
-            const emailInput = document.getElementById('email');
-            const passwordInput = document.getElementById('password');
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = emailInput.value;
+            const password = passwordInput.value;
 
-            accountBtn.addEventListener('click', () => {
-                loginFormContainer.style.display = 'block';
-            });
+            try {
+                await auth.signInWithEmailAndPassword(email, password);
+                loginFormContainer.style.display = 'none';
+                loginStatus.style.display = 'flex';
+                loginStatusText.textContent = `Logged in as: ${email}`;
+                loginStatusText.style.color = 'green';
+            } catch (error) {
+                console.error(error.message);
+                loginStatus.style.display = 'flex';
+                loginStatusText.textContent = 'Login unsuccessful. Please try again.';
+                loginStatusText.style.color = 'red';
+            }
+        });
 
-            loginForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const email = emailInput.value;
-                const password = passwordInput.value;
+        logoutBtn.addEventListener('click', () => {
+            auth.signOut();
+            loginStatus.style.display = 'none';
+        });
 
-                try {
-                    await auth.signInWithEmailAndPassword(email, password);
-                    loginFormContainer.style.display = 'none';
-                } catch (error) {
-                    console.error(error.message);
-                }
-            });
 
-            logoutBtn.addEventListener('click', () => {
-                auth.signOut();
-            });
-
-        </script>
+    </script>
 </body>
 </html>
