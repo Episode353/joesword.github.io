@@ -1,5 +1,4 @@
-﻿
-// Replace the following with your Firebase project configuration
+﻿// Replace the following with your Firebase project configuration
 var firebaseConfig = {
     apiKey: "AIzaSyCqgWyZOOfVZddqVjV-ZsDpMo6b0F1UJxs",
     authDomain: "joesworldonline-967be.firebaseapp.com",
@@ -13,13 +12,13 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-
-
 // Get a reference to the storage service
 var storage = firebase.storage();
 
 // Get a reference to the database
 var database = firebase.database();
+
+const auth = firebase.auth();
 
 
 
@@ -149,3 +148,90 @@ imagesRef.listAll().then(function (result) {
 }).catch(function (error) {
     console.log(error);
 });
+
+//---------------------------------
+//
+//
+//       authorization
+//--------------------------
+document.addEventListener('DOMContentLoaded', () => {
+const accountBtn = document.getElementById('accountBtn');
+const dropdownContent = document.getElementById('dropdownContent');
+const userDisplay = document.getElementById('userDisplay');
+const logoutBtn = document.getElementById('logoutBtn');
+
+
+
+auth.onAuthStateChanged(user => {
+    const accountBtn = document.getElementById('accountBtn');
+    const dropdownContent = document.getElementById('dropdownContent');
+    const userDisplay = document.getElementById('userDisplay');
+    const loginStatus = document.getElementById('loginStatus');
+    const loginStatusText = document.getElementById('loginStatusText');
+    const logoutBtn = document.getElementById('logoutBtn'); // Get the logout button element
+
+    if (user) {
+        accountBtn.style.display = 'none';
+        dropdownContent.style.display = 'block';
+        userDisplay.textContent = `Logged in as: ${user.email}`;
+        loginStatus.style.display = 'flex';
+        loginStatusText.textContent = `Logged in as: ${user.email}`;
+        logoutBtn.style.display = 'block'; // Display the logout button when user is logged in
+    } else {
+        accountBtn.style.display = 'block';
+        dropdownContent.style.display = 'none';
+        userDisplay.textContent = '';
+        loginStatus.style.display = 'none';
+        logoutBtn.style.display = 'none'; // Hide the logout button when user is logged out
+    }
+});
+
+const loginFormContainer = document.getElementById('loginFormContainer');
+const loginForm = document.getElementById('loginForm');
+const emailInput = document.getElementById('email');
+const passwordInput = document.getElementById('password');
+const loginStatus = document.getElementById('loginStatus');
+const loginStatusText = document.getElementById('loginStatusText');
+
+accountBtn.addEventListener('click', () => {
+    loginFormContainer.style.display = 'block';
+});
+
+loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = emailInput.value;
+    const password = passwordInput.value;
+
+    try {
+        await auth.signInWithEmailAndPassword(email, password);
+        loginFormContainer.style.display = 'none';
+        loginStatus.style.display = 'flex';
+        loginStatusText.textContent = `Logged in as: ${email}`;
+        loginStatusText.style.color = 'green';
+    } catch (error) {
+        console.error(error.message);
+        loginStatus.style.display = 'flex';
+        loginStatusText.textContent = 'Login unsuccessful. Please try again.';
+        loginStatusText.style.color = 'red';
+    }
+});
+
+logoutBtn.addEventListener('click', () => {
+    auth.signOut();
+    loginStatus.style.display = 'none';
+});
+
+//All code before this "});" will not be excecuted until the page is fully loaded
+});
+
+
+
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+//
+//
+//
+//
+//
+//
+//
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
