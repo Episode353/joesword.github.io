@@ -1,4 +1,5 @@
-﻿// Replace the following with your Firebase project configuration
+﻿
+// Replace the following with your Firebase project configuration
 var firebaseConfig = {
     apiKey: "AIzaSyCqgWyZOOfVZddqVjV-ZsDpMo6b0F1UJxs",
     authDomain: "joesworldonline-967be.firebaseapp.com",
@@ -162,6 +163,10 @@ imagesRef.listAll().then(function (result) {
 //
 //       authorization
 //--------------------------
+
+
+
+
 document.addEventListener('DOMContentLoaded', () => {
 const accountBtn = document.getElementById('accountBtn');
 const dropdownContent = document.getElementById('dropdownContent');
