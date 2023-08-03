@@ -42,6 +42,9 @@ $(function () {
         'pages/html-shuffle/sus_nug.html',
         'pages/html-shuffle/mordecai_smooth_head.html',
         'pages/html-shuffle/how_to_say_hi_in_mandarin.html',
+        'pages/html-shuffle/chad-geenie.html',
+        'pages/html-shuffle/gang_bob.html',
+        'pages/html-shuffle/scan_forehead.html',
         'pages/html-shuffle/mortified_rugby.html'
 
     ];
