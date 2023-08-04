@@ -10,7 +10,38 @@
     <script src="../scripts/seppe.js?v=2"></script>
     <script src="../scripts/shufflebox.js?v=2"></script>
     <script src="../scripts/back-map.js?v=2"></script>
+    <link rel="stylesheet" href="../style.css?v=5">
     <script src="../scripts/firebase-megascript.js"></script>
+
+
+    <style>
+        .content-large-fill {
+            font-size: 2rem;
+        }
+
+        button {
+            width: 5rem;
+            height: 5rem;
+        }
+
+        /* Add divider lines between table cells */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:last-child td {
+            border-bottom: none; /* Remove bottom border for the last row */
+        }
+    </style>
+
 </head>
 <body>
 
@@ -36,131 +67,159 @@
             <button type="submit">Login</button>
         </form>
     </div>
+    <center>
+        <div class="container">
+
+            <div class="header">
+                <iframe src="header-content.html" frameborder="0" scrolling="no" class="header-content-iframe"></iframe>
+            </div>
 
 
-    <h1>Scoreboard</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>User</th>
-                <th>Points</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody id="scoreboard-body">
-            <!-- Data will be loaded here -->
-        </tbody>
-    </table>
-    <form>
-        <label for="username">Username:</label>
-        <input type="text" id="username" required>
-        <label for="points">Points:</label>
-        <input type="number" id="points" required>
-        <button type="button" id="submit-button">Add Score</button>
-    </form>
 
-    <script>
-        
+            <div class="content-large-fill" ">
 
-        // Reference to the Firebase Realtime Database
-        var database = firebase.database();
+                <h1>Scoreboard</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Points</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="scoreboard-body">
+                        <!-- Data will be loaded here -->
+                    </tbody>
+                </table>
+                <div style="font-size: .7rem;}">
+                    <form>
+                        <label for="username">Name:</label>
+                        <input type="text" id="username" required>
+                        <label for="points">Points:</label>
+                        <input type="number" id="points" required>
+                        <button type="button" id="submit-button">Add Score</button>
+                    </form>
+                </div>
+                <script>
 
-        // Function to add or update a user's score
-        function updateScore(username, points) {
-            database.ref('scores').child(username).once('value', function (snapshot) {
-                var userScore = snapshot.val();
-                if (userScore) {
-                    // Update points for existing user
-                    var updatedPoints = userScore.points + points;
-                    database.ref('scores').child(username).update({ points: updatedPoints });
-                } else {
-                    // Add new user with points
-                    database.ref('scores').child(username).set({ points: points });
-                }
-            });
-        }
 
-        // Function to add +1 or -1 point to a user's score
-        function updateScoreByOne(username, increment) {
-            database.ref('scores').child(username).once('value', function (snapshot) {
-                var userScore = snapshot.val();
-                if (userScore) {
-                    // Update points for existing user
-                    var updatedPoints = userScore.points + increment;
-                    database.ref('scores').child(username).update({ points: updatedPoints });
-                }
-            });
-        }
+                    // Reference to the Firebase Realtime Database
+                    var database = firebase.database();
 
-        // Function to remove a user's score from the database
-        function removeScore(username) {
-            database.ref('scores').child(username).remove();
-        }
+                    // Function to add or update a user's score
+                    function updateScore(username, points) {
+                        database.ref('scores').child(username).once('value', function (snapshot) {
+                            var userScore = snapshot.val();
+                            if (userScore) {
+                                // Update points for existing user
+                                var updatedPoints = userScore.points + points;
+                                database.ref('scores').child(username).update({ points: updatedPoints });
+                            } else {
+                                // Add new user with points
+                                database.ref('scores').child(username).set({ points: points });
+                            }
+                        });
+                    }
 
-        // Function to update the scoreboard on the page
-        function updateScoreboard(snapshot) {
-            var scoreboardBody = document.getElementById('scoreboard-body');
-            scoreboardBody.innerHTML = '';
+                    // Function to add +1 or -1 point to a user's score
+                    function updateScoreByOne(username, increment) {
+                        database.ref('scores').child(username).once('value', function (snapshot) {
+                            var userScore = snapshot.val();
+                            if (userScore) {
+                                // Update points for existing user
+                                var updatedPoints = userScore.points + increment;
+                                database.ref('scores').child(username).update({ points: updatedPoints });
+                            }
+                        });
+                    }
 
-            snapshot.forEach(function (childSnapshot) {
-                var score = childSnapshot.val();
-                var username = childSnapshot.key; // Get the username from the snapshot key
-                var row = document.createElement('tr');
-                var userCell = document.createElement('td');
-                var pointsCell = document.createElement('td');
-                var deleteCell = document.createElement('td');
-                var actionsCell = document.createElement('td'); // New cell for the +1 and -1 buttons
+                    // Function to remove a user's score from the database
+                    function removeScore(username) {
+                        database.ref('scores').child(username).remove();
+                    }
 
-                var deleteButton = document.createElement('button');
-                deleteButton.textContent = 'Delete';
-                deleteButton.setAttribute('data-username', username);
-                deleteButton.addEventListener('click', function () {
-                    var usernameToDelete = this.getAttribute('data-username');
-                    removeScore(usernameToDelete);
-                });
+                    // Function to update the scoreboard on the page
+                    function updateScoreboard(snapshot) {
+                        var scoreboardBody = document.getElementById('scoreboard-body');
+                        scoreboardBody.innerHTML = '';
 
-                var plusOneButton = document.createElement('button');
-                plusOneButton.textContent = '+1';
-                plusOneButton.setAttribute('data-username', username);
-                plusOneButton.addEventListener('click', function () {
-                    var usernameToUpdate = this.getAttribute('data-username');
-                    updateScoreByOne(usernameToUpdate, 1);
-                });
+                        snapshot.forEach(function (childSnapshot) {
+                            var score = childSnapshot.val();
+                            var username = childSnapshot.key; // Get the username from the snapshot key
+                            var row = document.createElement('tr');
+                            var userCell = document.createElement('td');
+                            var pointsCell = document.createElement('td');
+                            var deleteCell = document.createElement('td');
+                            var actionsCell = document.createElement('td'); // New cell for the +1 and -1 buttons
 
-                var minusOneButton = document.createElement('button');
-                minusOneButton.textContent = '-1';
-                minusOneButton.setAttribute('data-username', username);
-                minusOneButton.addEventListener('click', function () {
-                    var usernameToUpdate = this.getAttribute('data-username');
-                    updateScoreByOne(usernameToUpdate, -1);
-                });
+                            var deleteButton = document.createElement('button');
+                            deleteButton.textContent = 'Delete';
+                            deleteButton.setAttribute('data-username', username);
+                            deleteButton.addEventListener('click', function () {
+                                var usernameToDelete = this.getAttribute('data-username');
+                                removeScore(usernameToDelete);
+                            });
 
-                userCell.textContent = username;
-                pointsCell.textContent = score.points;
-                deleteCell.appendChild(deleteButton);
-                actionsCell.appendChild(plusOneButton);
-                actionsCell.appendChild(minusOneButton);
+                            var plusOneButton = document.createElement('button');
+                            plusOneButton.textContent = '+1';
+                            plusOneButton.setAttribute('data-username', username);
+                            plusOneButton.addEventListener('click', function () {
+                                var usernameToUpdate = this.getAttribute('data-username');
+                                updateScoreByOne(usernameToUpdate, 1);
+                            });
 
-                row.appendChild(userCell);
-                row.appendChild(pointsCell);
-                row.appendChild(deleteCell);
-                row.appendChild(actionsCell); // Add the cell containing +1 and -1 buttons
-                scoreboardBody.appendChild(row);
-            });
-        }
+                            var minusOneButton = document.createElement('button');
+                            minusOneButton.textContent = '-1';
+                            minusOneButton.setAttribute('data-username', username);
+                            minusOneButton.addEventListener('click', function () {
+                                var usernameToUpdate = this.getAttribute('data-username');
+                                updateScoreByOne(usernameToUpdate, -1);
+                            });
 
-        // Event listener for the submit button
-        document.getElementById('submit-button').addEventListener('click', function () {
-            var username = document.getElementById('username').value;
-            var points = parseInt(document.getElementById('points').value);
-            updateScore(username, points);
-        });
+                            userCell.textContent = username;
+                            pointsCell.textContent = score.points;
+                            deleteCell.appendChild(deleteButton);
+                            actionsCell.appendChild(plusOneButton);
+                            actionsCell.appendChild(minusOneButton);
 
-        // Listen for changes in the 'scores' node and update the scoreboard accordingly
-        database.ref('scores').on('value', function (snapshot) {
-            updateScoreboard(snapshot);
-        });
+                            row.appendChild(userCell);
+                            row.appendChild(pointsCell);
+                            row.appendChild(deleteCell);
+                            row.appendChild(actionsCell); // Add the cell containing +1 and -1 buttons
+                            scoreboardBody.appendChild(row);
+                        });
+                    }
 
-    </script>
+                    // Event listener for the submit button
+                    document.getElementById('submit-button').addEventListener('click', function () {
+                        var username = document.getElementById('username').value;
+                        var points = parseInt(document.getElementById('points').value);
+                        updateScore(username, points);
+                    });
+
+                    // Listen for changes in the 'scores' node and update the scoreboard accordingly
+                    database.ref('scores').on('value', function (snapshot) {
+                        updateScoreboard(snapshot);
+                    });
+
+                </script>
+            </div>
+
+
+
+                <div class="footer">
+                    <iframe src="footer.html" frameborder="0" width="100%" class="footer-iframe">
+                    </iframe>
+
+
+
+                </div>
+                </div>
+
+
+
+            
+    </center>
 </body>
 </html>
+
