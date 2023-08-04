@@ -45,6 +45,8 @@ $(function () {
         'pages/html-shuffle/chad-geenie.html',
         'pages/html-shuffle/gang_bob.html',
         'pages/html-shuffle/scan_forehead.html',
+        'pages/html-shuffle/jig-711-banned.html',
+        'pages/html-shuffle/seep-coin.html',
         'pages/html-shuffle/mortified_rugby.html'
 
     ];
