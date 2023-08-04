@@ -21,6 +21,11 @@
     <script src="../scripts/firebase-megascript.js"></script>
 
     <style>
+        #loginFormContainer {
+
+            z-index: 9999; /* Set a higher z-index value */
+ 
+        }
 
         #gallery-iframe {
             width: 100%;
@@ -73,7 +78,9 @@
 </head>
 <body>
 
-    <!--Firebase Authenticaion Information-->
+
+
+    <center>    <!--Firebase Authenticaion Information-->
     <div class="header-login">
         <div class="account-dropdown">
             <button class="account-btn" id="accountBtn">Login</button>
@@ -95,8 +102,6 @@
             <button type="submit">Login</button>
         </form>
     </div>
-
-    <center>
         <div class="container">
 
             <div class="header">
@@ -107,8 +112,7 @@
 
             <div class="content-large-fill" style="width:auto; height:auto ;">
 
-                <h1 style="color:red;">UPDATES IN PROGRESS</h1>
-                <h1 style="color:red;">PLEASE EXCUSE ANY OUTTAGES</h1>
+               
                 <div id="canvas-container" style="
                         border-top: none;
                         border-left: none;
@@ -162,121 +166,7 @@
 
                 </div>
 
-                <script type="module">
-                    // Import the functions you need from the SDKs you need
-                    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
-                    import { getStorage, ref, uploadBytes } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-storage.js";
 
-                    // Your web app's Firebase configuration
-                    const firebaseConfig = {
-                        apiKey: "AIzaSyCqgWyZOOfVZddqVjV-ZsDpMo6b0F1UJxs",
-                        authDomain: "joesworldonline-967be.firebaseapp.com",
-                        projectId: "joesworldonline-967be",
-                        storageBucket: "joesworldonline-967be.appspot.com",
-                        messagingSenderId: "817241549916",
-                        appId: "1:817241549916:web:787af20d01f9172efaca99"
-                    };
-
-
-                    // Initialize Firebase
-                    const app = initializeApp(firebaseConfig);
-
-                    // Initialize Firebase Storage
-                    const storage = getStorage(app);
-
-                    const canvas = document.getElementById("canvas");
-                    const clearButton = document.getElementById("clear");
-                    const saveButton = document.getElementById("save");
-                    const gallery = document.getElementById("gallery");
-
-                    const ctx = canvas.getContext("2d");
-                    let isDrawing = false;
-                    let lastX = 0;
-                    let lastY = 0;
-
-                    function startDrawing(e) {
-                        isDrawing = true;
-                        [lastX, lastY] = [e.offsetX, e.offsetY];
-                    }
-
-                    function stopDrawing() {
-                        isDrawing = false;
-                    }
-
-                    function draw(e) {
-                        if (!isDrawing) return;
-                        ctx.beginPath();
-                        ctx.moveTo(lastX, lastY);
-                        ctx.lineTo(e.offsetX, e.offsetY);
-                        ctx.stroke();
-                        [lastX, lastY] = [e.offsetX, e.offsetY];
-                    }
-
-                    function clearCanvas() {
-                        const canvas = document.getElementById("canvas");
-                        const context = canvas.getContext("2d");
-                        const canvasWidth = canvas.width;
-                        const canvasHeight = canvas.height;
-
-                        context.fillStyle = "white";
-                        context.fillRect(0, 0, canvasWidth, canvasHeight);
-                    }
-                    function displayImage(url) {
-                        const img = new Image();
-                        img.src = url;
-                        img.onload = () => {
-                            gallery.appendChild(img);
-                        };
-                    }
-
-
-
-
-                    function confirmUpload() {
-                        const result = confirm("Are you sure you want to upload the image?");
-                        if (result) {
-                            saveImage();
-                        }
-                    }
-
-                    async function saveImage() {
-                        console.log("Attempting to save image...");
-
-                        const canvas = document.getElementById("canvas");
-                        const user = auth.currentUser;
-
-                        if (!user) {
-                            console.log("User not logged in");
-                            return;
-                        }
-
-                        console.log("User:", user.email);
-
-                        const storageRef = ref(storage, "images/" + "board_drawing_no_" + Date.now() + ".png");
-                        console.log("Storage Reference:", storageRef.toString());
-                        const imageBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
-
-                        // Upload the image to Firebase Storage
-                        await uploadBytes(storageRef, imageBlob);
-
-                        // Reload the HTML page
-                        setTimeout(function () {
-                            location.reload();
-                        }, 100);
-                    }
-
-
-
-                    canvas.addEventListener("mousedown", startDrawing);
-                    canvas.addEventListener("mouseup", stopDrawing);
-                    canvas.addEventListener("mousemove", draw);
-
-                    clearButton.addEventListener("click", clearCanvas);
-                    saveButton.addEventListener("click", confirmUpload);
-
-
-
-                </script>
 
 
 
@@ -289,6 +179,112 @@
 
         </div>
     </center>
+    <script>
+        document.addEventListener("DOMContentLoaded", function (event) {
+            const canvas = document.getElementById("canvas");
+            const clearButton = document.getElementById("clear");
+            const saveButton = document.getElementById("save");
+            const gallery = document.getElementById("gallery");
 
+            const ctx = canvas.getContext("2d");
+            let isDrawing = false;
+            let lastX = 0;
+            let lastY = 0;
+
+            function startDrawing(e) {
+                isDrawing = true;
+                [lastX, lastY] = [e.offsetX, e.offsetY];
+            }
+
+            function stopDrawing() {
+                isDrawing = false;
+            }
+
+            function draw(e) {
+                if (!isDrawing) return;
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(e.offsetX, e.offsetY);
+                ctx.stroke();
+                [lastX, lastY] = [e.offsetX, e.offsetY];
+            }
+
+            function clearCanvas() {
+                const canvas = document.getElementById("canvas");
+                const context = canvas.getContext("2d");
+                const canvasWidth = canvas.width;
+                const canvasHeight = canvas.height;
+
+                context.fillStyle = "white";
+                context.fillRect(0, 0, canvasWidth, canvasHeight);
+            }
+            function displayImage(url) {
+                const img = new Image();
+                img.src = url;
+                img.onload = () => {
+                    gallery.appendChild(img);
+                };
+            }
+
+
+
+
+            function confirmUpload() {
+                const user = auth.currentUser;
+
+                if (!user) {
+                    // If the user is not logged in, show a message to prompt them to log in.
+                    alert("You must log in to upload the image.");
+                    return;
+                }
+
+                const result = confirm("Are you sure you want to upload the image?");
+                if (result) {
+                    saveImage();
+                }
+            }
+
+
+            async function saveImage() {
+                console.log("Attempting to save image...");
+
+                const canvas = document.getElementById("canvas");
+                const user = auth.currentUser;
+
+                if (!user) {
+                    alert("Must be logged in to post");
+                    return;
+                }
+
+                console.log("User:", user.email);
+
+                const storageRef = storage.ref(); // Get a reference to Firebase Storage
+                const imageBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+
+                // Upload the image to Firebase Storage
+                const imageName = "board_drawing_no_" + Date.now() + ".png";
+                const imageRef = storageRef.child("images/" + imageName);
+                await imageRef.put(imageBlob);
+
+                // Reload the HTML page
+                setTimeout(function () {
+                    location.reload();
+                }, 100);
+            }
+
+
+
+
+            canvas.addEventListener("mousedown", startDrawing);
+            canvas.addEventListener("mouseup", stopDrawing);
+            canvas.addEventListener("mousemove", draw);
+
+            clearButton.addEventListener("click", clearCanvas);
+            saveButton.addEventListener("click", confirmUpload);
+
+   
+        })
+
+    </script>
 </body>
 </html>
