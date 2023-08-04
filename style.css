@@ -152,6 +152,23 @@ button {
 
 
 
+/*Angry Text*/
+.angry-text {
+    font-size: 36px;
+    font-weight: bold;
+    color: red;
+    animation: angry-text-vibrate 0.05s infinite alternate;
+}
+
+@keyframes angry-text-vibrate {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(.1rem);
+    }
+}
 
 
 .word-red {

@@ -49,18 +49,29 @@ function saveData() {
     document.getElementById("sub-text").value = ""; // Clear the textbox
 }
 
-// Function to save data to Firebase only if the text box is not empty
+// Function to save data to Firebase only if the text box is not empty and user is logged in
 function addSubmission() {
     var text = document.getElementById("sub-text").value;
-    if (text.trim() !== "") {
+    if (text.trim() === "") {
+        return; // Exit if the textbox is empty
+    }
+
+    // Check if the user is logged in
+    var user = firebase.auth().currentUser;
+    if (user) {
+        // User is logged in, proceed with adding the item
         var database = firebase.database();
         var treeRef = database.ref("subbox");
         var randomKey = Math.floor(1000000 + Math.random() * 9000000);
         var newStringRef = treeRef.child(randomKey);
         newStringRef.set(text);
         document.getElementById("sub-text").value = ""; // Clear the textbox
+    } else {
+        // User is not logged in, prompt them to log in
+        alert("Please log in to add an item.");
     }
 }
+
 
 
 
@@ -175,29 +186,34 @@ const logoutBtn = document.getElementById('logoutBtn');
 
 
 
-auth.onAuthStateChanged(user => {
-    const accountBtn = document.getElementById('accountBtn');
-    const dropdownContent = document.getElementById('dropdownContent');
-    const userDisplay = document.getElementById('userDisplay');
-    const loginStatus = document.getElementById('loginStatus');
-    const loginStatusText = document.getElementById('loginStatusText');
-    const logoutBtn = document.getElementById('logoutBtn'); // Get the logout button element
+    const notLoggedInMessage = document.getElementById('notLoggedInMessage');
 
-    if (user) {
-        accountBtn.style.display = 'none';
-        dropdownContent.style.display = 'block';
-        userDisplay.textContent = `Logged in as: ${user.email}`;
-        loginStatus.style.display = 'flex';
-        loginStatusText.textContent = `Logged in as: ${user.email}`;
-        logoutBtn.style.display = 'block'; // Display the logout button when user is logged in
-    } else {
-        accountBtn.style.display = 'block';
-        dropdownContent.style.display = 'none';
-        userDisplay.textContent = '';
-        loginStatus.style.display = 'none';
-        logoutBtn.style.display = 'none'; // Hide the logout button when user is logged out
-    }
-});
+    auth.onAuthStateChanged(user => {
+        const accountBtn = document.getElementById('accountBtn');
+        const dropdownContent = document.getElementById('dropdownContent');
+        const userDisplay = document.getElementById('userDisplay');
+        const loginStatus = document.getElementById('loginStatus');
+        const loginStatusText = document.getElementById('loginStatusText');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        if (user) {
+            accountBtn.style.display = 'none';
+            dropdownContent.style.display = 'block';
+            userDisplay.textContent = `Logged in as: ${user.email}`;
+            loginStatus.style.display = 'flex';
+            loginStatusText.textContent = `Logged in as: ${user.email}`;
+            loginStatusText.style.color = 'green';
+            logoutBtn.style.display = 'block';
+            notLoggedInMessage.style.display = 'none'; // Hide the "not logged in" message
+        } else {
+            accountBtn.style.display = 'block';
+            dropdownContent.style.display = 'none';
+            userDisplay.textContent = '';
+            loginStatus.style.display = 'none';
+            logoutBtn.style.display = 'none';
+            notLoggedInMessage.style.display = 'block'; // Show the "not logged in" message
+        }
+    });
 
 const loginFormContainer = document.getElementById('loginFormContainer');
 const loginForm = document.getElementById('loginForm');

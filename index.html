@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Add any necessary stylesheets or scripts here -->
-    <link rel="stylesheet" href="style.css?v=5">
+    <link rel="stylesheet" href="style.css?v=6">
     <style>
     </style>
 
@@ -47,6 +47,8 @@
             #status[data-status="online"] {
                 color: green;
             }
+
+
     </style>
 
 </head>
@@ -63,6 +65,7 @@
         <div id="loginStatus" style="display: none; align-items: center;">
             <div style="width: 10px; height: 10px; background-color: green; border-radius: 50%; margin-right: 5px;"></div>
             <div id="loginStatusText" style="color: green;">Logged in</div>
+
         </div>
     </div>
     <div id="loginFormContainer" class="login-form-container draggable">
@@ -88,32 +91,19 @@
 
 
             <div class="content-large">
+                <!--If the user is not logged in, offer them to create an account-->
+                <div id="notLoggedInMessage" style="display: none; border-top:none;border-right:none;border-left:none;">
+                    <h1><span class="word-seppe">New To JoesWorld.Online?</span></h1>
+                    <h1><span class="word-seppe">Create An Account Today!</span></h1>
 
-                <!--     <img style="
-                        padding: 10px;
-                        width: 50vw;
-                        position: relative;
-                        bottom: 20vh;
-                        left: -20px;  "
-                                 src="media/gif/a_place.gif" />
-                -->
+                    To Create an account, click <a href="pages/account-apply.html">here</a>
+                </div>
 
-
-                <h1 style="color:red;">UNDER MAINTENANCE</h1>
-                <p>In the short future, many things will be changing on <span class="word-seppe" style="font-size: 1rem;">Joesworld.online</span></p>
-                <p>And i already hear you asking...</p>
-                <p style="color:#768eff;"><em>Why is change coming?</em></p>
-                <p style="color:#768eff;"><em>I HATE CHANGE!</em></p>
-                <p>May i remind you that your opinion is irrelevant and i am god in this land</p>
-                <h3>Changes you can expect in the near future:</h3>
-                <ul>
-                    <p>An Account system, for security reasons</p>
-                    <p>So to upload items to the board for example you will need an account.</p>
-                    <p>For now, expect things to not work, such as the new submissions box!</p>
-                    <p>if you have any questions, you know how to contact me.</p>
-                </ul>
-                <img style="max-height:4rem;" src="../media/png/signature.png">
-
+                <h1 style="color:red;">BEHOLD</h1>
+                <p style="color:red;">SEPPE HAS FIXED</p>
+                <p class="angry-text">THE BOARD</p>
+                <p style="color:red;">THATS FUCKING RIGHT SEPPE HAS FIXED THE FUCKING</p>
+                <h1 class="angry-text">BOOOAAARRD</h1>
 
                 <!--Gallery Shuffle-->
                 <center>
@@ -129,7 +119,7 @@
                     </style>
                     <div class="gallery" style="max-width: 20rem; margin-top: 5rem;"></div>
                     <p>Submit your own art on <br /><a href="pages/board.html">The Board</a></p>
-                    
+
 
                 </center>
 
