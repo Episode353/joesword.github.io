@@ -182,6 +182,7 @@ button {
     grid-template-rows: repeat(2, 1fr);
     grid-gap: 0px;
     text-align: center;
+    white-space: normal; /* or pre-wrap */
 }
 
 
