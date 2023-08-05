@@ -339,17 +339,24 @@ button {
     }
 }
 
-    #header-logo {
-        font-family: daydream;
+#header-logo {
+    font-family: daydream;
+    color: #0D47A1;
+    text-shadow: 10px 10px 0px #fec652;
+    text-align: center;
+    font-size: 200%;
+    position: fixed;
+    top: -25px;
+    left: 5%;
+    width: 120px;
+    height: 169px;
+    text-decoration: none;
+}
+
+/* Style the visited link differently */
+    #header-logo a:visited {
         color: #0D47A1;
-        text-shadow: 10px 10px 0px #fec652;
-        text-align: center;
-        font-size: 200%;
-        position: fixed;
-        top: -25px;
-        left: 5%;
-        width: 120px;
-        height: 169px;
+        border-bottom: 2px solid #ddd; /* Retain the original line color for visited links */
     }
 
 
