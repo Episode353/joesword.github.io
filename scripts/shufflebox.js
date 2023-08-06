@@ -47,6 +47,8 @@ $(function () {
         'pages/html-shuffle/scan_forehead.html',
         'pages/html-shuffle/jig-711-banned.html',
         'pages/html-shuffle/seep-coin.html',
+        'pages/html-shuffle/muppets_get_real.html',
+        'pages/html-shuffle/marty_mcfly.html',
         'pages/html-shuffle/mortified_rugby.html'
 
     ];
