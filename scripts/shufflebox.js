@@ -51,6 +51,8 @@ $(function () {
         'pages/html-shuffle/pizza_tower_description.html',
         'pages/html-shuffle/funny_turtle.html',
         'pages/html-shuffle/marty_mcfly.html',
+        'pages/html-shuffle/annoying_orange_mariokart.html',
+        'pages/html-shuffle/sponge_gun.html',
         'pages/html-shuffle/mortified_rugby.html'
 
     ];
