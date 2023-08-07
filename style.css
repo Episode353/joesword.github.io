@@ -353,10 +353,14 @@ button {
     text-decoration: none;
 }
 
-/* Style the visited link differently */
+
     #header-logo a:visited {
         color: #0D47A1;
         border-bottom: 2px solid #ddd; /* Retain the original line color for visited links */
+    }
+
+    #header-logo a:hover {
+        color: #A1670D;
     }
 
 
