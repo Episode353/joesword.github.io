@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Joes World</title>
+    <link rel="icon" href="../../media/ico/favicon.ico" type="image/x-icon" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link rel="stylesheet" href="../../style.css?v=6">
+    <!-- Add the Firebase SDK scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-auth.js"></script>
+    <script src="../../scripts/seppe.js?v=2"></script>
+    <script src="../../scripts/shufflebox.js?v=2"></script>
+    <script src="../../scripts/back-map.js?v=2"></script>
+    <script src="../../scripts/firebase-megascript.js"></script>
+    <style>
+    </style>
+
+</head>
+<body>
+    <!--Firebase Authenticaion Information-->
+    <div class="header-login">
+        <div class="account-dropdown">
+            <button class="account-btn" id="accountBtn">Login</button>
+            <button id="logoutBtn" style="display: none;">Logout</button>
+            <div class="dropdown-content" id="dropdownContent">
+                <div id="userDisplay" class="user-info" style="display:none;"></div>
+            </div>
+        </div>
+        <div id="loginStatus" style="display: none; align-items: center;">
+            <div style="width: 10px; height: 10px; background-color: green; border-radius: 50%; margin-right: 5px;"></div>
+            <div id="loginStatusText" style="color: green;">Logged in</div>
+        </div>
+    </div>
+    <div id="loginFormContainer" class="login-form-container draggable">
+        <form id="loginForm">
+            <h2>Login</h2>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <center>
+        <div class="container">
+
+            <div class="header">
+                <iframe src="../header-content.html" frameborder="0" scrolling="no" class="header-content-iframe"></iframe>
+
+            </div>
+
+
+            <div class="food-content-large-fill" style=" padding: inherit;">
+                <div class="food-review-body" style="background: transparent; border: 0px solid lightsteelblue; ">
+
+
+
+
+                    <!--Photo of the Food -- files are 1280x1280px-->
+                    <div class="food-content-photo">
+                        <img src="../../media/jpg/sweet_dragon_takis.jpg">
+                        <div style="border-left: none; border-right: none; border-bottom: none;"></div>
+                        <img src="../../media/jpg/sweet_dragon_takis_inside.jpg" style="max-width: 10rem;" />
+                    </div>
+
+                    <!--The rating of the food-->
+                    <div class="food-content-rate">
+                        Seppe Says...
+                        <p>8/10</p>
+                        <!--Enable or disable sip approved here-->
+                        <!-- <img class="food-sip" src="../../media/png/sip-approved.png">-->
+                        <!--Enable or disable sip disapproved here-->
+                        <!--<img class="food-sip" src="../../media/png/sip-disapproved.png">-->
+                    </div>
+
+                    <div class="food-content-text">
+                        <p>The Weird Man planted these on my lawn and ran away aprox. 2 Months Ago.</p>
+                        <p>I avoided opening these for weeks, beacuse they looked rancid.</p>
+                        <p>But i am glad i eventually did.</p>
+                        <p style="color:#a4fff7; text-shadow: black 3px 3px 3px;">The Best Disney Channel Original Movie about a Sports Underdog Team,<br /> turns out to be a bag of takis.</p>
+                        <p>Absouletly addicting.</p>
+                        <p>the bag is misleading, they're not spicy.</p>
+                        <p><em style="color:red;">NEVER</em> trust the system</p>
+                        <img src="../../media/jpg/cant_trust_the_system.jpg" style="width:35%;">
+
+
+
+                    </div>
+
+
+                    <div class="food-content-bob" style="position: relative;">
+                        <p>Would Seep take this to Bob Marley's House?</p>
+                        <p style="height: 169px; position: absolute; top: 15%; left: 65%; transform: rotate(20deg);">Yes</p>
+                        <!--To change from yes to no face, just change the no/yes in the file name-->
+                        <img src="../../media/png/bob-yes.png">
+                        <p>Would Seep stop a train for this?</p>
+                        <p style="height: 169px; position: absolute; top: 60%; left: 65%; transform: rotate(20deg);">Yes</p>
+                        <img src="../../media/png/bob-yes.png">
+                    </div>
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+            <div class="footer">
+                <iframe src="../footer.html" frameborder="0" width="100%" class="footer-iframe">
+                </iframe>
+
+            </div>
+
+
+
+
+        </div>
+    </center>
+</body>
+</html>

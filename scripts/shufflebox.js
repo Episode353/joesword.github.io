@@ -53,6 +53,9 @@ $(function () {
         'pages/html-shuffle/marty_mcfly.html',
         'pages/html-shuffle/annoying_orange_mariokart.html',
         'pages/html-shuffle/sponge_gun.html',
+        'pages/html-shuffle/joe_biden_flying.html',
+        'pages/html-shuffle/wojack_overgrown.html',
+        'pages/html-shuffle/sep_language.html',
         'pages/html-shuffle/mortified_rugby.html'
 
     ];
