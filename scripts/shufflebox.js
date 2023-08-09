@@ -56,6 +56,8 @@ $(function () {
         'pages/html-shuffle/joe_biden_flying.html',
         'pages/html-shuffle/wojack_overgrown.html',
         'pages/html-shuffle/sep_language.html',
+        'pages/html-shuffle/fldsmdfr.html',
+        'pages/html-shuffle/shitsnotgoingsowell.html',
         'pages/html-shuffle/mortified_rugby.html'
 
     ];
