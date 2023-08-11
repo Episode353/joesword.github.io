@@ -28,7 +28,22 @@
             z-index: 1;
             pointer-events: none;
             user-select: none;
+            animation: glow 10s cubic-bezier(0.4, 0, 0.2, 1) infinite;
         }
+
+        @keyframes glow {
+            0%, 100% {
+                filter: drop-shadow(0 0 20px white);
+        
+            }
+
+            50% {
+                filter: drop-shadow(0 0 35px white);
+          
+            }
+        
+        }
+
 
         #bg {
             position: absolute;
@@ -39,6 +54,7 @@
             z-index: 0;
             pointer-events: none;
             user-select: none;
+
         }
 
         #counter {
@@ -114,11 +130,12 @@
 
 
 
+
     </style>
 </head>
 <body>
-    
-    
+
+
     <img id="beeg_fish" src="../media/png/spinner1.png" alt="Beeg Fish Not Found">
     <img id="bg" src="../media/png/bf-bg01.png" alt="Beeg Fish Not Found">
     <canvas id="canvas"></canvas>
@@ -126,50 +143,64 @@
 
 
 
+
+
+
+
     <div id="bf-controls">
         <center>
+
+            <div id="counter">Speed: 0</div>
+            <br />
             <button onclick="spinBeegFish()">Spin</button>
             <button onclick="stopSpin()">Stop</button>
             <button id="clear">Clear</button>
-            <br />
-            <div id="counter">Speed: 0</div>
-            <br />
-            <label for="speedMultiplier">Speed Multiplier:</label>
-            <br />
-            <input type="number" id="speedMultiplier" min="0" step="0.01" value="3">
-            <br />
-            <label for="speedFalloff">Speed Falloff:</label>
-            <br />
-            <input type="number" id="speedFalloff" min="0" max="1" step="0.001" value="0.98">
-            <br />
-
-            <select id="backgroundSelect" onchange="changeBackground()">
-                <option value="../media/png/bf-bg01.png">Background 1</option>
-                <option value="../media/png/bf-bg02.png">Background 2</option>
-                <option value="../media/png/bf-bg03.png">Background 3</option>
-                <option value="../media/png/bf-bg04.png">Background 4</option>
-                <option value="../media/png/bf-bg05.png">Background 5</option>
-                <option value="../media/png/bf-bg-roulette-01.png">Roulette 1</option>
-                <option value="../media/png/bf-bg-roulette-02.png">Roulette 2</option>
-                <option value="../media/png/bf-bg-roulette-01-letters.png">Roulette 1 Letters</option>
-                <option value="../media/png/bf-bg-roulette-02-letters.png">Roulette 2 Letters</option>
-                <option value="../media/png/bf-bg-coin01.png">Coin Flip 1</option>
-            </select>
 
             <br />
+            <div>
+                <label for="speedMultiplier">Speed Multiplier:</label>
+                <input type="number" id="speedMultiplier" min="0" step="0.01" value="3">
+            </div>
+            <br />
+            <div>
+                <label for="speedFalloff">Speed Falloff:</label>
+                <input type="number" id="speedFalloff" min="0" max="1" step="0.001" value="0.98">
+            </div>
+            <br />
+            <div>
+                <label for="backgroundSelect">Background:</label>
+                <select id="backgroundSelect" onchange="changeBackground()">
+                    <option value="../media/png/bf-bg-coin01.png">Coin Flip 1</option>
+                    <option value="Dice">Dice</option>
+                    <option value="../media/png/bf-bg01.png">BG-1</option>
+                    <option value="../media/png/bf-bg02.png">BG-2</option>
+                    <option value="../media/png/bf-bg03.png">BG-3</option>
+                    <option value="../media/png/bf-bg04.png">BG-4</option>
+                    <option value="../media/png/bf-bg05.png">BG-5</option>
+
+
+                </select>
+            </div>
+
+            <br />
+            <div>
+                <label for="diceInput">Dice:</label>
+                <input type="number" id="diceInput" min="2" value="2" oninput="changeBackground()">
+            </div>
+            <br />
+
+            <label for="opacitySlider">Opacity:</label>
+            <br />
+            <input type="range" id="opacitySlider" min="0" max="1" step="0.01" value="1" style="width:100%;" oninput="adjustOpacity()">
+            <br />
+
+
 
             <a href="../index.html" style="color: #0D47A1; text-shadow: 5px 5px 0px #fec652; font-family: daydream;" target="_top">Home</a>
         </center>
     </div>
 
-    <script>
-        function changeBackground() {
-            var selectElement = document.getElementById("backgroundSelect");
-            var selectedValue = selectElement.options[selectElement.selectedIndex].value;
-            var bgImage = document.getElementById("bg");
-            bgImage.src = selectedValue;
-        }
-    </script>
+
 
     <script>
         var beegFish = document.getElementById('beeg_fish');
@@ -298,6 +329,142 @@
         function clearCanvas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
+
+
+
+        document.getElementById("diceInput").addEventListener("input", function () {
+            changeBackgroundToDice();
+        });
+
+        function changeBackgroundToDice() {
+            var selectElement = document.getElementById("backgroundSelect");
+            var bgImage = document.getElementById("bg");
+            var diceInput = parseInt(document.getElementById("diceInput").value);
+
+            // Update the select element to choose "Dice" and trigger the onchange event
+            selectElement.value = "Dice";
+            selectElement.dispatchEvent(new Event("change"));
+
+            // Generate the dice background based on the entered dice number
+            generateDiceBackground(diceInput);
+
+            // Adjust the opacity of the "beeg_fish" element
+            var beegFishElement = document.getElementById("beeg_fish");
+            beegFishElement.style.opacity = 0.75; // Set the desired opacity value
+
+            // Update the opacity slider value and display
+            var opacitySlider = document.getElementById("opacitySlider");
+            opacitySlider.value = 0.5;
+        }
+
+
+
+        var isChangingBackground = false; // Add a flag to prevent recursion
+
+        function changeBackground() {
+            var selectElement = document.getElementById("backgroundSelect");
+            var bgImage = document.getElementById("bg");
+            var diceInput = parseInt(document.getElementById("diceInput").value);
+
+            if (selectElement.value === "Dice") {
+                // Generate and set the dice background based on the entered dice number
+                generateDiceBackground(diceInput);
+
+                // Adjust the opacity of the "beeg_fish" element
+                var beegFishElement = document.getElementById("beeg_fish");
+                beegFishElement.style.opacity = 0.5; // Set the desired opacity value
+            } else {
+                // Set the selected background image for non-dice options
+                bgImage.src = selectElement.value;
+
+                // Reset the opacity of the "beeg_fish" element
+                var beegFishElement = document.getElementById("beeg_fish");
+                beegFishElement.style.opacity = 1; // Reset the opacity
+            }
+        }
+
+
+
+
+
+
+
+
+
+        function generateDiceBackground(diceSections) {
+            var canvas = document.createElement("canvas");
+            canvas.width = canvas.height = 500; // Set the canvas size
+            var context = canvas.getContext("2d");
+            var centerX = canvas.width / 2;
+            var centerY = canvas.height / 2;
+            var radius = canvas.width / 2;
+            var colors = [
+                "#FF5733", // Aperol Orange
+                "#33FF33", // Olive Green
+                "#3377FF", // Tuscan Blue
+                "#FFCC33", // Lemon Gold
+                "#9933FF", // Amethyst Purple
+                "#33FFFF", // Venetian Canal Blue
+                "#FFA500", // Sicilian Citrus
+                "#8B4513", // Espresso Brown
+                "#FFD700", // Roman Empire Gold
+                "#6B8E23"  // Mediterranean Olive
+            ];
+
+
+
+
+
+            var angle = (360 / diceSections) * (Math.PI / 180);
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Calculate font size based on the number of segments
+            var fontSize = Math.min(70, 700 / diceSections); // Adjust the max font size as needed
+
+            for (var i = 0; i < diceSections; i++) {
+                context.beginPath();
+                context.moveTo(centerX, centerY);
+                context.arc(centerX, centerY, radius, i * angle, (i + 1) * angle);
+                context.lineTo(centerX, centerY);
+                context.fillStyle = colors[i % colors.length];
+                context.fill();
+
+                // Calculate label position
+                var labelAngle = i * angle + (angle / 2);
+                var labelDistance = radius * 0.85; // Move labels closer to the edge
+                var labelX = centerX + labelDistance * Math.cos(labelAngle);
+                var labelY = centerY + labelDistance * Math.sin(labelAngle);
+
+                // Draw label
+                context.fillStyle = "#000000";
+                context.font = "bold " + fontSize + "px Arial"; // Set font size
+                context.textAlign = "center";
+                context.textBaseline = "middle";
+                context.fillText((i + 1).toString(), labelX, labelY);
+            }
+
+            var dataUrl = canvas.toDataURL();
+            var bgImage = document.getElementById("bg");
+            bgImage.src = dataUrl;
+        }
+
+
+
+        function adjustOpacity() {
+            var opacitySlider = document.getElementById("opacitySlider");
+            var beegFishElement = document.getElementById("beeg_fish");
+            beegFishElement.style.opacity = opacitySlider.value;
+        }
+
+
+
+
+
+
+
+
+
+
 
         canvas.addEventListener("mousedown", startDrawing);
         canvas.addEventListener("touchstart", startDrawing);
