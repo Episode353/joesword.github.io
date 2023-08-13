@@ -58,6 +58,12 @@ $(function () {
         'pages/html-shuffle/sep_language.html',
         'pages/html-shuffle/fldsmdfr.html',
         'pages/html-shuffle/shitsnotgoingsowell.html',
+        'pages/html-shuffle/spongebob_amongus_bottle.html',
+        'pages/html-shuffle/your_formula_sir.html',
+        'pages/html-shuffle/cole-slaw.html',
+        'pages/html-shuffle/simple_dog.html',
+        'pages/html-shuffle/kill_seppe.html',
+        'pages/html-shuffle/ash_ketchup.html',
         'pages/html-shuffle/mortified_rugby.html'
 
     ];
