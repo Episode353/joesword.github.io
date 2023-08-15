@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="../../style.css">
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        .chat-bubble {
+            background-color: #007bff;
+            color: black;
+            border-radius: 10px;
+            padding: 10px 20px;
+            max-width: 70%;
+            position: relative;
+        }
+
+            .chat-bubble::before {
+                content: '';
+                position: absolute;
+                border-style: solid;
+                border-width: 10px 10px 0;
+                border-color: black transparent transparent transparent;
+                bottom: -10px;
+                left: 30%; /*Change Position of speech bubble arrow here*/
+            }
+    </style>
+</head>
+<body>
+
+    <center>
+        <div class="chat-bubble" style=" border-color: black black black black;">
+            <p>MR.MC-QUEEN??? <br /><br />FLIES ACROSS THE SCREEN???</p>
+        </div>
+        <img src="../../media/jpg/heavy-mcqueen.jpg" width="100%" height="100%" style="margin-top:1rem;">
+
+
+    </center>
+
+</body>
+</html>

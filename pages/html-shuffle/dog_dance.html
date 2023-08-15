@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="../../style.css">
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <img id="image" src="../../media/jpg/dog_dance_1.jpg" alt="Image 1" style="width:20vw;">
+
+    <script>
+        const images = ['../../media/jpg/dog_dance_1.jpg', '../../media/jpg/dog_dance_2.jpg'];
+        let currentImageIndex = 0;
+        const imageElement = document.getElementById('image');
+
+        function switchImage() {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            imageElement.src = images[currentImageIndex];
+        }
+
+        setInterval(switchImage, 1000); // Switch every 2 seconds
+    </script>
+</body>
+</html>

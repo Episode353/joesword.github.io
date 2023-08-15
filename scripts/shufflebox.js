@@ -64,6 +64,13 @@ $(function () {
         'pages/html-shuffle/simple_dog.html',
         'pages/html-shuffle/kill_seppe.html',
         'pages/html-shuffle/ash_ketchup.html',
+        'pages/html-shuffle/claw_hands.html',
+        'pages/html-shuffle/heavy-mcqueen.html',
+        'pages/html-shuffle/listenman.html',
+        'pages/html-shuffle/eepys.html',
+        'pages/html-shuffle/package_death.html',
+        'pages/html-shuffle/dog_dance.html',
+        'pages/html-shuffle/among_chicken.html',
         'pages/html-shuffle/mortified_rugby.html'
 
     ];
