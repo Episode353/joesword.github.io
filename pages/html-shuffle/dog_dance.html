@@ -1,25 +1,120 @@
 ﻿<!DOCTYPE html>
-
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
     <link rel="stylesheet" href="../../style.css">
-    <meta charset="utf-8" />
-    <title></title>
+    <meta charset="utf-8">
+    <title>Fancy Dog Switch</title>
+    <style>
+   
+
+        #dogSwitch {
+            display: none;
+        }
+
+        .switch-container {
+            position: relative;
+            cursor: pointer;
+            border:none !important;
+        }
+
+        .switch-label {
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+            background-color: #3498db;
+            border-radius: 15px;
+            position: relative;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+            .switch-label:before {
+                content: "";
+                position: absolute;
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                background-color: white;
+                top: 1px;
+                left: 1px;
+                transition: transform 0.3s ease-in-out;
+            }
+
+        #dogSwitch:checked + .switch-label {
+            background-color: #27ae60;
+        }
+
+            #dogSwitch:checked + .switch-label:before {
+                transform: translateX(30px);
+            }
+
+        #image {
+            width: 20vw;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        #dogSwitch:checked ~ #image {
+            transform: scale(1.1);
+        }
+    </style>
 </head>
 <body>
-    <img id="image" src="../../media/jpg/dog_dance_1.jpg" alt="Image 1" style="width:20vw;">
-
+    <div class="switch-container">
+        <p style="font-size:.8rem;">Dog Mode</p>
+        <input type="checkbox" id="dogSwitch">
+        <label class="switch-label" for="dogSwitch"></label>
+    </div>
+    <img id="image" src="../../media/jpg/dog_dance_1.jpg" alt="Image 1">
+    <audio id="audio" preload="auto">
+        <source src="../../media/ogg/rockandroll-radio-2.ogg" type="audio/ogg">
+    </audio>
     <script>
         const images = ['../../media/jpg/dog_dance_1.jpg', '../../media/jpg/dog_dance_2.jpg'];
         let currentImageIndex = 0;
         const imageElement = document.getElementById('image');
+        const dogSwitch = document.getElementById('dogSwitch');
+        const audioElement = document.getElementById('audio');
+        let audioSource = null;
 
-        function switchImage() {
-            currentImageIndex = (currentImageIndex + 1) % images.length;
-            imageElement.src = images[currentImageIndex];
+        function init() {
+            function switchImage() {
+                if (dogSwitch.checked) {
+                    currentImageIndex = (currentImageIndex + 1) % images.length;
+                    imageElement.src = images[currentImageIndex];
+                }
+            }
+
+            setInterval(switchImage, 1000);
+
+            dogSwitch.addEventListener('change', () => {
+                if (dogSwitch.checked) {
+                    playAudioLoop();
+                } else {
+                    stopAudioLoop();
+                }
+            });
         }
 
-        setInterval(switchImage, 1000); // Switch every 2 seconds
+        function playAudioLoop() {
+            if (audioElement.readyState === 4) {
+                audioSource = audioElement.cloneNode(true);
+                audioSource.loop = true;
+                audioSource.play();
+            } else {
+                // Handle case where audio is not loaded yet
+            }
+        }
+
+        function stopAudioLoop() {
+            if (audioSource) {
+                audioSource.pause();
+                audioSource.currentTime = 0;
+                audioSource = null;
+            }
+        }
+
+        init();
     </script>
 </body>
 </html>
