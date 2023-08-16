@@ -1,16 +1,14 @@
 $(function () {
 
-    // Check if the special link parameter is present in the URL
+    // Check if the shuffle parameter is present in the URL
     const urlParams = new URLSearchParams(window.location.search);
-    const specialPage = urlParams.get('specialpage');
+    const shufflePage = urlParams.get('shuffle');
 
-    if (specialPage) {
-        // Load the specific page indicated by the special link parameter
-        $("#htmlshufflebox").load(specialPage);
+    if (shufflePage) {
+        const filePath = `pages/html-shuffle/${shufflePage}`;
+        // Load the specified page indicated by the shuffle parameter
+        $("#htmlshufflebox").load(filePath);
     } else {
-        // Regular shuffle logic
-
-
     var files = [
         'pages/html-shuffle/gunt-fish.html',
         'pages/html-shuffle/builder-dog.html',
