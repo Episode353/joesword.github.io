@@ -97,14 +97,20 @@
         }
 
         function playAudioLoop() {
-            if (audioElement.readyState === 4) {
+            audioElement.addEventListener('canplaythrough', () => {
                 audioSource = audioElement.cloneNode(true);
                 audioSource.loop = true;
                 audioSource.play();
-            } else {
-                // Handle case where audio is not loaded yet
+            });
+
+            // If the audio is already loaded, the 'canplaythrough' event might not fire, so you can try playing directly.
+            if (audioElement.readyState >= 2) {
+                audioSource = audioElement.cloneNode(true);
+                audioSource.loop = true;
+                audioSource.play();
             }
         }
+
 
         function stopAudioLoop() {
             if (audioSource) {
