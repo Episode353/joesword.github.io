@@ -1,4 +1,16 @@
 $(function () {
+
+    // Check if the special link parameter is present in the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const specialPage = urlParams.get('specialpage');
+
+    if (specialPage) {
+        // Load the specific page indicated by the special link parameter
+        $("#htmlshufflebox").load(specialPage);
+    } else {
+        // Regular shuffle logic
+
+
     var files = [
         'pages/html-shuffle/gunt-fish.html',
         'pages/html-shuffle/builder-dog.html',
@@ -92,4 +104,16 @@ $(function () {
 
     var randomFile = files[Math.floor(random() * files.length)]; // Pick a random file
     $("#htmlshufflebox").load(randomFile); // Load the random file into the div
+
+
+
+        var seed = new Date().getTime();
+        var random = function () {
+            var x = Math.sin(seed++) * 10000;
+            return x - Math.floor(x);
+        };
+
+        var randomFile = files[Math.floor(random() * files.length)];
+        $("#htmlshufflebox").load(randomFile);
+    }
 });
