@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>My Blog</title>
+    <style>
+        /* Reset default styles */
+        body, h1, h2, p, select {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .post-selector {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .post {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+            .post img {
+                max-width: 50%;
+                height: auto;
+                margin-bottom: 10px;
+            }
+
+        /* Add more styles as needed */
+
+    </style>
+</head>
+<body>
+    <h1>My Blog</h1>
+    <select id="postSelector">
+
+        <!-- Add more options here -->
+    </select>
+
+    <div id="postContent"></div>
+    <script>
+        // Array of posts with their details
+        const posts = [
+            { fileName: "post-test-1.html", title: "Post 1", date: "August 17, 2023", image: "../../media/png/arizona.png" },
+            { fileName: "post-test-2.html", title: "Post 2", date: "August 18, 2023", image: "post2.jpg" },
+            // Add more posts here
+        ];
+
+        const postSelector = document.getElementById("postSelector");
+        const postContent = document.getElementById("postContent");
+
+        // Populate the dropdown with post options
+        posts.forEach(post => {
+            const option = document.createElement("option");
+            option.value = post.fileName;
+            option.textContent = post.title;
+            postSelector.appendChild(option);
+        });
+
+
+        // Function to load a selected post
+        function loadPost() {
+            const selectedFileName = postSelector.value;
+            if (selectedFileName) {
+                const post = posts.find(post => post.fileName === selectedFileName);
+                if (post) {
+                    const postUrl = `./posts/${selectedFileName}`;
+                    fetch(postUrl)
+                        .then(response => response.text())
+                        .then(html => {
+                            postContent.innerHTML = html;
+
+                            // Update the post content
+                            const postTitle = document.querySelector(".post h2");
+                            const postDate = document.querySelector(".post p:nth-child(2)");
+                            const postImage = document.getElementById("postImage");
+
+                            postTitle.textContent = post.title;
+                            postDate.textContent = `Date: ${post.date}`;
+                            postImage.src = `./images/${post.image}`;
+
+                            // Update the URL with the selected post's query parameter
+                            history.pushState(null, null, `?post=${selectedFileName}`);
+                        })
+                        .catch(error => {
+                            console.error("Error loading post:", error);
+                        });
+                }
+            }
+        }
+
+        // Load initial post if specified in URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const initialPost = urlParams.get("post");
+        if (initialPost) {
+            const initialPostFileName = `${initialPost}.html`; // Add back the ".html" extension
+            postSelector.value = initialPostFileName;
+            loadPost();
+        }
+
+        // Listen for dropdown changes
+        postSelector.addEventListener("change", loadPost);
+
+
+    </script>
+</body>
+</html>
