@@ -82,6 +82,8 @@ $(function () {
         'pages/html-shuffle/dog_dance.html',
         'pages/html-shuffle/among_chicken.html',
         'pages/html-shuffle/apple-store-mong.html',
+        'pages/html-shuffle/berryboy.html',
+        'pages/html-shuffle/red-door.html',
         'pages/html-shuffle/mortified_rugby.html'
 
     ];
