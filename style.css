@@ -40,6 +40,9 @@ body {
         height: 100%;
         background: radial-gradient(ellipse at center, rgba(0,0,0,0%) 0%, rgba(0,0,0,0%) 80%, rgba(0,0,0,100%) 100%);
         pointer-events: none;
+        background-size: auto;
+        image-rendering: pixelated;
+
         z-index: -1;
     }
 
@@ -246,6 +249,9 @@ button {
 
 }
 
+img {
+    image-rendering: auto;
+}
 
 .food-content-text {
     border-top: none !important;
