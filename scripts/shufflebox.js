@@ -84,6 +84,7 @@ $(function () {
         'pages/html-shuffle/apple-store-mong.html',
         'pages/html-shuffle/berryboy.html',
         'pages/html-shuffle/red-door.html',
+        'pages/html-shuffle/ramen_crazy.html',
         'pages/html-shuffle/mortified_rugby.html'
 
     ];
