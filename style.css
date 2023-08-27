@@ -4,8 +4,8 @@
 }
 
 @font-face {
-    src: url(../media/fonts/consola.ttf);
     font-family: consola;
+    src: url(../media/fonts/consola.ttf);
 }
 
 @font-face {
