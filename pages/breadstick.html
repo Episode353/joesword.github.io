@@ -19,7 +19,7 @@
         #main-container {
             /* Add any desired styling for the main container */
             border: 2px groove grey;
-            width: 50rem;
+            width: 70%;
             padding: 20px;
             background-color: white;
             display: flex;
@@ -169,6 +169,12 @@
                     <input type="number" id="brush-size-input" min="1" value="1">
                 </div>
             </div>
+
+            <label for="grid-size-input">Grid Size: </label>
+            <input type="number" id="grid-size-input" min="10" max="25" value="10">
+            <button id="apply-grid-size">Apply Grid Size</button>
+
+
         </div>
 
         <script>
@@ -181,6 +187,7 @@
             //
             //--------------------------------------
             const gridSize = 100;
+            let viewSize = 10;
             let playerX = Math.floor(69);
             let playerY = Math.floor(69);
 
@@ -193,10 +200,20 @@
                 }
                 grid.push(row);
             }
+            const gridSizeInput = document.getElementById('grid-size-input');
+            const applyGridSizeButton = document.getElementById('apply-grid-size');
+
+            applyGridSizeButton.addEventListener('click', () => {
+                const newSize = parseInt(gridSizeInput.value);
+                if (!isNaN(newSize) && newSize > 0) {
+                    viewSize = newSize;
+                    updateGrid();
+                }
+            });
+
+            // Modify your updateGrid() function to use the dynamic viewSize
             function updateGrid() {
                 gridContainer.innerHTML = '';
-
-                const viewSize = 5;
 
                 for (let y = playerY - viewSize; y <= playerY + viewSize; y++) {
                     for (let x = playerX - viewSize; x <= playerX + viewSize; x++) {
