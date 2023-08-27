@@ -4,8 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css?v=9">
     <title>breabbick</title>
     <style>
+
+
 
         body {
             margin: 0;
@@ -13,8 +16,10 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #f0f0f0;
+            background-color: black; /* Change the background color to black */
+            font-family: 'consola', sans-serif;
         }
+
 
         #main-container {
             /* Add any desired styling for the main container */
@@ -141,8 +146,11 @@
             <button id="save-button">Save</button>
         </div>
 
+        <div id="tooltip"></div>
 
 
+        <input type="text" id="sign-text-input" placeholder="Sign Text">
+        <button id="save-sign-button">Save Sign</button>
 
 
 
@@ -196,10 +204,11 @@
             for (let y = 0; y < gridSize; y++) {
                 const row = [];
                 for (let x = 0; x < gridSize; x++) {
-                    row.push({ text: '.', color: '#ffffff' }); // Initialize with default values
+                    row.push({ text: '.', color: '#ffffff', signText: '' }); // Initialize with default values
                 }
                 grid.push(row);
             }
+
             const gridSizeInput = document.getElementById('grid-size-input');
             const applyGridSizeButton = document.getElementById('apply-grid-size');
 
@@ -320,6 +329,10 @@
                     const editBoxText = document.getElementById('edit-box-text');
                     editBoxText.textContent = `Edit [${x}, ${y}]`;
 
+                    // Set the sign text input value
+                    const signTextInput = document.getElementById('sign-text-input');
+                    signTextInput.value = grid[y][x].signText;
+
                     editBox.style.left = `${cell.offsetLeft}px`;
                     editBox.style.top = `${cell.offsetTop}px`;
                     editBox.style.display = 'block';
@@ -385,8 +398,7 @@
                         break;
                 }
 
-                // Add this line to prevent the default behavior (scrolling) of arrow keys
-                event.preventDefault();
+
             });
 
 
@@ -511,11 +523,30 @@
             }
 
 
+            cell.addEventListener('mouseover', () => handleCellMouseOver(x, y));
+            cell.addEventListener('click', () => handleCellClick(x, y));
+
+            function handleCellMouseOver(x, y) {
+                if (grid[y][x].signText !== '') {
+                    const tooltip = document.getElementById('tooltip');
+                    tooltip.textContent = grid[y][x].signText;
+                    tooltip.style.display = 'block';
+                    tooltip.style.left = `${event.clientX}px`;
+                    tooltip.style.top = `${event.clientY}px`;
+                }
+            }
+
+            const saveSignButton = document.getElementById('save-sign-button');
+            saveSignButton.addEventListener('click', () => {
+                if (editingX >= 0 && editingY >= 0) {
+                    const signText = document.getElementById('sign-text-input').value;
+                    grid[editingY][editingX].signText = signText;
+                    editBox.style.display = 'none';
+                }
+            });
 
 
 
-
-            
 
 
         </script>

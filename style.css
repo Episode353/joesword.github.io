@@ -4,6 +4,11 @@
 }
 
 @font-face {
+    src: url(../media/fonts/consola.ttf);
+    font-family: consola;
+}
+
+@font-face {
     font-family: minecraft;
     src: url(../media/fonts/Minecraft.ttf);
 }
