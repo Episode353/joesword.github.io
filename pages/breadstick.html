@@ -384,6 +384,9 @@
                         movePlayer('east');
                         break;
                 }
+
+                // Add this line to prevent the default behavior (scrolling) of arrow keys
+                event.preventDefault();
             });
 
 
