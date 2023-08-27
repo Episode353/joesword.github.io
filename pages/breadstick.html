@@ -509,35 +509,10 @@
 
 
 
-            const saveFileButton = document.getElementById('save-file-button');
-            const loadFileButton = document.getElementById('load-file-button');
 
-            saveFileButton.addEventListener('click', () => {
-                saveToFile(grid, 'grid_data.json');
-            });
 
-            loadFileButton.addEventListener('click', async () => {
-                const input = document.createElement('input');
-                input.type = 'file';
-                input.accept = '.json';
-                input.addEventListener('change', async (event) => {
-                    const file = event.target.files[0];
-                    if (file) {
-                        try {
-                            const loadedData = await loadFromFile(file);
-                            if (Array.isArray(loadedData)) {
-                                grid.splice(0, grid.length, ...loadedData);
-                                updateGrid();
-                            } else {
-                                console.error('Invalid data format.');
-                            }
-                        } catch (error) {
-                            console.error(error);
-                        }
-                    }
-                });
-                input.click();
-            });
+
+            
 
 
         </script>
@@ -550,6 +525,36 @@
                 updateGrid();
                 updatePlayerPosition();
 
+                const saveFileButton = document.getElementById('save-file-button');
+                const loadFileButton = document.getElementById('load-file-button');
+
+                saveFileButton.addEventListener('click', () => {
+                    console.log('Save button clicked');
+                    saveToFile(grid, 'grid_data.json');
+                });
+
+                loadFileButton.addEventListener('click', async () => {
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = '.json';
+                    input.addEventListener('change', async (event) => {
+                        const file = event.target.files[0];
+                        if (file) {
+                            try {
+                                const loadedData = await loadFromFile(file);
+                                if (Array.isArray(loadedData)) {
+                                    grid.splice(0, grid.length, ...loadedData);
+                                    updateGrid();
+                                } else {
+                                    console.error('Invalid data format.');
+                                }
+                            } catch (error) {
+                                console.error(error);
+                            }
+                        }
+                    });
+                    input.click();
+                });
 
                 //Place Commands before here
                 console.log("page is fully loaded");
