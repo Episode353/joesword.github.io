@@ -1,10 +1,32 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>breabbick</title>
     <style>
+
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        #main-container {
+            /* Add any desired styling for the main container */
+            border: 2px groove grey;
+            width: 50rem;
+            padding: 20px;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         .grid-cell {
             display: inline-block;
             width: 20px;
@@ -26,170 +48,494 @@
             padding: 10px;
             z-index: 1;
         }
-    </style>
-</head>
-<body>
-    <div id="game-container"></div>
-    <div id="player-position">Player Position: X, Y</div>
-    <div id="edit-box" style="display: none;">
-        <label for="text-input">Enter Character:</label>
-        <input type="color" id="color-picker">
-        <input type="text" id="text-input" maxlength="1">
-        <button id="save-button">Save</button>
-    </div>
 
+        .settingsbox {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 20px;
+        }
+
+        .color-button {
+            border: .2rem groove black !important;
+            width: 20px;
+            height: 20px;
+            border: none;
+            margin: 2px;
+            cursor: pointer;
+        }
+
+        .close-button {
+            background-color: transparent;
+            color: red;
+            border: none;
+            font-size: 20px;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            cursor: pointer;
+            outline: none;
+        }
+
+            .close-button:hover {
+                color: darkred; /* Change the color on hover */
+            }
+
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1.5rem); /* Adjust the number of columns as needed */
+            gap: 0;
+            margin-top: 10px; /* Add some margin for separation */
+        }
+    </style>
 
     <script>
-        const gridSize = 100;
-        let playerX = Math.floor(69);
-        let playerY = Math.floor(69);
-
-        const gridContainer = document.getElementById('game-container');
-        const grid = [];
-        for (let y = 0; y < gridSize; y++) {
-            const row = [];
-            for (let x = 0; x < gridSize; x++) {
-                row.push({ text: '.', color: '#ffffff' }); // Initialize with default values
+        function toggleSettings() {
+            var box = document.getElementById("settings");
+            if (box.style.display === "none") {
+                box.style.display = "block";
+            } else {
+                box.style.display = "none";
             }
-            grid.push(row);
         }
-        function updateGrid() {
-            gridContainer.innerHTML = '';
+    </script>
 
-            const viewSize = 5;
+</head>
+<body>
+    <div id="main-container">
+        <div id="game-container"></div>
+        <div id="player-position">Player Position: X, Y</div>
 
-            for (let y = playerY - viewSize; y <= playerY + viewSize; y++) {
-                for (let x = playerX - viewSize; x <= playerX + viewSize; x++) {
-                    if (y >= 0 && y < gridSize && x >= 0 && x < gridSize) {
-                        const cell = document.createElement('div');
-                        cell.className = 'grid-cell';
-                        cell.textContent = grid[y][x].text; // Set text content
-                        cell.style.backgroundColor = grid[y][x].color; // Set background color
+        <div id="edit-box" style="display: none;">
+            <button id="close-button" class="close-button">✕</button>
+            <div id="edit-box-text"></div>
+            <div id="color-buttons" class="color-grid">
+                <button class="color-button" data-color="#ffffff" style="background-color: #ffffff;"></button>
+                <button class="color-button" data-color="#969696" style="background-color: #969696;"></button>
+                <button class="color-button" data-color="#000000" style="background-color: #000000;"></button>
+                <button class="color-button" data-color="#ff0000" style="background-color: #ff0000;"></button>
+                <button class="color-button" data-color="#00ff00" style="background-color: #00ff00;"></button>
+                <button class="color-button" data-color="#0000ff" style="background-color: #0000ff;"></button>
+                <button class="color-button" data-color="#ffff00" style="background-color: #ffff00;"></button>
+                <button class="color-button" data-color="#ff00ff" style="background-color: #ff00ff;"></button>
+                <button class="color-button" data-color="#00ffff" style="background-color: #00ffff;"></button>
+                <button class="color-button" data-color="#ff8000" style="background-color: #ff8000;"></button>
+                <button class="color-button" data-color="#8000ff" style="background-color: #8000ff;"></button>
+                <button class="color-button" data-color="#80ff00" style="background-color: #80ff00;"></button>
+                <button class="color-button" data-color="#0080ff" style="background-color: #0080ff;"></button>
+                <button class="color-button" data-color="#ff0080" style="background-color: #ff0080;"></button>
+                <button class="color-button" data-color="#00ff80" style="background-color: #00ff80;"></button>
+                <button class="color-button" data-color="#804000" style="background-color: #804000;"></button>
+                <button class="color-button" data-color="#400080" style="background-color: #400080;"></button>
+                <button class="color-button" data-color="#408000" style="background-color: #408000;"></button>
+                <button class="color-button" data-color="#004080" style="background-color: #004080;"></button>
+                <button class="color-button" data-color="#800040" style="background-color: #800040;"></button>
+                <button class="color-button" data-color="#008040" style="background-color: #008040;"></button>
+                <button class="color-button" data-color="#804080" style="background-color: #804080;"></button>
+                <button class="color-button" data-color="#808000" style="background-color: #808000;"></button>
+                <button class="color-button" data-color="#008080" style="background-color: #008080;"></button>
+                <button class="color-button" data-color="#800080" style="background-color: #800080;"></button>
 
-                        if (x === playerX && y === playerY) {
-                            cell.textContent = 'P';
-                        }
 
-                        cell.addEventListener('click', () => handleCellClick(x, y));
-                        gridContainer.appendChild(cell);
+            </div>
+            <input type="text" id="text-input" maxlength="1">
+            <button id="save-button">Save</button>
+        </div>
 
-                        cell.setAttribute('data-x', x);
-                        cell.setAttribute('data-y', y);
 
-                    }
+
+
+
+
+        <br />
+        <div style="margin-top:2rem; border: 2px groove grey; width: 50%;">
+            <button onclick="toggleSettings()">Settings</button>
+            <div class="settingsbox" id="settings">
+                <!-- Existing Save and Load buttons -->
+                <button id="save-file-button">Save Game</button>
+                <button id="load-file-button">Load Game</button>
+
+                <!-- New Brush Settings -->
+                <div id="brush-settings" style="margin-top:2rem; border: 2px groove grey; width: 100%;">
+                    <!-- Toggle Brush Mode -->
+                    <button id="toggle-brush-mode">Toggle Brush Mode</button>
+                    <p>Brush Settings</p>
+                    <label>Brush Charachter</label>
+                    <input type="text" id="brush-character-input" placeholder="Brush Character" maxlength="1">
+                    <br />
+                    <label>Brush Color</label>
+                    <input type="color" id="brush-color-input" value="#ffffff">
+                    <br />
+                    <label>Brush Size</label>
+                    <input type="number" id="brush-size-input" min="1" value="1">
+                </div>
+            </div>
+        </div>
+
+        <script>
+
+            //----------------------------------
+            //
+            //
+            //Basic Grid Functionality
+            //
+            //
+            //--------------------------------------
+            const gridSize = 100;
+            let playerX = Math.floor(69);
+            let playerY = Math.floor(69);
+
+            const gridContainer = document.getElementById('game-container');
+            const grid = [];
+            for (let y = 0; y < gridSize; y++) {
+                const row = [];
+                for (let x = 0; x < gridSize; x++) {
+                    row.push({ text: '.', color: '#ffffff' }); // Initialize with default values
                 }
-                gridContainer.appendChild(document.createElement('br'));
+                grid.push(row);
             }
-        }
+            function updateGrid() {
+                gridContainer.innerHTML = '';
 
+                const viewSize = 5;
 
+                for (let y = playerY - viewSize; y <= playerY + viewSize; y++) {
+                    for (let x = playerX - viewSize; x <= playerX + viewSize; x++) {
+                        if (y >= 0 && y < gridSize && x >= 0 && x < gridSize) {
+                            const cell = document.createElement('div');
+                            cell.className = 'grid-cell';
+                            cell.textContent = grid[y][x].text; // Set text content
+                            cell.style.backgroundColor = grid[y][x].color; // Set background color
 
-        updateGrid();
+                            if (x === playerX && y === playerY) {
+                                cell.textContent = 'P';
+                            }
 
-        // Add variables to store the current editing cell's position and references to the edit box elements
-        let editingX = -1;
-        let editingY = -1;
-        const editBox = document.getElementById('edit-box');
-        const colorPicker = document.getElementById('color-picker');
-        const textInput = document.getElementById('text-input');
-        const saveButton = document.getElementById('save-button');
+                            cell.addEventListener('click', () => handleCellClick(x, y));
+                            gridContainer.appendChild(cell);
 
-        // Add event listener to the save button
-        saveButton.addEventListener('click', () => {
-            if (editingX >= 0 && editingY >= 0) {
-                const selectedColor = colorPicker.value;
-                const cell = gridContainer.querySelector(`[data-x="${editingX}"][data-y="${editingY}"]`);
-                cell.style.backgroundColor = selectedColor;
-                cell.textContent = textInput.value; // Update the cell's text content
-                grid[editingY][editingX] = { text: textInput.value, color: selectedColor }; // Update the grid with the cell's text content
-                editBox.style.display = 'none';
+                            cell.setAttribute('data-x', x);
+                            cell.setAttribute('data-y', y);
+
+                        }
+                    }
+                    gridContainer.appendChild(document.createElement('br'));
+                }
             }
-        });
-
-        // Update handleCellClick function to show the edit box with current cell data
-        function handleCellClick(x, y) {
-            editingX = x;
-            editingY = y;
-            const cell = gridContainer.querySelector(`[data-x="${x}"][data-y="${y}"]`);
-            const initialText = (grid[y][x] && grid[y][x].text) || '.'; // Use "." if the cell is empty
-            const initialColor = cell.style.backgroundColor || '#ffffff';
-            textInput.value = initialText;
-            colorPicker.value = rgbToHex(initialColor);
-            editBox.style.left = `${cell.offsetLeft}px`;
-            editBox.style.top = `${cell.offsetTop}px`;
-            editBox.style.display = 'block';
-        }
 
 
-        // Helper function to convert RGB color to hexadecimal
-        function rgbToHex(rgbColor) {
-            const parts = rgbColor.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-            return "#" + parts.slice(1).map(part => parseInt(part).toString(16).padStart(2, '0')).join('');
-        }
-
-
-
-        function movePlayer(direction) {
-            switch (direction) {
-                case 'north':
-                    if (playerY > 0) {
-                        playerY--;
-                    }
-                    break;
-                case 'south':
-                    if (playerY < gridSize - 1) {
-                        playerY++;
-                    }
-                    break;
-                case 'west':
-                    if (playerX > 0) {
-                        playerX--;
-                    }
-                    break;
-                case 'east':
-                    if (playerX < gridSize - 1) {
-                        playerX++;
-                    }
-                    break;
-            }
 
             updateGrid();
-            updatePlayerPosition();
-        }
 
-        function updatePlayerPosition() {
-            const positionElement = document.getElementById('player-position');
-            positionElement.textContent = `Player Position: ${playerX}, ${playerY}`;
-        }
+            // Add variables to store the current editing cell's position and references to the edit box elements
+            let editingX = -1;
+            let editingY = -1;
+            const editBox = document.getElementById('edit-box');
+            const textInput = document.getElementById('text-input');
+            const colorButtons = document.querySelectorAll('.color-button');
+            const saveButton = document.getElementById('save-button');
 
-        document.addEventListener('keydown', (event) => {
-            switch (event.key) {
-                case 'ArrowUp':
-                    movePlayer('north');
-                    break;
-                case 'ArrowDown':
-                    movePlayer('south');
-                    break;
-                case 'ArrowLeft':
-                    movePlayer('west');
-                    break;
-                case 'ArrowRight':
-                    movePlayer('east');
-                    break;
+            // Add event listeners to color buttons
+            colorButtons.forEach(button => {
+                const color = button.getAttribute('data-color');
+                button.style.backgroundColor = color; // Set button background color
+                button.addEventListener('click', () => handleColorButtonClick(button, color));
+            });
+
+            // Handle color button click
+            function handleColorButtonClick(button, selectedColor) {
+                const cell = gridContainer.querySelector(`[data-x="${editingX}"][data-y="${editingY}"]`);
+                cell.style.backgroundColor = selectedColor;
+                button.style.backgroundColor = selectedColor; // Update button color
+                grid[editingY][editingX] = { text: textInput.value, color: selectedColor };
+                editBox.style.display = 'none';
             }
-        });
+
+            // Handle close button click
+            function handleCloseButtonClick() {
+                editBox.style.display = 'none';
+            }
+
+            // Handle color button click
+            function handleColorButtonClick(button, selectedColor) {
+                const cell = gridContainer.querySelector(`[data-x="${editingX}"][data-y="${editingY}"]`);
+                cell.style.backgroundColor = selectedColor;
+                button.style.backgroundColor = selectedColor; // Update button color
+                grid[editingY][editingX] = { text: textInput.value, color: selectedColor };
+                editBox.style.display = 'none';
+            }
+
+            // Add an event listener to the close button
+            const closeButton = document.getElementById('close-button');
+            closeButton.addEventListener('click', handleCloseButtonClick);
+
+            // Add event listener to the save button
+            saveButton.addEventListener('click', () => {
+                if (editingX >= 0 && editingY >= 0) {
+                    const selectedColor = grid[editingY][editingX].color; // Get the color from the grid
+                    const cell = gridContainer.querySelector(`[data-x="${editingX}"][data-y="${editingY}"]`);
+                    cell.style.backgroundColor = selectedColor;
+                    cell.textContent = textInput.value; // Update the cell's text content
+                    grid[editingY][editingX] = { text: textInput.value, color: selectedColor }; // Update the grid with the cell's text content
+                    editBox.style.display = 'none';
+                }
+            });
+
+            function handleCellClick(x, y) {
+                if (brushModeEnabled) {
+                    for (let i = -Math.floor(selectedBrushSize / 2); i <= Math.floor(selectedBrushSize / 2); i++) {
+                        for (let j = -Math.floor(selectedBrushSize / 2); j <= Math.floor(selectedBrushSize / 2); j++) {
+                            const targetX = x + i;
+                            const targetY = y + j;
+                            if (targetX >= 0 && targetX < gridSize && targetY >= 0 && targetY < gridSize) {
+                                grid[targetY][targetX] = { text: selectedBrushCharacter, color: selectedBrushColor };
+                            }
+                        }
+                    }
+                    updateGrid();
+                } else {
+                    editingX = x;
+                    editingY = y;
+                    const cell = gridContainer.querySelector(`[data-x="${x}"][data-y="${y}"]`);
+                    const initialText = (grid[y][x] && grid[y][x].text) || '.';
+                    textInput.value = initialText;
+
+                    // Update the edit box text to show the coordinates
+                    const editBoxText = document.getElementById('edit-box-text');
+                    editBoxText.textContent = `Edit [${x}, ${y}]`;
+
+                    editBox.style.left = `${cell.offsetLeft}px`;
+                    editBox.style.top = `${cell.offsetTop}px`;
+                    editBox.style.display = 'block';
+                }
+            }
+
+            //---------------------------
+            //
+            //
+            //              Player Movement
+            //
+            //
+            //------------------------------
+
+            function movePlayer(direction) {
+                switch (direction) {
+                    case 'north':
+                        if (playerY > 0) {
+                            playerY--;
+                        }
+                        break;
+                    case 'south':
+                        if (playerY < gridSize - 1) {
+                            playerY++;
+                        }
+                        break;
+                    case 'west':
+                        if (playerX > 0) {
+                            playerX--;
+                        }
+                        break;
+                    case 'east':
+                        if (playerX < gridSize - 1) {
+                            playerX++;
+                        }
+                        break;
+                }
+
+                updateGrid();
+                updatePlayerPosition();
+            }
+
+
+
+            function updatePlayerPosition() {
+                const positionElement = document.getElementById('player-position');
+                positionElement.textContent = `Player Position: ${playerX}, ${playerY}`;
+            }
+
+            document.addEventListener('keydown', (event) => {
+                switch (event.key) {
+                    case 'ArrowUp':
+                        movePlayer('north');
+                        break;
+                    case 'ArrowDown':
+                        movePlayer('south');
+                        break;
+                    case 'ArrowLeft':
+                        movePlayer('west');
+                        break;
+                    case 'ArrowRight':
+                        movePlayer('east');
+                        break;
+                }
+            });
+
+
+            //----------------------------------
+            //
+            //
+            //Brush Mode
+            //
+            //
+            //--------------------------------------
+
+
+            let brushModeEnabled = false;
+            let selectedBrushCharacter = '.';
+            let selectedBrushColor = '#ffffff';
+            let selectedBrushSize = 1;
+
+
+            const brushCharacterInput = document.getElementById('brush-character-input');
+            brushCharacterInput.addEventListener('input', (event) => {
+                selectedBrushCharacter = event.target.value;
+            });
+
+            const brushColorInput = document.getElementById('brush-color-input');
+            brushColorInput.addEventListener('input', (event) => {
+                selectedBrushColor = event.target.value;
+            });
+
+            const brushSizeInput = document.getElementById('brush-size-input');
+            brushSizeInput.addEventListener('input', (event) => {
+                selectedBrushSize = parseInt(event.target.value);
+            });
+
+            const toggleBrushModeButton = document.getElementById('toggle-brush-mode');
+            toggleBrushModeButton.addEventListener('click', () => {
+                brushModeEnabled = !brushModeEnabled;
+                toggleBrushModeButton.textContent = brushModeEnabled ? 'Disable Brush Mode' : 'Enable Brush Mode';
+            });
+
+
+            // Helper function to convert RGB color to hexadecimal
+            function rgbToHex(rgbColor) {
+                const parts = rgbColor.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+                return "#" + parts.slice(1).map(part => parseInt(part).toString(16).padStart(2, '0')).join('');
+            }
+
+
+            function toggleBrushSettings() {
+                const brushSettingsBox = document.getElementById('brush-settings');
+                if (brushSettingsBox.style.display === "none") {
+                    brushSettingsBox.style.display = "block";
+                } else {
+                    brushSettingsBox.style.display = "none";
+                }
+            }
+
+            const brushSaveButton = document.getElementById('brush-save-button');
+            brushSaveButton.addEventListener('click', () => {
+                const brushSettingsBox = document.getElementById('brush-settings');
+                brushSettingsBox.style.display = 'none';
+                brushCharacterInput.value = selectedBrushCharacter;
+                brushColorInput.value = selectedBrushColor;
+                brushSizeInput.value = selectedBrushSize;
+            });
 
 
 
 
-        //When the Page Loads, execute these commands
-        window.addEventListener("load", (event) => {
-            updatePlayerPosition();
 
 
-            //Place Commands before here
-            console.log("page is fully loaded");
-        });
-    </script>
+            // Add event listeners to brush color buttons
+            const brushColorButtons = document.querySelectorAll('#brush-color-buttons .color-button');
+            brushColorButtons.forEach(button => {
+                const color = button.getAttribute('data-color');
+                button.style.backgroundColor = color;
+                button.addEventListener('click', () => handleBrushColorButtonClick(color));
+            });
+
+            // Handle brush color button click
+            function handleBrushColorButtonClick(color) {
+                brushColor = color;
+            }
+
+
+            // Add event listener to grid cells to apply brush settings
+            gridContainer.addEventListener('click', (event) => {
+                const clickedCell = event.target;
+                if (editingX >= 0 && editingY >= 0) {
+                    const x = parseInt(clickedCell.getAttribute('data-x'));
+                    const y = parseInt(clickedCell.getAttribute('data-y'));
+                    grid[y][x] = { text: brushCharacter, color: brushColor };
+                    updateGrid();
+                }
+            });
+
+
+
+            // Function to save grid data to a file
+            function saveToFile(data, filename) {
+                const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                a.click();
+                URL.revokeObjectURL(url);
+            }
+
+            // Function to load grid data from a file
+            function loadFromFile(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        const data = JSON.parse(event.target.result);
+                        resolve(data);
+                    };
+                    reader.onerror = () => {
+                        reject(new Error('Failed to load file.'));
+                    };
+                    reader.readAsText(file);
+                });
+            }
+
+
+
+            const saveFileButton = document.getElementById('save-file-button');
+            const loadFileButton = document.getElementById('load-file-button');
+
+            saveFileButton.addEventListener('click', () => {
+                saveToFile(grid, 'grid_data.json');
+            });
+
+            loadFileButton.addEventListener('click', async () => {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = '.json';
+                input.addEventListener('change', async (event) => {
+                    const file = event.target.files[0];
+                    if (file) {
+                        try {
+                            const loadedData = await loadFromFile(file);
+                            if (Array.isArray(loadedData)) {
+                                grid.splice(0, grid.length, ...loadedData);
+                                updateGrid();
+                            } else {
+                                console.error('Invalid data format.');
+                            }
+                        } catch (error) {
+                            console.error(error);
+                        }
+                    }
+                });
+                input.click();
+            });
+
+            //When the Page Loads, execute these commands
+            window.addEventListener("load", (event) => {
+                updateGrid();
+                updatePlayerPosition();
+
+
+                //Place Commands before here
+                console.log("page is fully loaded");
+            });
+        </script>
+
+
+
+
+    </div>
 </body>
 </html>
