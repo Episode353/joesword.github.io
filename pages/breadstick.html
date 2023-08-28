@@ -106,7 +106,6 @@
             pointer-events: none;
             white-space: nowrap;
         }
-
     </style>
 
     <script>
@@ -226,7 +225,7 @@
             let playerY = Math.floor(69);
 
             //Symbols
-            const signUnicodeCharacter = 'Ħ';
+            const signUnicodeCharacter = 's';
 
 
             const gridContainer = document.getElementById('game-container');
@@ -234,7 +233,8 @@
             for (let y = 0; y < gridSize; y++) {
                 const row = [];
                 for (let x = 0; x < gridSize; x++) {
-                    row.push({ text: '.', color: '#ffffff', signText: '' }); // Initialize with default values
+                    row.push({ text: '.', color: '#ffffff', sign: '' }); // Initialize with default values
+
                 }
                 grid.push(row);
             }
@@ -250,8 +250,8 @@
                 }
             });
 
-            // Modify your updateGrid() function to use the dynamic viewSize
             function updateGrid() {
+                console.log('Updating grid');
                 gridContainer.innerHTML = '';
 
                 for (let y = playerY - viewSize; y <= playerY + viewSize; y++) {
@@ -259,8 +259,13 @@
                         if (y >= 0 && y < gridSize && x >= 0 && x < gridSize) {
                             const cell = document.createElement('div');
                             cell.className = 'grid-cell';
-                            cell.textContent = grid[y][x].text; // Set text content
-                            cell.style.backgroundColor = grid[y][x].color; // Set background color
+                            cell.textContent = grid[y][x].text;
+
+                            if (grid[y][x].sign) {
+                                cell.textContent = signUnicodeCharacter; // Set only the special character for the sign
+                            }
+
+                            cell.style.backgroundColor = grid[y][x].color;
 
                             if (x === playerX && y === playerY) {
                                 cell.textContent = 'P';
@@ -271,12 +276,12 @@
 
                             cell.setAttribute('data-x', x);
                             cell.setAttribute('data-y', y);
-
                         }
                     }
                     gridContainer.appendChild(document.createElement('br'));
                 }
             }
+
 
 
 
@@ -456,7 +461,7 @@
             });
 
 
-              
+
 
             let signModeEnabled = false; // Initialize sign mode as disabled
 
@@ -464,7 +469,8 @@
             saveSignButton.addEventListener('click', () => {
                 if (editingX >= 0 && editingY >= 0) {
                     const signText = document.getElementById('sign-text-input').value;
-                    grid[editingY][editingX].signText = signText;
+                    grid[editingY][editingX].sign = signText;
+
 
                     // Set the Unicode character as the text content of the grid cell
                     const cell = gridContainer.querySelector(`[data-x="${editingX}"][data-y="${editingY}"]`);
@@ -475,41 +481,22 @@
             });
 
 
-
+            // Add event listener to grid cells to show tooltip for signs
             gridContainer.addEventListener('mouseover', (event) => {
                 const cell = event.target;
                 const x = parseInt(cell.getAttribute('data-x'));
                 const y = parseInt(cell.getAttribute('data-y'));
 
-                if (grid[y][x].signText !== '') {
+                if (grid[y][x].sign !== '') {
                     const tooltip = document.getElementById('tooltip');
-                    tooltip.textContent = grid[y][x].signText;
-
-                    const leftOffset = event.clientX + window.scrollX - tooltip.clientWidth / 2;
-                    const topOffset = event.clientY + window.scrollY - tooltip.clientHeight - 10;
-
-                    tooltip.style.display = 'block';
-                    tooltip.style.left = `${leftOffset}px`;
-                    tooltip.style.top = `${topOffset}px`;
-                }
-            });
-
-
-            // Add event listener to grid cells to show tooltip
-            gridContainer.addEventListener('mouseover', (event) => {
-                const cell = event.target;
-                const x = parseInt(cell.getAttribute('data-x'));
-                const y = parseInt(cell.getAttribute('data-y'));
-
-                if (grid[y][x].signText !== '') {
-                    const tooltip = document.getElementById('tooltip');
-                    tooltip.textContent = grid[y][x].signText;
+                    tooltip.textContent = grid[y][x].sign;
                     tooltip.style.display = 'block';
                     tooltip.style.left = `${event.clientX}px`;
                     tooltip.style.top = `${event.clientY}px`;
                 }
             });
 
+            // Add event listener to hide tooltip when the mouse leaves the cell
             gridContainer.addEventListener('mouseout', () => {
                 const tooltip = document.getElementById('tooltip');
                 tooltip.style.display = 'none';
@@ -526,6 +513,8 @@
             //------------------------------
 
             function movePlayer(direction) {
+                console.log('Moving player', direction);
+
                 switch (direction) {
                     case 'north':
                         if (playerY > 0) {
@@ -630,15 +619,33 @@
                 updateGrid();
             }
 
-            // Add event listener to grid cells to apply the brush settings
             gridContainer.addEventListener('click', (event) => {
-                const clickedCell = event.target;
-                const x = parseInt(clickedCell.getAttribute('data-x'));
-                const y = parseInt(clickedCell.getAttribute('data-y'));
+                const cell = event.target;
+                const x = parseInt(cell.getAttribute('data-x'));
+                const y = parseInt(cell.getAttribute('data-y'));
 
-                if (brushModeEnabled) {
+                if (signModeEnabled) {
+                    // Handle sign mode
+                    editingX = x;
+                    editingY = y;
+
+                    const signText = grid[y][x].signText || '';
+                    const signTextInput = document.getElementById('sign-text-input');
+                    signTextInput.value = signText;
+
+                    const editBoxText = document.getElementById('edit-box-text');
+                    editBoxText.textContent = `Edit [${x}, ${y}] - Sign Text: ${signText}`;
+
+                    const editBox = document.getElementById('edit-box');
+                    const cell = gridContainer.querySelector(`[data-x="${x}"][data-y="${y}"]`);
+                    editBox.style.left = `${cell.offsetLeft}px`;
+                    editBox.style.top = `${cell.offsetTop}px`;
+                    editBox.style.display = 'block';
+                } else if (brushModeEnabled) {
+                    // Handle brush mode
                     applyBrush(x, y);
                 } else {
+                    // Handle regular cell click
                     handleCellClick(x, y);
                 }
             });
