@@ -94,6 +94,19 @@
             gap: 0;
             margin-top: 10px; /* Add some margin for separation */
         }
+
+        #tooltip {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px;
+            font-size: 12px;
+            z-index: 1000;
+            display: none;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
     </style>
 
     <script>
@@ -110,6 +123,7 @@
 </head>
 <body>
     <div id="main-container">
+        <div id="tooltip"></div>
         <div id="game-container"></div>
         <div id="player-position">Player Position: X, Y</div>
 
@@ -149,23 +163,29 @@
             <button id="save-button">Save</button>
         </div>
 
-        <div id="tooltip"></div>
-
-
-        <input type="text" id="sign-text-input" placeholder="Sign Text">
-        <button id="save-sign-button">Save Sign</button>
 
 
 
         <br />
-        <div style="margin-top:2rem; border: 2px groove grey; width: 50%;">
-            <button onclick="toggleSettings()">Settings</button>
+        <div style="margin-top:2rem; border: 2px groove grey; width: 30%;">
+            <button onclick="toggleSettings()" style="margin-left:50%;">Settings</button>
             <div class="settingsbox" id="settings">
                 <!-- Existing Save and Load buttons -->
                 <button id="save-file-button">Save Game</button>
+                <br />
                 <button id="load-file-button">Load Game</button>
+                <br />
 
+                <label for="grid-size-input">Grid Size: </label>
+                <input type="number" id="grid-size-input" min="10" max="25" value="10">
+                <button id="apply-grid-size">Apply Grid Size</button>
+                <br />
                 <!-- New Brush Settings -->
+                <button id="toggle-sign-mode">Toggle Sign Mode</button>
+
+                <input type="text" id="sign-text-input" placeholder="Enter sign text">
+                <button id="save-sign-button">Save Sign</button>
+
                 <div id="brush-settings" style="margin-top:2rem; border: 2px groove grey; width: 100%;">
                     <!-- Toggle Brush Mode -->
                     <button id="toggle-brush-mode">Toggle Brush Mode</button>
@@ -179,11 +199,12 @@
                     <label>Brush Size</label>
                     <input type="number" id="brush-size-input" min="1" value="1">
                 </div>
+
+
+
+
             </div>
 
-            <label for="grid-size-input">Grid Size: </label>
-            <input type="number" id="grid-size-input" min="10" max="25" value="10">
-            <button id="apply-grid-size">Apply Grid Size</button>
 
 
         </div>
@@ -310,37 +331,119 @@
             });
 
             function handleCellClick(x, y) {
-                if (brushModeEnabled) {
-                    for (let i = -Math.floor(selectedBrushSize / 2); i <= Math.floor(selectedBrushSize / 2); i++) {
-                        for (let j = -Math.floor(selectedBrushSize / 2); j <= Math.floor(selectedBrushSize / 2); j++) {
-                            const targetX = x + i;
-                            const targetY = y + j;
-                            if (targetX >= 0 && targetX < gridSize && targetY >= 0 && targetY < gridSize) {
-                                grid[targetY][targetX] = { text: selectedBrushCharacter, color: selectedBrushColor };
-                            }
-                        }
-                    }
-                    updateGrid();
+                if (signModeEnabled) {
+                    editingX = x;
+                    editingY = y;
+
+                    const cell = gridContainer.querySelector(`[data-x="${x}"][data-y="${y}"]`);
+                    const initialText = (grid[y][x] && grid[y][x].text) || '.';
+                    textInput.value = initialText;
+
+                    const editBoxText = document.getElementById('edit-box-text');
+                    editBoxText.textContent = `Edit [${x}, ${y}]`;
+
+                    const signTextInput = document.getElementById('sign-text-input');
+                    signTextInput.value = grid[y][x].signText || ''; // Set the sign text input's value
+
+                    const signText = grid[y][x].signText || ''; // Get the sign text
+                    signTextInput.value = signText;
+
+                    editBoxText.textContent = `Edit [${x}, ${y}] - Sign Text: ${signText}`;
+
+                    editBox.style.left = `${cell.offsetLeft}px`;
+                    editBox.style.top = `${cell.offsetTop}px`;
+                    editBox.style.display = 'block';
                 } else {
+                    // Your existing cell editing code here...
                     editingX = x;
                     editingY = y;
                     const cell = gridContainer.querySelector(`[data-x="${x}"][data-y="${y}"]`);
                     const initialText = (grid[y][x] && grid[y][x].text) || '.';
                     textInput.value = initialText;
 
-                    // Update the edit box text to show the coordinates
                     const editBoxText = document.getElementById('edit-box-text');
                     editBoxText.textContent = `Edit [${x}, ${y}]`;
 
-                    // Set the sign text input value
                     const signTextInput = document.getElementById('sign-text-input');
                     signTextInput.value = grid[y][x].signText;
+
+                    const signText = grid[y][x].signText || ''; // Get the sign text
+                    signTextInput.value = signText;
+
+                    editBoxText.textContent = `Edit [${x}, ${y}] - Sign Text: ${signText}`;
 
                     editBox.style.left = `${cell.offsetLeft}px`;
                     editBox.style.top = `${cell.offsetTop}px`;
                     editBox.style.display = 'block';
                 }
             }
+
+
+            //---------------------------
+            //
+            //          Sign
+            //
+            //---------------------------
+
+
+
+            const toggleSignModeButton = document.getElementById('toggle-sign-mode');
+            toggleSignModeButton.addEventListener('click', () => {
+                signModeEnabled = !signModeEnabled;
+                toggleSignModeButton.textContent = signModeEnabled ? 'Disable Sign Mode' : 'Enable Sign Mode';
+            });
+
+            let signModeEnabled = false; // Initialize sign mode as disabled
+
+            const saveSignButton = document.getElementById('save-sign-button');
+            saveSignButton.addEventListener('click', () => {
+                if (editingX >= 0 && editingY >= 0) {
+                    const signText = document.getElementById('sign-text-input').value;
+                    grid[editingY][editingX].signText = signText;
+                    editBox.style.display = 'none';
+                }
+            });
+
+            gridContainer.addEventListener('mouseover', (event) => {
+                const cell = event.target;
+                const x = parseInt(cell.getAttribute('data-x'));
+                const y = parseInt(cell.getAttribute('data-y'));
+
+                if (grid[y][x].signText !== '') {
+                    const tooltip = document.getElementById('tooltip');
+                    tooltip.textContent = grid[y][x].signText;
+
+                    const leftOffset = event.clientX + window.scrollX - tooltip.clientWidth / 2;
+                    const topOffset = event.clientY + window.scrollY - tooltip.clientHeight - 10;
+
+                    tooltip.style.display = 'block';
+                    tooltip.style.left = `${leftOffset}px`;
+                    tooltip.style.top = `${topOffset}px`;
+                }
+            });
+
+
+            // Add event listener to grid cells to show tooltip
+            gridContainer.addEventListener('mouseover', (event) => {
+                const cell = event.target;
+                const x = parseInt(cell.getAttribute('data-x'));
+                const y = parseInt(cell.getAttribute('data-y'));
+
+                if (grid[y][x].signText !== '') {
+                    const tooltip = document.getElementById('tooltip');
+                    tooltip.textContent = grid[y][x].signText;
+                    tooltip.style.display = 'block';
+                    tooltip.style.left = `${event.clientX}px`;
+                    tooltip.style.top = `${event.clientY}px`;
+                }
+            });
+
+            gridContainer.addEventListener('mouseout', () => {
+                const tooltip = document.getElementById('tooltip');
+                tooltip.style.display = 'none';
+            });
+
+
 
             //---------------------------
             //
@@ -539,15 +642,6 @@
                 }
             }
 
-            const saveSignButton = document.getElementById('save-sign-button');
-            saveSignButton.addEventListener('click', () => {
-                if (editingX >= 0 && editingY >= 0) {
-                    const signText = document.getElementById('sign-text-input').value;
-                    grid[editingY][editingX].signText = signText;
-                    editBox.style.display = 'none';
-                }
-            });
-
 
 
 
@@ -592,6 +686,7 @@
                     });
                     input.click();
                 });
+
 
                 //Place Commands before here
                 console.log("page is fully loaded");
