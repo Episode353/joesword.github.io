@@ -225,6 +225,10 @@
             let playerX = Math.floor(69);
             let playerY = Math.floor(69);
 
+            //Symbols
+            const signUnicodeCharacter = 'Ħ';
+
+
             const gridContainer = document.getElementById('game-container');
             const grid = [];
             for (let y = 0; y < gridSize; y++) {
@@ -413,30 +417,29 @@
                     const editboxSavebutton = document.getElementById('save-button');
                     const editboxSignSavebutton = document.getElementById('save-sign-button');
                     const signTextInput = document.getElementById('sign-text-input');
-                    const editBoxText = document.getElementById('edit-box-text'); // Get the edit-box-text element
+                    const editBoxText = document.getElementById('edit-box-text');
+                    const editboxtextinput = document.getElementById('text-input');
 
                     if (signModeEnabled) {
                         // Update UI for sign mode
                         editboxSignSavebutton.style.display = 'block';
                         editboxSavebutton.style.display = 'none';
                         signTextInput.style.display = 'block';
-
-                        // Set the edit-box-text content including the sign text
+                        editboxtextinput.style.display = 'none';
+                        cell.textContent = signUnicodeCharacter;
                         editBoxText.textContent = `Edit [${editingX}, ${editingY}] - Sign Text: ${grid[editingY][editingX].signText}`;
                     } else {
                         // Update UI for edit mode
                         editboxSavebutton.style.display = 'block';
                         editboxSignSavebutton.style.display = 'none';
                         signTextInput.style.display = 'none';
-
-                        // Set the edit-box-text content without the sign text
+                        editboxtextinput.style.display = 'block';
+                        cell.textContent = grid[editingY][editingX].text; // Restore the original cell text
                         editBoxText.textContent = `Edit [${editingX}, ${editingY}]`;
                     }
-
-
-                    // Update other UI elements as needed
                 }
             }
+
 
 
 
@@ -445,9 +448,13 @@
                 signModeEnabled = !signModeEnabled;
                 toggleSignModeButton.textContent = signModeEnabled ? 'Disable Sign Mode' : 'Enable Sign Mode';
 
-                // Call the function to update the UI based on the new mode
+                // Update UI based on the new mode
                 updateUI();
+
+                // Update the brush mode button based on the sign mode status
+                toggleBrushModeButton.disabled = signModeEnabled;
             });
+
 
               
 
@@ -458,9 +465,16 @@
                 if (editingX >= 0 && editingY >= 0) {
                     const signText = document.getElementById('sign-text-input').value;
                     grid[editingY][editingX].signText = signText;
+
+                    // Set the Unicode character as the text content of the grid cell
+                    const cell = gridContainer.querySelector(`[data-x="${editingX}"][data-y="${editingY}"]`);
+                    cell.textContent = signUnicodeCharacter;
+
                     editBox.style.display = 'none';
                 }
             });
+
+
 
             gridContainer.addEventListener('mouseover', (event) => {
                 const cell = event.target;
