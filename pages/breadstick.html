@@ -365,6 +365,11 @@
                     editBox.style.left = `${cell.offsetLeft}px`;
                     editBox.style.top = `${cell.offsetTop}px`;
                     editBox.style.display = 'block';
+
+                } else if (brushModeEnabled) {
+                    // Apply the brush settings when in brush mode
+                    applyBrush(x, y);
+
                 } else {
                     editingX = x;
                     editingY = y;
@@ -568,14 +573,13 @@
             //
             //
             //--------------------------------------
-
-
+            // Add these variables at the top of your script to define brush settings
             let brushModeEnabled = false;
             let selectedBrushCharacter = '.';
             let selectedBrushColor = '#ffffff';
             let selectedBrushSize = 1;
 
-
+            // Add event listeners for brush settings
             const brushCharacterInput = document.getElementById('brush-character-input');
             brushCharacterInput.addEventListener('input', (event) => {
                 selectedBrushCharacter = event.target.value;
@@ -597,61 +601,34 @@
                 toggleBrushModeButton.textContent = brushModeEnabled ? 'Disable Brush Mode' : 'Enable Brush Mode';
             });
 
+            function applyBrush(x, y) {
+                for (let dx = -selectedBrushSize; dx <= selectedBrushSize; dx++) {
+                    for (let dy = -selectedBrushSize; dy <= selectedBrushSize; dy++) {
+                        const newX = x + dx;
+                        const newY = y + dy;
 
-            // Helper function to convert RGB color to hexadecimal
-            function rgbToHex(rgbColor) {
-                const parts = rgbColor.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-                return "#" + parts.slice(1).map(part => parseInt(part).toString(16).padStart(2, '0')).join('');
-            }
-
-
-            function toggleBrushSettings() {
-                const brushSettingsBox = document.getElementById('brush-settings');
-                if (brushSettingsBox.style.display === "none") {
-                    brushSettingsBox.style.display = "block";
-                } else {
-                    brushSettingsBox.style.display = "none";
+                        if (newX >= 0 && newX < gridSize && newY >= 0 && newY < gridSize) {
+                            grid[newY][newX] = { text: selectedBrushCharacter, color: selectedBrushColor };
+                        }
+                    }
                 }
+
+                updateGrid();
             }
 
-            const brushSaveButton = document.getElementById('brush-save-button');
-            brushSaveButton.addEventListener('click', () => {
-                const brushSettingsBox = document.getElementById('brush-settings');
-                brushSettingsBox.style.display = 'none';
-                brushCharacterInput.value = selectedBrushCharacter;
-                brushColorInput.value = selectedBrushColor;
-                brushSizeInput.value = selectedBrushSize;
-            });
-
-
-
-
-
-
-            // Add event listeners to brush color buttons
-            const brushColorButtons = document.querySelectorAll('#brush-color-buttons .color-button');
-            brushColorButtons.forEach(button => {
-                const color = button.getAttribute('data-color');
-                button.style.backgroundColor = color;
-                button.addEventListener('click', () => handleBrushColorButtonClick(color));
-            });
-
-            // Handle brush color button click
-            function handleBrushColorButtonClick(color) {
-                brushColor = color;
-            }
-
-
-            // Add event listener to grid cells to apply brush settings
+            // Add event listener to grid cells to apply the brush settings
             gridContainer.addEventListener('click', (event) => {
                 const clickedCell = event.target;
-                if (editingX >= 0 && editingY >= 0) {
-                    const x = parseInt(clickedCell.getAttribute('data-x'));
-                    const y = parseInt(clickedCell.getAttribute('data-y'));
-                    grid[y][x] = { text: brushCharacter, color: brushColor };
-                    updateGrid();
+                const x = parseInt(clickedCell.getAttribute('data-x'));
+                const y = parseInt(clickedCell.getAttribute('data-y'));
+
+                if (brushModeEnabled) {
+                    applyBrush(x, y);
+                } else {
+                    handleCellClick(x, y);
                 }
             });
+
 
 
 
