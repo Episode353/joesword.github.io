@@ -130,6 +130,7 @@
         <div id="edit-box" style="display: none;">
             <button id="close-button" class="close-button">✕</button>
             <div id="edit-box-text"></div>
+            <button id="toggle-sign-mode">Toggle Sign Mode</button>
             <div id="color-buttons" class="color-grid">
                 <button class="color-button" data-color="#ffffff" style="background-color: #ffffff;"></button>
                 <button class="color-button" data-color="#969696" style="background-color: #969696;"></button>
@@ -159,7 +160,11 @@
 
 
             </div>
-            <input type="text" id="text-input" maxlength="1">
+            <input type="text" id="text-input" maxlength="1" style="width:1rem;">
+            <br />
+            <input type="text" id="sign-text-input" placeholder="Enter sign text">
+            <button id="save-sign-button">Save Sign</button>
+
             <button id="save-button">Save</button>
         </div>
 
@@ -181,10 +186,7 @@
                 <button id="apply-grid-size">Apply Grid Size</button>
                 <br />
                 <!-- New Brush Settings -->
-                <button id="toggle-sign-mode">Toggle Sign Mode</button>
 
-                <input type="text" id="sign-text-input" placeholder="Enter sign text">
-                <button id="save-sign-button">Save Sign</button>
 
                 <div id="brush-settings" style="margin-top:2rem; border: 2px groove grey; width: 100%;">
                     <!-- Toggle Brush Mode -->
@@ -291,14 +293,16 @@
                 button.addEventListener('click', () => handleColorButtonClick(button, color));
             });
 
+
             // Handle color button click
             function handleColorButtonClick(button, selectedColor) {
                 const cell = gridContainer.querySelector(`[data-x="${editingX}"][data-y="${editingY}"]`);
                 cell.style.backgroundColor = selectedColor;
-                button.style.backgroundColor = selectedColor; // Update button color
+                button.style.backgroundColor = selectedColor;
                 grid[editingY][editingX] = { text: textInput.value, color: selectedColor };
                 editBox.style.display = 'none';
             }
+
 
             // Handle close button click
             function handleCloseButtonClick() {
@@ -330,6 +334,8 @@
                 }
             });
 
+
+
             function handleCellClick(x, y) {
                 if (signModeEnabled) {
                     editingX = x;
@@ -338,6 +344,12 @@
                     const cell = gridContainer.querySelector(`[data-x="${x}"][data-y="${y}"]`);
                     const initialText = (grid[y][x] && grid[y][x].text) || '.';
                     textInput.value = initialText;
+
+                    //save - button
+                    const editboxSavebutton = document.getElementById('save-button');
+                    editboxSavebutton.style.display = 'none';
+                    console.log("Save Button hidden");
+                    updateUI();
 
                     const editBoxText = document.getElementById('edit-box-text');
                     editBoxText.textContent = `Edit [${x}, ${y}]`;
@@ -354,12 +366,18 @@
                     editBox.style.top = `${cell.offsetTop}px`;
                     editBox.style.display = 'block';
                 } else {
-                    // Your existing cell editing code here...
                     editingX = x;
                     editingY = y;
                     const cell = gridContainer.querySelector(`[data-x="${x}"][data-y="${y}"]`);
                     const initialText = (grid[y][x] && grid[y][x].text) || '.';
                     textInput.value = initialText;
+
+
+                    //sign save - button
+                    const editboxSignSavebutton = document.getElementById('save-sign-button');
+                    editboxSignSavebutton.style.display = 'none';
+                    console.log("Sign Save Button hidden");
+                    updateUI();
 
                     const editBoxText = document.getElementById('edit-box-text');
                     editBoxText.textContent = `Edit [${x}, ${y}]`;
@@ -370,7 +388,7 @@
                     const signText = grid[y][x].signText || ''; // Get the sign text
                     signTextInput.value = signText;
 
-                    editBoxText.textContent = `Edit [${x}, ${y}] - Sign Text: ${signText}`;
+                    editBoxText.textContent = `Edit [${x}, ${y}]`;
 
                     editBox.style.left = `${cell.offsetLeft}px`;
                     editBox.style.top = `${cell.offsetTop}px`;
@@ -384,6 +402,36 @@
             //          Sign
             //
             //---------------------------
+            function updateUI() {
+                if (editingX >= 0 && editingY >= 0) {
+                    const cell = gridContainer.querySelector(`[data-x="${editingX}"][data-y="${editingY}"]`);
+                    const editboxSavebutton = document.getElementById('save-button');
+                    const editboxSignSavebutton = document.getElementById('save-sign-button');
+                    const signTextInput = document.getElementById('sign-text-input');
+                    const editBoxText = document.getElementById('edit-box-text'); // Get the edit-box-text element
+
+                    if (signModeEnabled) {
+                        // Update UI for sign mode
+                        editboxSignSavebutton.style.display = 'block';
+                        editboxSavebutton.style.display = 'none';
+                        signTextInput.style.display = 'block';
+
+                        // Set the edit-box-text content including the sign text
+                        editBoxText.textContent = `Edit [${editingX}, ${editingY}] - Sign Text: ${grid[editingY][editingX].signText}`;
+                    } else {
+                        // Update UI for edit mode
+                        editboxSavebutton.style.display = 'block';
+                        editboxSignSavebutton.style.display = 'none';
+                        signTextInput.style.display = 'none';
+
+                        // Set the edit-box-text content without the sign text
+                        editBoxText.textContent = `Edit [${editingX}, ${editingY}]`;
+                    }
+
+
+                    // Update other UI elements as needed
+                }
+            }
 
 
 
@@ -391,7 +439,12 @@
             toggleSignModeButton.addEventListener('click', () => {
                 signModeEnabled = !signModeEnabled;
                 toggleSignModeButton.textContent = signModeEnabled ? 'Disable Sign Mode' : 'Enable Sign Mode';
+
+                // Call the function to update the UI based on the new mode
+                updateUI();
             });
+
+              
 
             let signModeEnabled = false; // Initialize sign mode as disabled
 
