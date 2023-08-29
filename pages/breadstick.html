@@ -733,11 +733,13 @@
                 const loadFileButton = document.getElementById('load-file-button');
 
                 let currentDate = new Date().toJSON().slice(0, 10);
-                const filename = `save_from_${currentDate}.`;
+                const filename = `save_from_${currentDate}.json`;
 
                 saveFileButton.addEventListener('click', () => {
                     console.log('Save button clicked');
                     saveToFile(grid, filename);
+                    console.log('File Saved As', filename);
+
                 });
 
                 loadFileButton.addEventListener('click', async () => {
