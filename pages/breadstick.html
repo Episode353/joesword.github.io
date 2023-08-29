@@ -226,7 +226,7 @@
             let playerY = Math.floor(69);
 
             //Symbols
-            const signUnicodeCharacter = 'Ħ';
+            const signUnicodeCharacter = 'S';
 
 
             const gridContainer = document.getElementById('game-container');
@@ -644,6 +644,15 @@
             });
 
 
+            function checkAndReplaceSigns(data) {
+                for (let y = 0; y < gridSize; y++) {
+                    for (let x = 0; x < gridSize; x++) {
+                        if (data[y][x].signText !== '') {
+                            data[y][x].text = signUnicodeCharacter;
+                        }
+                    }
+                }
+            }
 
 
             // Function to save grid data to a file
@@ -657,13 +666,23 @@
                 URL.revokeObjectURL(url);
             }
 
-            // Function to load grid data from a file
-            function loadFromFile(file) {
+            async function loadFromFile(file) {
                 return new Promise((resolve, reject) => {
                     const reader = new FileReader();
-                    reader.onload = (event) => {
-                        const data = JSON.parse(event.target.result);
-                        resolve(data);
+                    reader.onload = async (event) => {
+                        try {
+                            const loadedData = JSON.parse(event.target.result);
+                            if (Array.isArray(loadedData)) {
+                                checkAndReplaceSigns(loadedData); // Check for signs and replace
+                                grid.splice(0, grid.length, ...loadedData);
+                                updateGrid();
+                                resolve(loadedData);
+                            } else {
+                                reject(new Error('Invalid data format.'));
+                            }
+                        } catch (error) {
+                            reject(error);
+                        }
                     };
                     reader.onerror = () => {
                         reject(new Error('Failed to load file.'));
@@ -671,6 +690,9 @@
                     reader.readAsText(file);
                 });
             }
+
+
+
 
 
             cell.addEventListener('mouseover', () => handleCellMouseOver(x, y));
@@ -703,9 +725,12 @@
                 const saveFileButton = document.getElementById('save-file-button');
                 const loadFileButton = document.getElementById('load-file-button');
 
+                let currentDate = new Date().toJSON().slice(0, 10);
+                const filename = `save_from_${currentDate}.`;
+
                 saveFileButton.addEventListener('click', () => {
                     console.log('Save button clicked');
-                    saveToFile(grid, 'grid_data.json');
+                    saveToFile(grid, filename);
                 });
 
                 loadFileButton.addEventListener('click', async () => {
