@@ -195,6 +195,8 @@ const logoutBtn = document.getElementById('logoutBtn');
         const loginStatus = document.getElementById('loginStatus');
         const loginStatusText = document.getElementById('loginStatusText');
         const logoutBtn = document.getElementById('logoutBtn');
+        const NotLoggedIn = document.getElementById('NotLoggedIn');
+        const DNDLoading = document.getElementById('DNDLoading');
 
         if (user) {
             accountBtn.style.display = 'none';
@@ -204,7 +206,10 @@ const logoutBtn = document.getElementById('logoutBtn');
             loginStatusText.textContent = `Logged in as: ${user.email}`;
             loginStatusText.style.color = 'green';
             logoutBtn.style.display = 'block';
+            NotLoggedIn.style.display = 'none';//Hide Not logged in in DND
+            DNDLoading.style.display = 'block';//Show Loading in DND
             notLoggedInMessage.style.display = 'none'; // Hide the "not logged in" message
+            
         } else {
             accountBtn.style.display = 'block';
             dropdownContent.style.display = 'none';
@@ -212,6 +217,7 @@ const logoutBtn = document.getElementById('logoutBtn');
             loginStatus.style.display = 'none';
             logoutBtn.style.display = 'none';
             notLoggedInMessage.style.display = 'block'; // Show the "not logged in" message
+            console.log("User Not logged In");
         }
     });
 
