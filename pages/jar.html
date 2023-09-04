@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Switch with Key Press</title>
+</head>
+<body>
+    <img id="imageSwitch" src="../media/jpg/jar (1).jpg"; alt="Original Image">
+
+    <script>
+        let isKeyPressed = false;
+        let showThirdImage = false;
+        let showFourthImage = false;
+        const originalImageSrc = "../media/jpg/jar (1).jpg";
+        const newImageSrc = "../media/jpg/jar (3).jpg";
+        const thirdImageSrc = "../media/jpg/jar (4).jpg";
+        const fourthImageSrc = "../media/jpg/jar (5).jpg";
+
+        // Function to switch the image
+        function switchImage() {
+            const image = document.getElementById("imageSwitch");
+            if (showFourthImage) {
+                image.src = fourthImageSrc;
+            } else if (showThirdImage) {
+                image.src = thirdImageSrc;
+            } else {
+                image.src = isKeyPressed ? newImageSrc : originalImageSrc;
+            }
+        }
+
+        // Event listener for keydown event
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "v") {
+                isKeyPressed = true;
+                switchImage();
+            } else if (event.key === "b" || event.key === "B") {
+                showThirdImage = true;
+                switchImage();
+            } else if (event.key === "n" || event.key === "N") {
+                showFourthImage = true;
+                switchImage();
+            }
+        });
+
+        // Event listener for keyup event
+        document.addEventListener("keyup", function (event) {
+            if (event.key === "v") {
+                isKeyPressed = false;
+                switchImage();
+            } else if (event.key === "b" || event.key === "B") {
+                showThirdImage = false;
+                switchImage();
+            } else if (event.key === "n" || event.key === "N") {
+                showFourthImage = false;
+                switchImage();
+            }
+        });
+    </script>
+</body>
+</html>
+
