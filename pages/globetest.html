@@ -1,4 +1,6 @@
-﻿<head>
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
     <style>
         body {
             margin: 0;
@@ -51,12 +53,12 @@
         const getAlt = d => d.elevation * 5e-5;
 
         const getTooltip = d => `
-              <div style="text-align: center">
-                <div><b>${d.name}</b>, ${d.country}</div>
-                <div>(${d.type})</div>
-                <div>Elevation: <em>${d.elevation}</em>m</div>
-              </div>
-            `;
+                  <div style="text-align: center">
+                    <div><b>${d.name}</b>, ${d.country}</div>
+                    <div>(${d.type})</div>
+                    <div>Elevation: <em>${d.elevation}</em>m</div>
+                  </div>
+                `;
 
         const myGlobe = Globe()
             .globeImageUrl('../media/jpg/8k_earth_daymap.jpg') // 8k Earth Image
@@ -78,15 +80,18 @@
             .labelSize(0.9)
             .labelResolution(2)
             .labelLabel(getTooltip)
+            .onGlobeReady(() => {
+                // Callback function to invoke immediately after the globe has been initialized and visible on the scene.
+                fetch('../scripts/globe_points.json').then(res => res.json()).then(volcanoes => {
+                    // Hide the loading overlay and display the globe when the image is loaded.
+                    document.getElementById('loading-overlay').style.display = 'none';
+                    document.getElementById('globeViz').style.display = 'block';
+
+                    myGlobe.pointsData(volcanoes)
+                        .labelsData(volcanoes);
+                });
+            })
             (document.getElementById('globeViz'));
-
-        fetch('../scripts/globe_points.json').then(res => res.json()).then(volcanoes => {
-            // Hide the loading overlay and display the globe when the image is loaded.
-            document.getElementById('loading-overlay').style.display = 'none';
-            document.getElementById('globeViz').style.display = 'block';
-
-            myGlobe.pointsData(volcanoes)
-                .labelsData(volcanoes);
-        });
     </script>
 </body>
+</html>
