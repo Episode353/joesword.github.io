@@ -2,6 +2,29 @@
     <style>
         body {
             margin: 0;
+            position: relative;
+        }
+
+        #loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        #loading-text {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        #globeViz {
+            display: none; /* Hide the globe initially */
         }
     </style>
 
@@ -16,6 +39,10 @@
 </head>
 
 <body>
+    <div id="loading-overlay">
+        <div id="loading-text">Loading...</div>
+    </div>
+
     <div id="globeViz"></div>
 
     <script>
@@ -24,17 +51,15 @@
         const getAlt = d => d.elevation * 5e-5;
 
         const getTooltip = d => `
-          <div style="text-align: center">
-            <div><b>${d.name}</b>, ${d.country}</div>
-            <div>(${d.type})</div>
-            <div>Elevation: <em>${d.elevation}</em>m</div>
-          </div>
-        `;
+              <div style="text-align: center">
+                <div><b>${d.name}</b>, ${d.country}</div>
+                <div>(${d.type})</div>
+                <div>Elevation: <em>${d.elevation}</em>m</div>
+              </div>
+            `;
 
         const myGlobe = Globe()
-           // .globeImageUrl('../media/png/Terrestrial4.png') //https://www.texturesforplanets.com/download.shtml
-            //.globeImageUrl('../media/jpg/earth-blue-marble.jpg') //Earth Image
-            .globeImageUrl('../media/jpg/8k_earth_daymap.jpg') //8k Earth Image
+            .globeImageUrl('../media/jpg/8k_earth_daymap.jpg') // 8k Earth Image
             .backgroundImageUrl('../media/png/night-sky.png')
             .bumpImageUrl('../media/png/earth-topology.png')
             .pointLat('lat')
@@ -56,9 +81,12 @@
             (document.getElementById('globeViz'));
 
         fetch('../scripts/globe_points.json').then(res => res.json()).then(volcanoes => {
+            // Hide the loading overlay and display the globe when the image is loaded.
+            document.getElementById('loading-overlay').style.display = 'none';
+            document.getElementById('globeViz').style.display = 'block';
+
             myGlobe.pointsData(volcanoes)
                 .labelsData(volcanoes);
         });
-
     </script>
 </body>
