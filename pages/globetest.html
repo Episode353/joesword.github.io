@@ -5,6 +5,10 @@
         }
     </style>
 
+    <!--
+    All credit goes to https://github.com/vasturiano/globe.gl & https://globe.gl/
+    -->
+
     <script src="../scripts/three.js"></script>
     <script src="../scripts/globegl.js"></script>
     <script src="../scripts/dist_d3.min.js"></script>
@@ -28,13 +32,14 @@
         `;
 
         const myGlobe = Globe()
-            .globeImageUrl('../media/jpg/earth-blue-marble.jpg')
+            .globeImageUrl('../media/png/Terrestrial4.png') //https://www.texturesforplanets.com/download.shtml
+            //.globeImageUrl('../media/jpg/earth-blue-marble.jpg') //Earth Image
             .backgroundImageUrl('../media/png/night-sky.png')
             .bumpImageUrl('../media/png/earth-topology.png')
             .pointLat('lat')
             .pointLng('lon')
             .pointAltitude(getAlt)
-            .pointRadius(0.12)
+            .pointRadius(0.2)
             .pointColor(d => catColor(d.type))
             .pointLabel(getTooltip)
             .labelLat('lat')
@@ -44,8 +49,8 @@
             .labelDotOrientation(() => 'bottom')
             .labelColor(d => catColor(d.type))
             .labelText('name')
-            .labelSize(0.15)
-            .labelResolution(1)
+            .labelSize(0.9)
+            .labelResolution(2)
             .labelLabel(getTooltip)
             (document.getElementById('globeViz'));
 
