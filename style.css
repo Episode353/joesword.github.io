@@ -152,8 +152,26 @@ button {
 
         .header-content a:hover {
             color: #fff;
-            background-color: #000;
+            background-color: #CCD8FB;
+            border-radius: 1rem;
+            animation: linkHoverAnimation 0.5s ease-in-out forwards;
         }
+
+/* Keyframes for the link hover animation */
+@keyframes linkHoverAnimation {
+    0%, 100% {
+        letter-spacing: 0rem;
+    }
+
+    25%, 75% {
+        letter-spacing: -.1rem;
+    }
+
+    50% {
+        letter-spacing: .05rem;
+    }
+
+}
 /* CSS to clear the float */
 .clearfix:after {
     content: "";
@@ -382,6 +400,7 @@ img {
     width: 120px;
     height: 169px;
     text-decoration: none;
+    will-change: transform;
 }
 
 
@@ -390,9 +409,26 @@ img {
         border-bottom: 2px solid #ddd; /* Retain the original line color for visited links */
     }
 
-    #header-logo a:hover {
-        color: #A1670D;
+@keyframes headerlogohover {
+    0%, 100% {
+        letter-spacing: 0rem;
     }
+
+    25%, 75% {
+        letter-spacing: -.1rem;
+    }
+
+    50% {
+        letter-spacing: .6rem;
+    }
+
+}
+
+#header-logo a:hover {
+    
+}
+
+
 
 
 
