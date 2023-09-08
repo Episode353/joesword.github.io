@@ -154,11 +154,11 @@ button {
             color: #fff;
             background-color: #CCD8FB;
             border-radius: 1rem;
-            animation: linkHoverAnimation 0.5s ease-in-out forwards;
+
         }
 
 /* Keyframes for the link hover animation */
-@keyframes linkHoverAnimation {
+@keyframes headerlogohover {
     0%, 100% {
         letter-spacing: 0rem;
     }
@@ -168,10 +168,29 @@ button {
     }
 
     50% {
-        letter-spacing: .05rem;
+        letter-spacing: .6rem;
+    }
+}
+
+/* Keyframes for the link hover animation */
+@keyframes headerlinkhover {
+    0%, 100% {
+        letter-spacing: 0rem;
     }
 
+    15%, 40% {
+        letter-spacing: .03rem;
+    }
+
+    25%, 75% {
+        letter-spacing: -.04rem;
+    }
+
+    50% {
+        letter-spacing: .05rem;
+    }
 }
+
 /* CSS to clear the float */
 .clearfix:after {
     content: "";

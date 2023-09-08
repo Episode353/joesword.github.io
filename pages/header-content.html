@@ -1,95 +1,54 @@
 ﻿<!DOCTYPE html>
-
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../style.css">
     <title></title>
-
     <style>
-
     </style>
 </head>
-
-
-<body style="background: #fbefcc; " class="no-vignette">
-
-
+<body style="background: #fbefcc;" class="no-vignette">
     <div id="header-logo">
         <p>
             <a href="../index.html" target="_top">Joes World .Online</a>
         </p>
     </div>
-
-
+    <div class="header-content">
+        <a href="../index.html" class="header-link" style="color: #0D47A1; text-shadow: 5px 5px 0px #fec652;" target="_top">Home🏠</a>
+        <a href="board.html" class="header-link" style="color: black; text-shadow: 5px 5px 0px #BABABA;" target="_top">Board📰</a>
+        <a href="food-review.html" class="header-link" style="color: #ED6464; text-shadow: 5px 5px 0px #B6C02D;" target="_top">Food🍕</a>
+        <a href="seep-coin.html" class="header-link" style="color: #0D47A1; text-shadow: 5px 5px 0px #1adb31;" target="_top">Seep Coin🪙</a>
+        <a href="https://www.beeg.fish/pages/beegfish" class="header-link" style="color: #616F40; text-shadow: 5px 5px 0px #97C62C;" target="_top">Beeg Fish∝</a>
+        <a href="blog.html" class="header-link" style="color: #516A5B; text-shadow: 5px 5px 0px #A9DFBF;" target="_top">Blog</a>
+    </div>
     <script>
+        const headerLinks = document.querySelectorAll(".header-link");
         const logoLink = document.querySelector("#header-logo a");
-        let animationPlaying = false;
 
-        logoLink.addEventListener("mouseover", playAnimation);
+        headerLinks.forEach(link => {
+            link.addEventListener("mouseover", playHeaderAnimation);
+        });
 
-        function playAnimation() {
-            if (!animationPlaying) {
-                logoLink.style.animation = "headerlogohover 1s cubic-bezier(0.42, 0, 0.58, 1)";
-                animationPlaying = true;
+        logoLink.addEventListener("mouseover", playLogoAnimation);
 
-                logoLink.addEventListener("animationend", onAnimationEnd);
-            }
+        function playHeaderAnimation(event) {
+            const link = event.target;
+            link.style.animation = "headerlinkhover 1s cubic-bezier(0.42, 0, 0.58, 1)";
+            link.addEventListener("animationend", onAnimationEnd);
         }
 
-        function onAnimationEnd() {
-            animationPlaying = false;
-            logoLink.style.animation = "none";
+        function playLogoAnimation() {
+            logoLink.style.animation = "headerlogohover 1s cubic-bezier(0.42, 0, 0.58, 1)";
+            logoLink.addEventListener("animationend", onAnimationEnd);
+        }
+
+        function onAnimationEnd(event) {
+            const element = event.target;
+            element.style.animation = "none";
             setTimeout(() => {
-                logoLink.style.animation = "";
+                element.style.animation = "";
             }, 0);
         }
-
-        //
-        //
-
-
-
     </script>
-
-
-    <!--dividor line
-    <div style="
-                writing-mode: tb-rl;
-                font-family: daydream;
-                font-size: 160%;
-                width: 50%;
-                position: fixed;
-                left: -20%;
-                height: 500%;">/xxxx\</div>-->
-    <!-- Formatting for text and size of grid, to change rows and collums go to style.css -->
-    <div class="header-content">
-
-
-
-        <a href="../index.html" style="color: #0D47A1; text-shadow: 5px 5px 0px #fec652; " target="_top">Home🏠</a>
-
-
-        <a href="board.html" style="color: black; text-shadow: 5px 5px 0px #BABABA; " target="_top">Board📰</a>
-
-
-        <a href="food-review.html" style="color: #ED6464; text-shadow: 5px 5px 0px #B6C02D; " target="_top">Food🍕</a>
-
-
-        <a href="seep-coin.html" style="color: #0D47A1; text-shadow: 5px 5px 0px #1adb31; " target="_top">Seep Coin🪙</a>
-
-
-        <a href="https://www.beeg.fish/pages/beegfish" style="color: #616F40; text-shadow: 5px 5px 0px #97C62C; " target="_top">Beeg Fish∝</a>
-
-
-        <a href="blog.html" style="color: #516A5B; text-shadow: 5px 5px 0px #A9DFBF; " target="_top">Blog</a>
-
-
-
-
-
-
-    </div>
-
 </body>
 </html>

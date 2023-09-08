@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\pages",
-    "\\pages\\blog"
+    "\\pages\\blog",
+    "\\scripts"
   ],
-  "SelectedNode": "\\pages\\bounty-editor.html",
+  "SelectedNode": "\\style.css",
   "PreviewInSolutionExplorer": false
 }
