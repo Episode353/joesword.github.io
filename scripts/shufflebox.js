@@ -87,6 +87,7 @@ $(function () {
         'pages/html-shuffle/ramen_crazy.html',
         'pages/html-shuffle/door_monster.html',
         'pages/html-shuffle/defeat.html',
+        'pages/html-shuffle/springtrap.html',
         'pages/html-shuffle/mortified_rugby.html'
 
     ];
