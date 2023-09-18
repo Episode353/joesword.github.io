@@ -88,6 +88,10 @@ $(function () {
         'pages/html-shuffle/door_monster.html',
         'pages/html-shuffle/defeat.html',
         'pages/html-shuffle/springtrap.html',
+        'pages/html-shuffle/chic_webcam.html',
+        'pages/html-shuffle/squarebob.html',
+        'pages/html-shuffle/talabanroblox.html',
+        'pages/html-shuffle/wario-hung.html',
         'pages/html-shuffle/mortified_rugby.html'
 
     ];
