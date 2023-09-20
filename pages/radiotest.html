@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Radio Station</title>
+</head>
+<body>
+    <div id="currentTime" style="border: groove; margin: 2rem; width: 20%;"></div>
+    <div id="errordiv" style="display:none;"><p>There was an Error Loading the Current content block</p></div><br />
+    <audio id="radioPlayer" controls autoplay></audio>
+    <button id="syncButton">Sync Audio</button>
+    <button id="play">Play</button>
+    <button id="pause" style="display: none;">Pause</button>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const audioPlayer = document.getElementById("radioPlayer");
+            const currentTimeElement = document.getElementById("currentTime");
+            const errordiv = document.getElementById("errordiv");
+            const syncButton = document.getElementById("syncButton");
+            const playButton = document.getElementById("play");
+            const pauseButton = document.getElementById("pause");
+
+            // Function to update the current time on the screen
+            function updateCurrentTime() {
+                const now = new Date();
+                const currentTimeString = now.toLocaleTimeString();
+                currentTimeElement.textContent = `Current Time: ${currentTimeString}`;
+            }
+
+            // Function to re-sync audio to real-time
+            function reSyncAudio() {
+                const now = new Date();
+                const hour = now.getHours();
+                const minute = now.getMinutes();
+                const second = now.getSeconds();
+
+                // Calculate the time offset
+                const timeOffset = (minute * 60 + second) * 1000;
+
+                // Set the audio's currentTime to the current time offset
+                audioPlayer.currentTime = timeOffset / 1000;
+
+                // Play the audio after re-syncing
+                audioPlayer.play();
+            }
+
+            // Add event listener to the play button
+            playButton.addEventListener("click", function () {
+                audioPlayer.play();
+                playButton.style.display = "none";
+                pauseButton.style.display = "inline-block";
+                reSyncAudio();
+            });
+
+            // Add event listener to the pause button
+            pauseButton.addEventListener("click", function () {
+                audioPlayer.pause();
+                playButton.style.display = "inline-block";
+                pauseButton.style.display = "none";
+            });
+
+            // Function to handle audio load errors and fallback to a default audio file
+            function handleAudioError() {
+                console.error("Error loading audio.");
+                ///audioPlayer.src = "`../media/mp3/radio_files/tuesday/1"; // Replace with your default audio file
+                errordiv.style.display = "inline-block";
+                audioPlayer.style.display = "none";
+                play.style.display = "none";
+                syncButton.style.display = "none";
+            }
+
+            // Event listener for handling audio load errors
+            audioPlayer.addEventListener("error", handleAudioError);
+
+            // Get the current day, hour, minute, and second
+            const now = new Date();
+            const dayOfWeek = now.toLocaleDateString("en-US", { weekday: 'long' }).toLowerCase();
+            const hour = now.getHours();
+            const minute = now.getMinutes();
+            const second = now.getSeconds();
+
+            // Calculate the file path and time offset
+            const filePath = `${dayOfWeek}/${hour}.mp3`;
+            const timeOffset = (minute * 60 + second) * 1000;
+
+            // Set the audio source and time offset
+            audioPlayer.src = `../media/mp3/radio_files/${filePath}`;
+            audioPlayer.currentTime = timeOffset / 1000;
+
+            // Update the current time periodically (every second in this example)
+            setInterval(updateCurrentTime, 1000);
+
+            // Initial call to updateCurrentTime to display the time immediately
+            updateCurrentTime();
+
+            // Add event listener to the sync button to re-sync audio
+            syncButton.addEventListener("click", reSyncAudio);
+
+        });
+    </script>
+</body>
+</html>
