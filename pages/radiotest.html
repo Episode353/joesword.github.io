@@ -3,15 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Radio Station</title>
+    <title>Joesworld.FM</title>
+    <style>
+        div {
+           border:groove 2px black;
+           margin: 5rem;
+           padding: 1rem;
+        }
+    </style>
 </head>
 <body>
-    <div id="currentTime" style="border: groove; margin: 2rem; width: 20%;"></div>
-    <div id="errordiv" style="display:none;"><p>There was an Error Loading the Current content block</p></div><br />
-    <audio id="radioPlayer" controls autoplay></audio>
-    <button id="syncButton">Sync Audio</button>
-    <button id="play">Play</button>
-    <button id="pause" style="display: none;">Pause</button>
+    <div><!--Player-->
+    <h1>Player</h1>
+        <div id="currentTime" style="border: groove; margin: 2rem; width: 20%;"></div>
+        <div id="errordiv" style="display:none;"><p>There was an Error Loading the Current content block</p></div><br />
+        <audio id="radioPlayer" controls autoplay></audio>
+        <button id="syncButton">Sync Audio</button>
+        <button id="play">Play</button>
+        <button id="pause" style="display: none;">Pause</button>
+    </div>
+
+    <div> <!--Currently Playing-->
+        <p>Currently Playing:</p>
+    </div>
+
+    <div> <!--Schedule-->
+        <p>Schedule Information.</p>
+    </div>
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const audioPlayer = document.getElementById("radioPlayer");
