@@ -63,7 +63,7 @@
             // Function to handle audio load errors and fallback to a default audio file
             function handleAudioError() {
                 console.error("Error loading audio.");
-                ///audioPlayer.src = "`../media/mp3/radio_files/tuesday/1"; // Replace with your default audio file
+                ///audioPlayer.src = "404"; // Replace with your default audio file
                 errordiv.style.display = "inline-block";
                 audioPlayer.style.display = "none";
                 play.style.display = "none";
@@ -85,7 +85,8 @@
             const timeOffset = (minute * 60 + second) * 1000;
 
             // Set the audio source and time offset
-            audioPlayer.src = `../media/mp3/radio_files/${filePath}`;
+            audioPlayer.src = `https://joesworld.host/rad/${filePath}`;
+            audioPlayer.volume = 0.1;
             audioPlayer.currentTime = timeOffset / 1000;
 
             // Update the current time periodically (every second in this example)
