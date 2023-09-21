@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Joesworld.FM</title>
+    <script src="../scripts/host.js"></script>
     <style>
         div {
             border: groove 2px black;
@@ -186,7 +187,7 @@
             const timeOffset = (minute * 60 + second) * 1000;
 
             // Set the audio source and time offset
-            audioPlayer.src = `https://joesworld.host/rad/${filePath}`;
+            audioPlayer.src = `https://${datahostname}/rad/${filePath}`;
             audioPlayer.volume = 0.1;
             audioPlayer.currentTime = timeOffset / 1000;
 
