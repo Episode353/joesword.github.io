@@ -6,15 +6,43 @@
     <title>Joesworld.FM</title>
     <style>
         div {
-           border:groove 2px black;
-           margin: 5rem;
-           padding: 1rem;
+            border: groove 2px black;
+            margin: 1rem;
+            padding: 1rem;
+        }
+
+        .schedule {
+            display: grid;
+            grid-template-columns: repeat(7, 10vw); /* 7 columns for days */
+            gap: 1px;
+        }
+
+        .cell {
+            font-size: 14px;
+            font-weight: bold;
+            border: 1px solid #000;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column; /* Display content vertically */
+            align-items: center;
+            justify-content: center;
+            color: blue;
+        }
+
+        #hour-num {
+            color: green;
+        }
+
+        #weekday-label {
+            color: red;
         }
     </style>
 </head>
 <body>
-    <div><!--Player-->
-    <h1>Player</h1>
+    <div>
+        <!--Player-->
+        <h1>Player</h1>
         <div id="currentTime" style="border: groove; margin: 2rem; width: 20%;"></div>
         <div id="errordiv" style="display:none;"><p>There was an Error Loading the Current content block</p></div><br />
         <audio id="radioPlayer" controls autoplay></audio>
@@ -23,12 +51,66 @@
         <button id="pause" style="display: none;">Pause</button>
     </div>
 
-    <div> <!--Currently Playing-->
+    <div>
+        <!--Currently Playing-->
         <p>Currently Playing:</p>
     </div>
 
-    <div> <!--Schedule-->
-        <p>Schedule Information.</p>
+    <div>
+        <!--Schedule-->
+        <div class="schedule" id="schedule"></div>
+
+
+        <script>
+            // Function to create a schedule
+            async function createSchedule() {
+                const schedule = document.getElementById("schedule");
+                const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+                try {
+                    // Fetch the JSON data
+                    const response = await fetch('schedule.json');
+                    if (!response.ok) {
+                        throw new Error(`Error fetching JSON: ${response.statusText}`);
+                    }
+                    const data = await response.json();
+
+                    for (let i = 0; i < 25; i++) {
+                        for (let j = 0; j < 7; j++) {
+                            const cell = document.createElement("div");
+                            cell.classList.add("cell");
+
+                            const numberParagraph = document.createElement("p");
+                            numberParagraph.textContent = (i).toString();
+                            numberParagraph.id = "hour-num";
+
+                            if (i === 0) {
+                                numberParagraph.textContent = days[j];
+                                numberParagraph.id = "weekday-label";
+                            }
+
+                            // Check if show data exists in the JSON file for this cell
+                            const showData = data[days[j]] && data[days[j]][i.toString()];
+                            if (showData) {
+                                const showName = showData.name || "Default Show";
+                                const hostName = showData.host || "Default Host";
+                                const showInfo = document.createElement("p");
+                                showInfo.textContent = `${showName} with ${hostName}`;
+                                cell.appendChild(showInfo);
+                            }
+
+                            cell.appendChild(numberParagraph);
+                            schedule.appendChild(cell);
+                        }
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+
+            // Call the function to create the schedule
+            createSchedule();
+        </script>
     </div>
 
     <script>
