@@ -52,10 +52,12 @@
         <button id="pause" style="display: none;">Pause</button>
     </div>
 
-    <div>
-        <!--Currently Playing-->
-        <p>Currently Playing:</p>
+    <div id="currentlyPlayingInfo">
+        <p id="showTitle">Title: N/A</p>
+        <p id="showDescription">Description: N/A</p>
     </div>
+
+
 
     <div>
         <!--Schedule-->
@@ -70,7 +72,7 @@
 
                 try {
                     // Fetch the JSON data
-                    const response = await fetch('schedule.json');
+                    const response = await fetch('https://joesworld.host/rad/schedule.json');
                     if (!response.ok) {
                         throw new Error(`Error fetching JSON: ${response.statusText}`);
                     }
@@ -111,6 +113,47 @@
 
             // Call the function to create the schedule
             createSchedule();
+
+            function fetchAndDisplayTitleAndDescription(filePath) {
+                try {
+                    // Construct the URL of the JSON resource
+                    const metadataURL = `${filePath}.json`;
+
+                    // Fetch the JSON data
+                    fetch(metadataURL)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`Error fetching JSON: ${response.statusText}`);
+                            }
+                            return response.json();
+                        })
+                        .then(metadata => {
+                            // Display title and description if available
+                            const showTitleElement = document.getElementById("showTitle");
+                            const showDescriptionElement = document.getElementById("showDescription");
+
+                            if (metadata && metadata.title) {
+                                showTitleElement.textContent = `Title: ${metadata.title}`;
+                            } else {
+                                showTitleElement.textContent = "Title: N/A";
+                            }
+
+                            if (metadata && metadata.description) {
+                                showDescriptionElement.textContent = `Description: ${metadata.description}`;
+                            } else {
+                                showDescriptionElement.textContent = "Description: N/A";
+                            }
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        });
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+
+
+
         </script>
     </div>
 
@@ -184,12 +227,17 @@
 
             // Calculate the file path and time offset
             const filePath = `${dayOfWeek}/${hour}.mp3`;
+            const infofilePath = `https://${datahostname}/rad/${dayOfWeek}/${hour}`;
             const timeOffset = (minute * 60 + second) * 1000;
 
             // Set the audio source and time offset
             audioPlayer.src = `https://${datahostname}/rad/${filePath}`;
             audioPlayer.volume = 0.1;
             audioPlayer.currentTime = timeOffset / 1000;
+
+            // Call the function to fetch and display title and description
+            fetchAndDisplayTitleAndDescription(infofilePath);
+
 
             // Update the current time periodically (every second in this example)
             setInterval(updateCurrentTime, 1000);
@@ -201,6 +249,8 @@
             syncButton.addEventListener("click", reSyncAudio);
 
         });
+
+
     </script>
 </body>
 </html>
