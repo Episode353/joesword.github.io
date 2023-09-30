@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         // Only proceed if the "data-preserve" attribute is not present or is set to "false"
         if (preserveWord !== "true") {
             // Replace instances of "seppe", "guiseppe", and "seep" with the formatted version
-            var newText = text.replace(/\b(seppe|guiseppe|seep)\b/gi, '<span class="word-seppe">$1</span>');
+            var newText = text.replace(/\b(seppe|guiseppe|seep|soup|soupy)\b/gi, '<span class="word-seppe">$1</span>');
 
             // Update the element if necessary
             if (newText !== text) {
