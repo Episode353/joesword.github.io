@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Girl Pill Dispenser</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url("../media/jpg/yippie.jpg");
+            background-repeat: repeat;
+            background-size: 15rem;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            position: absolute;
+        }
+
+        p {
+            transform: translate(0rem, 10vh);
+            margin: 1rem;
+            padding: 1rem;
+        }
+
+        #fallingImage {
+            width: 10vw;
+            cursor: pointer; /* Add cursor pointer for the image */
+        }
+
+        #message {
+            font-size: 2rem;
+            text-shadow: 3px 3px white;
+        }
+    </style>
+</head>
+<body>
+    <button id="clickButton">Click Me!</button>
+    <p id="message">Click the button 10,000 times to receive a girl pill.</p>
+    <img id="fallingImage" src="../media/png/girlpill.png" alt="Girl Pill" style="position: absolute; display: none;">
+
+    <script>
+        const clickButton = document.getElementById("clickButton");
+        const message = document.getElementById("message");
+        const fallingImage = document.getElementById("fallingImage");
+
+        let clickCount = 0;
+        const requiredClicks = 10000;
+        let imageClickCount = 0; // Track image clicks
+
+        clickButton.addEventListener("click", () => {
+            clickCount++;
+
+            if (clickCount <= requiredClicks) {
+                const remainingClicks = requiredClicks - clickCount;
+
+                if (remainingClicks > 0) {
+                    // Format the remainingClicks with commas
+                    const formattedRemainingClicks = remainingClicks.toLocaleString();
+
+                    message.textContent = `Click the button ${formattedRemainingClicks} more times to receive a girl pill.`;
+
+                    // Randomly change the button's position within the visible area
+                    const maxX = window.innerWidth - clickButton.clientWidth;
+                    const newX = Math.random() * maxX;
+
+                    clickButton.style.left = newX + "px";
+                } else {
+                    clickButton.style.display = "none";
+                    message.style.display = "none";
+                    clickButton.style.color = "white";
+                    clickButton.disabled = true; // Disable the button after reaching the required clicks
+                    clickButton.innerText = "Congrats!";
+                    animateFallingImage(); // Start the image animation
+                }
+            }
+        });
+
+        // Function to animate the falling image
+        function animateFallingImage() {
+            const startY = 0;
+            const endY = window.innerHeight / 2 - fallingImage.clientHeight / 2;
+            const duration = 2000; // 2 seconds for the descent animation
+
+            let startTime;
+            function step(timestamp) {
+                if (!startTime) startTime = timestamp;
+                const progress = (timestamp - startTime) / duration;
+                const newY = startY + progress * (endY - startY);
+
+                fallingImage.style.top = newY + "px";
+
+                if (progress < 1) {
+                    requestAnimationFrame(step);
+                }
+            }
+
+            fallingImage.style.left = "50%"; // Center the image horizontally
+            fallingImage.style.display = "block"; // Show the falling image
+
+            // Add a click event listener for the falling image
+            fallingImage.addEventListener("click", () => {
+                imageClickCount++;
+                if (imageClickCount === 1) {
+                    // Change the image source to the second image
+                    fallingImage.src = "../media/png/girlpill2.png";
+                } else if (imageClickCount === 2) {
+                    fallingImage.src = "../media/png/girlpill3.png";
+                } else if (imageClickCount === 3) {
+                    fallingImage.src = "../media/png/girlpill4.png";
+                } else if (imageClickCount === 4) {
+                    fallingImage.src = "../media/png/girlpill5.png";
+                } else if (imageClickCount === 5) {
+                    location.reload();
+                }
+
+            });
+
+            requestAnimationFrame(step); // Start the animation
+        }
+    </script>
+</body>
+</html>
