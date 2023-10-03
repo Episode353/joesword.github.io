@@ -69,7 +69,13 @@
 
                     // Randomly change the button's position within the visible area
                     const maxX = window.innerWidth - clickButton.clientWidth;
+                    const maxY = window.innerHeight - clickButton.clientHeight;
                     const newX = Math.random() * maxX;
+                    const newY = Math.random() * maxY;
+
+                    clickButton.style.left = newX + "px";
+                    clickButton.style.top = newY + "px";
+
 
                     clickButton.style.left = newX + "px";
                 } else {
