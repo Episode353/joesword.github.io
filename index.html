@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="style.css?v=9">
+    <link rel="stylesheet" href="style.css?v=10?dd=22">
     <style>
     </style>
 
@@ -23,13 +23,18 @@
     <script src="scripts/back-map.js?v=3"></script>
     <script src="scripts/firebase-megascript.js"></script>
 
+    <script>
+        document.querySelector("header").style.backgroundImage =
+            `url("https://firebasestorage.googleapis.com/v0/b/joesworldonline-967be.appspot.com/o/combackground.jpg?alt=media&token=e509d8a3-9501-4fba-a463-71604121530a?nocahe=${Math.random()}")`;
+
+    </script>
 
 
-
-
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="cache-control" content="max-age=0" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+    <meta http-equiv="pragma" content="no-cache" />
 
     <style>
         #status {
@@ -47,6 +52,8 @@
             #status[data-status="online"] {
                 color: green;
             }
+
+
     </style>
 
 </head>
@@ -93,20 +100,36 @@
 
                 <!--If the user is not logged in, offer them to create an account-->
                 <div id="notLoggedInMessage" style="display: none; border-top:none;border-right:none;border-left:none;">
-
-                    <!--
-                    <h1><span class="word-seppe">New To JoesWorld.Online?</span></h1>
-                    <h1><span class="word-seppe">Create An Account Today!</span></h1>
-
+                    <!--<p>Only a Loser wouldn't be logged in.</p>-->
+                    <p>Log In to Destroy This Website for Halloween.</p>
                     To Create an account, click <a href="pages/account-apply.html">here</a>
+                </div>
 
-                    -->
-                    <p>Only a Loser wouldn't be logged in.</p>
+                <!-- If the USer is logged in, show this Div-->
+                <div id="LoggedInMessage" style="display: none; border-top:none;border-right:none;border-left:none;">
+                    <img src="media/gif/destroy.gif" /><br />
+                    <img src="media/gif/joesworld.gif" /><br>
+
+                    <label for="file" class="btn">Select .JPG</label>
+                    <input type="file" id="fileInput">
+                    <label for="nuke" class="btn" style="color:red;">NUKE</label>
+                    <button id="nuke" onclick="halloweenuploadImage()">Upload</button><br />
+
+                    <div style="margin: 2rem;">
+                        <img style="width:10vw; "src="../media/jpg/listenman.jpg"/>
+                        <p id="fire-text">You can't do it man, you can't press that button.<br />
+                        DO YOU HAVE ANY IDEA WHAT WILL HAPPEN WHEN YOU HIT THAT BUTTON.<br />
+                        THE ABSOLUTE FATE OF EVERYTHING DEPENDS ON YOU NOT PRESSING THAT BUTTON.<br />
+                        EVERYTHING WE HAVE EVER KNOWN WILL CHANGE IF YOU PRESS THIS BUTTON.<br />
+                        PLEASE, DO NOT PRESS THIS BUTTON</p>
+                    </div>
                 </div>
 
 
-                <p style="color:red;">WE'RE RICH</p>
-                <img id="beeg_fish" src="../media/jpg/tf2_were_rich.jpg" style="width: 20vw; border: 2vw groove gold;">
+
+
+
+
 
                 <!--Gallery Shuffle-->
 

@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Image as "combackground.jpg"</title>
+</head>
+<body>
+    <h1>Upload an Image (JPG only)</h1>
+    <input type="file" id="fileInput">
+    <button onclick="uploadImage()">Upload</button>
+
+    <script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-storage.js"></script>
+    <script>
+        // Initialize Firebase with your configuration
+        const firebaseConfig = {
+
+            apiKey: "AIzaSyBDnTbmt9zf4PVEkw_m-5pEpMEw6bqFOnU",
+
+            authDomain: "jworld-dev-testing.firebaseapp.com",
+
+            databaseURL: "https://jworld-dev-testing-default-rtdb.firebaseio.com",
+
+            projectId: "jworld-dev-testing",
+
+            storageBucket: "jworld-dev-testing.appspot.com",
+
+            messagingSenderId: "406000841966",
+
+            appId: "1:406000841966:web:fa3a679ba6cd6132ab2fff"
+
+        };
+
+
+        firebase.initializeApp(firebaseConfig);
+
+        // Get a reference to the Firebase Storage service
+        const storage = firebase.storage();
+
+        // Function to upload the image
+        function uploadImage() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+
+            if (file) {
+                if (file.type === 'image/jpeg' || file.type === 'image/jpg') {
+                    // Set the desired file name
+                    const fileName = 'combackground.jpg';
+
+                    // Create a reference to the storage location
+                    const storageRef = storage.ref().child(fileName);
+
+                    // Upload the file to Firebase Storage
+                    const uploadTask = storageRef.put(file);
+
+                    uploadTask.on('state_changed',
+                        (snapshot) => {
+                            // Progress tracking here if needed
+                        },
+                        (error) => {
+                            console.error(error);
+                        },
+                        () => {
+                            // Upload completed successfully
+                            console.log('Upload complete.');
+                        }
+                    );
+                } else {
+                    alert('Please select a JPG image.');
+                }
+            } else {
+                alert('Please choose a file to upload.');
+            }
+        }
+    </script>
+</body>
+</html>

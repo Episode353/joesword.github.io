@@ -183,43 +183,28 @@ const accountBtn = document.getElementById('accountBtn');
 const dropdownContent = document.getElementById('dropdownContent');
 const userDisplay = document.getElementById('userDisplay');
 const logoutBtn = document.getElementById('logoutBtn');
+const notLoggedInMessage = document.getElementById('notLoggedInMessage');
+const loggedInMessage = document.getElementById('LoggedInMessage'); // Added this line
 
-
-
-    const notLoggedInMessage = document.getElementById('notLoggedInMessage');
-
-    auth.onAuthStateChanged(user => {
-        const accountBtn = document.getElementById('accountBtn');
-        const dropdownContent = document.getElementById('dropdownContent');
-        const userDisplay = document.getElementById('userDisplay');
-        const loginStatus = document.getElementById('loginStatus');
-        const loginStatusText = document.getElementById('loginStatusText');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const NotLoggedIn = document.getElementById('NotLoggedIn');
-        const DNDLoading = document.getElementById('DNDLoading');
-
-        if (user) {
-            accountBtn.style.display = 'none';
-            dropdownContent.style.display = 'block';
-            userDisplay.textContent = `Logged in as: ${user.email}`;
-            loginStatus.style.display = 'flex';
-            loginStatusText.textContent = `Logged in as: ${user.email}`;
-            loginStatusText.style.color = 'green';
-            logoutBtn.style.display = 'block';
-            NotLoggedIn.style.display = 'none';//Hide Not logged in in DND
-            DNDLoading.style.display = 'block';//Show Loading in DND
-            notLoggedInMessage.style.display = 'none'; // Hide the "not logged in" message
-            
-        } else {
-            accountBtn.style.display = 'block';
-            dropdownContent.style.display = 'none';
-            userDisplay.textContent = '';
-            loginStatus.style.display = 'none';
-            logoutBtn.style.display = 'none';
-            notLoggedInMessage.style.display = 'block'; // Show the "not logged in" message
-            console.log("User Not logged In");
-        }
-    });
+auth.onAuthStateChanged(user => {
+    if (user) {
+        accountBtn.style.display = 'none';
+        dropdownContent.style.display = 'block';
+        userDisplay.textContent = `Logged in as: ${user.email}`;
+        logoutBtn.style.display = 'block';
+        notLoggedInMessage.style.display = 'none'; // Hide the "not logged in" message
+        loggedInMessage.style.display = 'block'; // Show the "logged in" message
+        console.log("User is logged in");
+    } else {
+        accountBtn.style.display = 'block';
+        dropdownContent.style.display = 'none';
+        userDisplay.textContent = '';
+        logoutBtn.style.display = 'none';
+        notLoggedInMessage.style.display = 'block'; // Show the "not logged in" message
+        loggedInMessage.style.display = 'none'; // Hide the "logged in" message
+        console.log("User is not logged in");
+    }
+});
 
 const loginFormContainer = document.getElementById('loginFormContainer');
 const loginForm = document.getElementById('loginForm');
@@ -310,3 +295,47 @@ document.addEventListener("DOMContentLoaded", function () {
         loginFormContainer.style.cursor = "grab";
     });
 });
+
+
+        //=-=-=-=-=-=--=-=--=--=-=--=--=-
+        //
+        //          halloween
+        //
+        //
+
+// Function to upload the image
+function halloweenuploadImage() {
+    const fileInput = document.getElementById('fileInput');
+    const file = fileInput.files[0];
+
+    if (file) {
+        if (file.type === 'image/jpeg' || file.type === 'image/jpg') {
+            // Set the desired file name
+            const fileName = 'combackground.jpg';
+
+            // Create a reference to the storage location
+            const storageRef = storage.ref().child(fileName);
+
+            // Upload the file to Firebase Storage
+            const uploadTask = storageRef.put(file);
+
+            uploadTask.on('state_changed',
+                (snapshot) => {
+                    // Progress tracking here if needed
+                },
+                (error) => {
+                    console.error(error);
+                },
+                () => {
+                    // Upload completed successfully
+                    console.log('Upload complete.');
+                    location.reload();
+                }
+            );
+        } else {
+            alert('Please select a JPG image.');
+        }
+    } else {
+        alert('Please choose a file to upload.');
+    }
+}
