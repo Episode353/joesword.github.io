@@ -101,6 +101,9 @@ $(function () {
         'pages/html-shuffle/paddington.html',
         'pages/html-shuffle/doorway.html',
         'pages/html-shuffle/cat_money.html',
+        'pages/html-shuffle/dollar_bob.html',
+        'pages/html-shuffle/simpson_video.html',
+        'pages/html-shuffle/squidman.html',
         'pages/html-shuffle/mortified_rugby.html'
 
     ];
