@@ -1,5 +1,4 @@
 $(function () {
-
     // Check if the shuffle parameter is present in the URL
     const urlParams = new URLSearchParams(window.location.search);
     const shufflePage = urlParams.get('shuffle');
@@ -7,7 +6,14 @@ $(function () {
     if (shufflePage) {
         const filePath = `pages/html-shuffle/${shufflePage}`;
         // Load the specified page indicated by the shuffle parameter
-        $("#htmlshufflebox").load(filePath);
+        $("#htmlshufflebox").load(filePath, function (response, status, xhr) {
+            if (status === "error") {
+                // Display an error message when the file does not exist
+                const errorImages = '<img style="width:90%;" src="../media/gif/shuffle-error1.gif" alt="im sorry brough">' +
+                    '<img style="width:90%;" src="../media/gif/shuffle-error-2.gif" alt="that link dont work doe">';
+                $("#htmlshufflebox").html(errorImages);
+            }
+        });
     } else {
     var files = [
         'pages/html-shuffle/gunt-fish.html',
