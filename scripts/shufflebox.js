@@ -92,6 +92,15 @@ $(function () {
         'pages/html-shuffle/squarebob.html',
         'pages/html-shuffle/talabanroblox.html',
         'pages/html-shuffle/wario-hung.html',
+        'pages/html-shuffle/garfield-breast-reduction.html',
+        'pages/html-shuffle/i-found-fish.html',
+        'pages/html-shuffle/cyotee-divit.html',
+        'pages/html-shuffle/avgndk.html',
+        'pages/html-shuffle/Return_of_Soup.html',
+        'pages/html-shuffle/evidence.html',
+        'pages/html-shuffle/paddington.html',
+        'pages/html-shuffle/doorway.html',
+        'pages/html-shuffle/cat_money.html',
         'pages/html-shuffle/mortified_rugby.html'
 
     ];
