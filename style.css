@@ -361,7 +361,7 @@ img {
 
 
 .food-review-picture {
-    width: 12vw;
+    width: 6vw;
 }
 
 .word-gold {
@@ -492,6 +492,9 @@ img {
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: repeat(3, 1fr);
     }
+    .food-review-picture {
+        width: 24vw;
+    }
 
     .food-review-body {
         display: unset;
@@ -538,11 +541,13 @@ img {
 
 
     .food-review-headerlinks {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(5, 1fr);
         grid-template-rows: repeat(2, 1fr);
 
     }
-
+    .food-review-picture {
+        width: 10vw;
+    }
 
     .food-review-body {
         display: grid;
@@ -589,7 +594,7 @@ img {
 
 
     .food-review-headerlinks {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(5, 1fr);
         grid-template-rows: repeat(2, 1fr);
 
        
