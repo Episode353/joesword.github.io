@@ -24,6 +24,14 @@
         .visible {
             display: block;
         }
+
+        #errorContainer {
+            color: red;
+            font-size: 14px;
+            margin-top: 1rem;
+        }
+
+
     </style>
 
 
@@ -86,11 +94,15 @@
                     Email address is already in use by another account.
                 </div>
 
+                <div id="errorContainer" class="hidden"></div>
+
+
 
                 <script>
                     const signupForm = document.getElementById('signupForm');
                     const confirmationMessage = document.getElementById('confirmationMessage');
                     const emailInUseMessage = document.getElementById('emailInUseMessage');
+                    const errorContainer = document.getElementById('errorContainer');
 
                     signupForm.addEventListener('submit', (e) => {
                         e.preventDefault();
@@ -112,6 +124,7 @@
                                     })
                                     .catch((error) => {
                                         console.error('Error logging in:', error.message);
+                                        displayError(error.message); // Display login error message
                                     });
                             })
                             .catch((error) => {
@@ -119,9 +132,17 @@
                                 console.error('Error creating user:', error.message);
                                 if (error.code === 'auth/email-already-in-use') {
                                     emailInUseMessage.classList.add('visible');
+                                } else {
+                                    displayError(error.message); // Display other registration error message
                                 }
                             });
                     });
+
+                    function displayError(errorMessage) {
+                        errorContainer.textContent = errorMessage;
+                        errorContainer.classList.add('visible');
+                    }
+
                 </script>
 
 
