@@ -110,6 +110,10 @@ $(function () {
         'pages/html-shuffle/dollar_bob.html',
         'pages/html-shuffle/simpson_video.html',
         'pages/html-shuffle/squidman.html',
+        'pages/html-shuffle/oreotako.html',
+        'pages/html-shuffle/pimpbob.html',
+        'pages/html-shuffle/patrickurinal.html',
+        'pages/html-shuffle/fandeath.html',
         'pages/html-shuffle/mortified_rugby.html'
 
     ];
