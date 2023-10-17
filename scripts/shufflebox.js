@@ -114,6 +114,13 @@ $(function () {
         'pages/html-shuffle/pimpbob.html',
         'pages/html-shuffle/patrickurinal.html',
         'pages/html-shuffle/fandeath.html',
+        'pages/html-shuffle/ratatouierp.html',
+        'pages/html-shuffle/goku-door.html',
+        'pages/html-shuffle/clay-delivery.html',
+        'pages/html-shuffle/poolsclosed.html',
+        'pages/html-shuffle/no-gooning.html',
+        'pages/html-shuffle/dontpickmeup-hissss.html',
+        'pages/html-shuffle/mewhenwhenme.html',
         'pages/html-shuffle/mortified_rugby.html'
 
     ];
