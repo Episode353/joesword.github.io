@@ -121,6 +121,7 @@ $(function () {
         'pages/html-shuffle/no-gooning.html',
         'pages/html-shuffle/dontpickmeup-hissss.html',
         'pages/html-shuffle/mewhenwhenme.html',
+        'pages/html-shuffle/mcrib.html',
         'pages/html-shuffle/mortified_rugby.html'
 
     ];
