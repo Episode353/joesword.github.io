@@ -6,14 +6,31 @@
     <title></title>
     <style>
         body{
-            margin:25%;
+            
         }
 
         #out{
-            margin:25%;
+            margin:1rem;
             border: groove 2px black;
-            width:25%;
+            width:10rem;
         }
+
+        /* If the screen size is 601px wide or more, set the font-size of <div> to 80px */
+        @media screen and (min-width: 801px) {
+            body {
+                font-size: 2rem;
+                margin: 10%;
+            }
+        }
+
+        /* If the screen size is 600px wide or less, set the font-size of <div> to 30px */
+        @media screen and (max-width: 800px) {
+            body {
+                font-size: 1.5rem;
+                margin: 25%;
+            }
+        }
+
     </style>
 </head>
 <body>
