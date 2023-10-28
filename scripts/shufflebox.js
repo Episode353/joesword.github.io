@@ -122,6 +122,12 @@ $(function () {
         'pages/html-shuffle/dontpickmeup-hissss.html',
         'pages/html-shuffle/mewhenwhenme.html',
         'pages/html-shuffle/mcrib.html',
+        'pages/html-shuffle/idkifmonkeyisai.html',
+        'pages/html-shuffle/livewetreaction.html',
+        'pages/html-shuffle/murrchips.html',
+        'pages/html-shuffle/bb_rot.html',
+        'pages/html-shuffle/sadgoober.html',
+        'pages/html-shuffle/whateverthisbigredthingiscalled.html',
         'pages/html-shuffle/mortified_rugby.html'
 
     ];

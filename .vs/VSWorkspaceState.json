@@ -1,8 +1,11 @@
 {
   "ExpandedNodes": [
     "",
+    "\\pages",
+    "\\pages\\html-shuffle",
+    "\\scripts",
     "\\tool"
   ],
-  "SelectedNode": "\\tool\\index.htm",
+  "SelectedNode": "\\pages\\html-shuffle\\chad-geenie.html",
   "PreviewInSolutionExplorer": false
 }
