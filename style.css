@@ -29,10 +29,11 @@
 body {
     margin: 0;
     /*background-image: url('../media/mc/block/bone_block_side.png');*/
-    background-image: url('https://firebasestorage.googleapis.com/v0/b/joesworldonline-967be.appspot.com/o/combackground.jpg?alt=media&token=e509d8a3-9501-4fba-a463-71604121530a');
+    background-image: url('../media/jpg/background_4.jpeg?v=2');
     image-rendering: pixelated;
     background-size: 14rem;
     transition: all 1s ease;
+
 }
 
     body::before {
@@ -52,11 +53,9 @@ body {
 
 
     /* Disable vignette effect on specific page */
-.no-vignette::before {
-    background-image: url('../media/jpg/checkerbg.jpg');
-    image-rendering: pixelated;
-    background-size: 14rem;
-}
+    .no-vignette::before {
+        background: none;
+    }
 
 .container {
     width: 70%;
@@ -71,9 +70,9 @@ body {
 
 
     .container div {
-        background: #FF9E5E;
+        background: #fbefcc;
         padding: 10px;
-        border: 3px groove #FF9A00;
+        border: 3px groove #92AAFC;
         border-radius: 10px;
     }
 
@@ -236,11 +235,6 @@ button {
     }
 }
 
-#fire-text {
-    font-family: “Open Sans”, sans-serif;
-    color: #f5f5f5;
-    text-shadow: 0px -2px 4px #fff, 0px -2px 10px #FF3, 0px -10px 20px #F90, 0px -20px 40px #C33;
-}
 
 .word-red {
     color: red; /* makes the text red*/
@@ -361,7 +355,7 @@ img {
 
 
 .food-review-picture {
-    width: 6vw;
+    width: 12vw;
 }
 
 .word-gold {
@@ -415,8 +409,8 @@ img {
 
 #header-logo {
     font-family: daydream;
-    color: #FF9A00;
-    text-shadow: 5px 5px 0px #000000;
+    color: #0D47A1;
+    text-shadow: 10px 10px 0px #fec652;
     text-align: center;
     font-size: 200%;
     position: fixed;
@@ -430,7 +424,7 @@ img {
 
 
     #header-logo a:visited {
-        color: #F75F1C;
+        color: #0D47A1;
         border-bottom: 2px solid #ddd; /* Retain the original line color for visited links */
     }
 
@@ -492,9 +486,6 @@ img {
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: repeat(3, 1fr);
     }
-    .food-review-picture {
-        width: 24vw;
-    }
 
     .food-review-body {
         display: unset;
@@ -541,13 +532,11 @@ img {
 
 
     .food-review-headerlinks {
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(2, 1fr);
 
     }
-    .food-review-picture {
-        width: 10vw;
-    }
+
 
     .food-review-body {
         display: grid;
@@ -594,7 +583,7 @@ img {
 
 
     .food-review-headerlinks {
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(2, 1fr);
 
        
