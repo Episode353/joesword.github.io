@@ -7,7 +7,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="style.css?v=11?dd=22">
-    <style>
+    <style type="text/css">
+        table {
+            page-break-inside: auto
+        }
+
+        div {
+            page-break-inside: avoid;
+        }
+        /* This is the key */
+        thead {
+            display: table-header-group
+        }
+
+        tfoot {
+            display: table-footer-group
+        }
     </style>
 
 
@@ -49,7 +64,105 @@
                 color: green;
             }
 
+        .column {
+            border-right: none !important;
+            border-left: none !important;
+            background-color: #ebe4cd !important;
+            width: 85%;
+            margin-top: 2%;
+        }
 
+            .column p {
+                font-size: .7rem;
+            }
+
+            .column h {
+                font-size: .7rem;
+            }
+
+        .row-index {
+            border-top: none !important;
+            border-bottom: none !important;
+            background-color: #eee3c1 !important;
+        }
+
+        table {
+            margin-top: 1rem;
+        }
+
+        th {
+            border: 3px dotted #92AAFC;
+            border-top: none !important;
+            border-bottom: none !important;
+            background-color: #ebe4cd !important;
+            padding: .5rem;
+        }
+
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 10px;
+            border-top: none !important;
+            border-bottom: none !important;
+            background-color: #bababa !important;
+            margin-top: 1rem;
+        }
+
+        .button {
+            border: 3px dotted #92AAFC;
+            border-top: none !important;
+            border-bottom: none !important;
+            background-color: #ebe4cd !important;
+            padding: .5rem;
+            margin: .5rem;
+        }
+
+        
+        .scoreboard-data table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        .scoreboard-data {
+            margin-top: 1rem;
+        }
+
+            .scoreboard-data th,
+            .scoreboard-data td {
+                padding: 5px;
+                border-bottom: 1px solid #ccc;
+                
+            }
+
+            .scoreboard-data th {
+                background-color: #4CAF50;
+                color: #fff;
+                font-size: 18px;
+                background-color: #bababa !important;
+            }
+
+        .scoreboard-data td {
+            font-size: 16px;
+        }
+
+        .scoreboard-data tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .scoreboard-data tr:hover {
+            background-color: #ddd;
+        }
+
+        @media (max-width: 768px) {
+            /* Apply smaller text size for screens up to 768px width (typical phones) */
+            .scoreboard-data th,
+            .scoreboard-data td {
+                font-size: 12px;
+                padding: 0px;
+            }
+        }
     </style>
 
 </head>
@@ -102,15 +215,107 @@
 
                 <!-- If the USer is logged in, show this Div-->
                 <div id="LoggedInMessage" style="display: none; border-top:none;border-right:none;border-left:none;">
-                   <p class="word-seppe" style="font-size: 100%;">Welcome to Joe's World!</p>
+                    <p class="word-seppe" style="font-size: 100%;">Welcome to Joe's World!</p>
                 </div>
 
 
 
+                <!-- The Beeg Map-->
+                <div class="column">
+                    <a href="https://www.beeg.fish/pages/beegfish" class="header-link" style="color: rgb(97, 111, 64); text-shadow: rgb(151, 198, 44) 5px 5px 0px; font-family: daydream;" target="_top">Beeg Fish∝</a>
 
+                    <div class="button-container">
+                        <button class="button" onclick="location.href='https://www.beeg.fish/pages/beegfish.html?background=../media/png/bf-bg-coin01.png'">Coin Flip</button>
+                        <button class="button" onclick="location.href='https://www.beeg.fish/pages/beegfish.html?dice=4'">D4</button>
+                        <button class="button" onclick="location.href='https://www.beeg.fish/pages/beegfish.html?dice=6'">D6</button>
+                        <button class="button" onclick="location.href='https://www.beeg.fish/pages/beegfish.html?dice=8'">D8</button>
+                        <button class="button" onclick="location.href='https://www.beeg.fish/pages/beegfish.html?dice=10'">D10</button>
+                        <button class="button" onclick="location.href='https://www.beeg.fish/pages/beegfish.html?dice=12'">D12</button>
+                        <button class="button" onclick="location.href='https://www.beeg.fish/pages/beegfish.html?dice=20'">D20</button>
+                    </div>
+                </div>
 
+                <div class="column">
+                    <a href="pages/seep-coin.html" class="header-link" style="color: rgb(13, 71, 161); text-shadow: rgb(26, 219, 49) 5px 5px 0px; font-family: daydream; target="_top">Seep Coin🪙</a>
+                    <!--Start of SeepCoin-->
+                   
+                    <div class="scoreboard-data">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Position</th>
+                                    <th>Username</th>
+                                    <th>Score</th>
+                                </tr>
+                            </thead>
+                            <tbody id="scoreboard-body">
+                                <!-- Data will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <script>
+                        // Function to update the scoreboard on the page
+                        function updateScoreboard(snapshot) {
+                            var scoreboardBody = document.getElementById('scoreboard-body');
+                            scoreboardBody.innerHTML = '';
 
+                            var scoreboardData = [];
 
+                            snapshot.forEach(function (childSnapshot) {
+                                var username = childSnapshot.key; // Get the username from the snapshot key
+                                var score = childSnapshot.val();
+                                scoreboardData.push({ username: username, score: score.points });
+                            });
+
+                            // Sort the scoreboard data in descending order based on scores
+                            scoreboardData.sort((a, b) => b.score - a.score);
+
+                            if (scoreboardData.length === 0) {
+                                // If there is no data, display a message in the tbody element
+                                var emptyRow = document.createElement('tr');
+                                var emptyCell = document.createElement('td');
+                                emptyCell.setAttribute('colspan', '3');
+                                emptyCell.textContent = 'No one has a Seep Coin, will you be the first?';
+                                emptyRow.appendChild(emptyCell);
+                                scoreboardBody.appendChild(emptyRow);
+                            } else {
+                                var positions = ["🥇", "🥈", "🥉"];
+                                for (var i = 0; i < Math.min(scoreboardData.length, 3); i++) {
+                                    var row = document.createElement('tr');
+
+                                    var positionCell = document.createElement('td');
+                                    positionCell.style.fontSize = '20px'; // Adjust the font size if needed
+                                    positionCell.innerHTML = positions[i];
+                                    row.appendChild(positionCell);
+
+                                    var userCell = document.createElement('td');
+                                    userCell.textContent = scoreboardData[i].username;
+                                    row.appendChild(userCell);
+
+                                    var pointsCell = document.createElement('td');
+                                    pointsCell.textContent = scoreboardData[i].score;
+                                    row.appendChild(pointsCell);
+
+                                    scoreboardBody.appendChild(row);
+                                }
+                            }
+                        }
+
+                        // Show the loading logo while the data is being loaded
+
+                        // Listen for changes in the 'scores' node and update the scoreboard accordingly
+                        database.ref('scores').on('value', function (snapshot) {
+                            updateScoreboard(snapshot);
+                        });
+                    </script>
+                    <!--End of SeepCoin-->
+                </div>
+
+                <script>
+
+                </script>
+                <!-- End of The Beeg Map-->
+                
                 <!--Gallery Shuffle-->
 
                 <center>
