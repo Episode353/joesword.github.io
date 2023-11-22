@@ -128,7 +128,12 @@ $(function () {
         'pages/html-shuffle/bb_rot.html',
         'pages/html-shuffle/sadgoober.html',
         'pages/html-shuffle/whateverthisbigredthingiscalled.html',
-        'pages/html-shuffle/mortified_rugby.html'
+        'pages/html-shuffle/rainbow-creature.html',
+        'pages/html-shuffle/goo-goo-za-za.html',
+        'pages/html-shuffle/mister-white.html',
+        'pages/html-shuffle/its-just-a-room.html',
+        'pages/html-shuffle/mortified_rugby.html',
+        'pages/html-shuffle/bad-even-worse.html'
 
     ];
 
