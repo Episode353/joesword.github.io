@@ -62,6 +62,13 @@
             color: #4CAF50;
             font-weight: bold;
         }
+
+        /* Style for the message */
+        .scoreboard-data .user-message {
+            font-size: 14px;
+            color: #555;
+            margin-top: 5px; /* Adjust as needed */
+        }
     </style>
 
 </head>
@@ -110,19 +117,19 @@
                 </div>
 
                 <div class="scoreboard-data">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Position</th>
-                                <th>Username</th>
-                                <th>Score</th>
-                            </tr>
-                        </thead>
-                        <tbody id="scoreboard-body">
-                            <!-- Data will be loaded here -->
-                        </tbody>
-                    </table>
-                </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Position</th>
+                <th>Username</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody id="scoreboard-body">
+            <!-- Data will be loaded here -->
+        </tbody>
+    </table>
+</div>
 
                 <p>Seep Coin is the most embarrasing thing a person can own.</p>
                 <p>Seep Coin has no value, meaning, or purpouse whatsoever and is a waste of time.</p>
@@ -155,77 +162,83 @@
         </div>
     </center>
 
-
     <script>
-       
-
+    
         // Function to update the scoreboard on the page
         function updateScoreboard(snapshot) {
             var scoreboardBody = document.getElementById('scoreboard-body');
             var loadingLogo = document.querySelector('.loading-logo');
             scoreboardBody.innerHTML = '';
-
+    
             var scoreboardData = [];
-
+    
             snapshot.forEach(function (childSnapshot) {
                 var username = childSnapshot.key; // Get the username from the snapshot key
                 var score = childSnapshot.val();
-                scoreboardData.push({ username: username, score: score.points });
+                var message = score.message || ''; // Get the message or use an empty string if no message
+                scoreboardData.push({ username: username, score: score.points, message: message });
             });
-
+    
             // Sort the scoreboard data in descending order based on scores
             scoreboardData.sort((a, b) => b.score - a.score);
-
+    
             if (scoreboardData.length === 0) {
                 // If there is no data, display a message in the tbody element
                 var emptyRow = document.createElement('tr');
                 var emptyCell = document.createElement('td');
-                emptyCell.setAttribute('colspan', '3');
-                emptyCell.textContent = 'Noone has a Seep Coin, will you be the first?';
+                emptyCell.setAttribute('colspan', '4'); // Adjust the colspan based on the number of columns
+                emptyCell.textContent = 'No one has a Seep Coin, will you be the first?';
                 emptyRow.appendChild(emptyCell);
                 scoreboardBody.appendChild(emptyRow);
             } else {
                 var positions = ["1st", "2nd", "3rd"];
-                for (var i = 0; i < scoreboardData.length; i++) {
-                    var row = document.createElement('tr');
 
-                    var positionCell = document.createElement('td');
-                    positionCell.style.fontSize = '20px'; // Adjust the font size if needed
-                    if (i === 0) {
-                        positionCell.textContent = '1st🥇'; // Emoji for first position
-                    } else if (i === 1) {
-                        positionCell.textContent = '2nd🥈'; // Emoji for second position
-                    } else if (i === 2) {
-                        positionCell.textContent = '3rd🥉'; // Emoji for third position
-                    } else {
-                        positionCell.textContent = `${i + 1}th`;
-                    }
-                    row.appendChild(positionCell);
+            for (var i = 0; i < scoreboardData.length; i++) {
+                var row = document.createElement('tr');
 
-                    var userCell = document.createElement('td');
-                    userCell.textContent = scoreboardData[i].username;
-                    row.appendChild(userCell);
-
-                    var pointsCell = document.createElement('td');
-                    pointsCell.textContent = scoreboardData[i].score;
-                    row.appendChild(pointsCell);
-
-                    scoreboardBody.appendChild(row);
+                var positionCell = document.createElement('td');
+                positionCell.style.fontSize = '20px'; // Adjust the font size if needed
+                if (i === 0) {
+                    positionCell.textContent = '1st🥇'; // Emoji for first position
+                } else if (i === 1) {
+                    positionCell.textContent = '2nd🥈'; // Emoji for second position
+                } else if (i === 2) {
+                    positionCell.textContent = '3rd🥉'; // Emoji for third position
+                } else {
+                    positionCell.textContent = `${i + 1}th`;
                 }
+                row.appendChild(positionCell);
+
+                var userCell = document.createElement('td');
+                userCell.innerHTML = `<p>${scoreboardData[i].username}</p><p class="user-message">${scoreboardData[i].message}</p>`;
+
+
+                row.appendChild(userCell);
+
+                var pointsCell = document.createElement('td');
+                pointsCell.textContent = scoreboardData[i].score;
+                row.appendChild(pointsCell);
+
+                // Remove the creation and appending of the messageCell
+
+                scoreboardBody.appendChild(row);
+            }
+
+
             }
             // Hide the loading logo once the data is loaded
             loadingLogo.style.display = 'none';
         }
-
+    
         // Show the loading logo while the data is being loaded
         var loadingLogo = document.querySelector('.loading-logo');
         loadingLogo.style.display = 'block';
-
+    
         // Listen for changes in the 'scores' node and update the scoreboard accordingly
         database.ref('scores').on('value', function (snapshot) {
             updateScoreboard(snapshot);
         });
-
+    
     </script>
 </body>
 </html>

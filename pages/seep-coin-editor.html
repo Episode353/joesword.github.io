@@ -76,14 +76,14 @@
 
 
 
-            <div class="content-large-fill" ">
-
+            <div class="content-large-fill">
                 <h1>Scoreboard</h1>
                 <table>
                     <thead>
                         <tr>
                             <th>User</th>
                             <th>Points</th>
+                            <th>Message</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -91,12 +91,14 @@
                         <!-- Data will be loaded here -->
                     </tbody>
                 </table>
-                <div style="font-size: .7rem;}">
+                <div style="font-size: .7rem;">
                     <form>
                         <label for="username">Name:</label>
                         <input type="text" id="username" required>
                         <label for="points">Points:</label>
                         <input type="number" id="points" required>
+                        <label for="message">Message:</label>
+                        <input type="text" id="message">
                         <button type="button" id="submit-button">Add Score</button>
                     </form>
                 </div>
@@ -106,20 +108,24 @@
                     // Reference to the Firebase Realtime Database
                     var database = firebase.database();
 
-                    // Function to add or update a user's score
-                    function updateScore(username, points) {
+                    // Function to add or update a user's score with a message
+                    function updateScore(username, points, message) {
+                        // Check if the message is defined, if not, set it to an empty string
+                        message = message || '';
+
                         database.ref('scores').child(username).once('value', function (snapshot) {
                             var userScore = snapshot.val();
                             if (userScore) {
-                                // Update points for existing user
+                                // Update points and message for existing user
                                 var updatedPoints = userScore.points + points;
-                                database.ref('scores').child(username).update({ points: updatedPoints });
+                                database.ref('scores').child(username).update({ points: updatedPoints, message: message });
                             } else {
-                                // Add new user with points
-                                database.ref('scores').child(username).set({ points: points });
+                                // Add new user with points and message
+                                database.ref('scores').child(username).set({ points: points, message: message });
                             }
                         });
                     }
+
 
                     // Function to add +1 or -1 point to a user's score
                     function updateScoreByOne(username, increment) {
@@ -138,7 +144,7 @@
                         database.ref('scores').child(username).remove();
                     }
 
-                    // Function to update the scoreboard on the page
+                    // Function to update the scoreboard on the page with messages
                     function updateScoreboard(snapshot) {
                         var scoreboardBody = document.getElementById('scoreboard-body');
                         scoreboardBody.innerHTML = '';
@@ -149,6 +155,7 @@
                             var row = document.createElement('tr');
                             var userCell = document.createElement('td');
                             var pointsCell = document.createElement('td');
+                            var messageCell = document.createElement('td');
                             var deleteCell = document.createElement('td');
                             var actionsCell = document.createElement('td'); // New cell for the +1 and -1 buttons
 
@@ -178,12 +185,14 @@
 
                             userCell.textContent = username;
                             pointsCell.textContent = score.points;
+                            messageCell.textContent = score.message || ''; // Display message or empty string if no message
                             deleteCell.appendChild(deleteButton);
                             actionsCell.appendChild(plusOneButton);
                             actionsCell.appendChild(minusOneButton);
 
                             row.appendChild(userCell);
                             row.appendChild(pointsCell);
+                            row.appendChild(messageCell);
                             row.appendChild(deleteCell);
                             row.appendChild(actionsCell); // Add the cell containing +1 and -1 buttons
                             scoreboardBody.appendChild(row);
@@ -194,7 +203,8 @@
                     document.getElementById('submit-button').addEventListener('click', function () {
                         var username = document.getElementById('username').value;
                         var points = parseInt(document.getElementById('points').value);
-                        updateScore(username, points);
+                        var message = document.getElementById('message').value; // Get the message from the input field
+                        updateScore(username, points, message);
                     });
 
                     // Listen for changes in the 'scores' node and update the scoreboard accordingly
