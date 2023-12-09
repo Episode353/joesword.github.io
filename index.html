@@ -163,10 +163,94 @@
                 padding: 0px;
             }
         }
+
+   
     </style>
 
 </head>
 <body>
+    <!--Change Display to Enable/Disable Christmas fish killing-->
+    <div class="christmas-ending" id="christmas-ending" style="display: none;">
+        <style>
+                 .christmas-ending { 
+            box-shadow: inset 0 0 0 2px grey, inset 0 0 0 4px black;
+            background-color: white;
+            font-size: 23px;
+            width: 20%;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50%;
+            height: 50%;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        #bird, #birdimg {
+        cursor: pointer;
+    }
+
+    .disappear {
+        animation: disappear 0s linear 3s forwards;
+            }
+
+            @keyframes disappear {
+                to {opacity:0;}
+            }
+
+            .close {
+                width:50px;
+                height:50px;
+            position: absolute;
+            background-color: red;
+            font-weight: 900;
+            font-size: 24px;
+            top: 0;
+            right: 0;
+            }
+        </style>
+        <center>
+            <button class="close" id="closebtn" onclick="close_christmas_window()">X</button>
+        <p class="word-seppe">NO MORE CHRISTMAS!!!!<br>CLICK TO <span style="color: red;">MURDER</span> THE CHRISTMAS FEESH</p>
+        <img id="bird" src="media/gif/christmas-end.gif" onclick="playGif()" style="display: none; width: 40%;" class="disappear">
+        <img id="birdimg" src="media/png/fish-christmas.png" onclick="playGif()" style="width: 50%;">
+        </center>
+      </div>
+      
+      <script>
+
+        function close_christmas_window(){
+            var christmascontainer = document.getElementById("christmas-ending");
+            christmascontainer.style.display = "none";
+        }
+        function playGif() {
+          var bird = document.getElementById("bird");
+          var birdimg = document.getElementById("birdimg");
+          var christmascontainer = document.getElementById("christmas-ending");
+      
+          // Set the GIF source to start playing
+          bird.src = "media/gif/christmas-end.gif";
+          
+          // Remove the click event listener to prevent multiple plays
+          bird.removeEventListener("click", playGif);
+          bird.style.display = "block";
+          birdimg.style.display = "none";
+        
+          // Add a listener for the end of the GIF to remove it from the page
+          bird.addEventListener("animationend", function () {
+            bird.remove();
+            christmascontainer.style.display = "none";
+
+          });
+        }
+
+
+        
+      </script>
+
+
+
     <!--Firebase Authenticaion Information-->
     <div class="header-login">
         <div class="account-dropdown">
@@ -190,6 +274,8 @@
             <button type="submit">Login</button>
         </form>
     </div>
+
+
 
 
     <center>
@@ -223,7 +309,6 @@
                         <img style="width:15rem;" src="media/jpg/tree_fire.jpeg">
                 </div>
 
-                <div class="column"><h1>Go Draw on the <a href="pages/board.html" class="header-link" style="font-size: 2rem; color: black; text-shadow: rgb(186, 186, 186) 5px 5px 0px; font-family: daydream;">Board!</a></h1></div>
 
                 <!-- The Beeg Map-->
                 <div class="column">
@@ -321,7 +406,7 @@
                 </script>
                 <!-- End of The Beeg Map-->
                 
-                <!--Gallery Shuffle-->
+                <!--Gallery Shuffle
 
                 <center>
                     <style>
@@ -339,7 +424,7 @@
 
 
                 </center>
-
+                    --> <!--By placing the end of the commend here, the gallery shuffle is temporaily dissabled-->
             </div>
 
             <!--Submissions Box-->
